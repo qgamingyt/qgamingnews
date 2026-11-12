@@ -4338,7 +4338,7 @@ window.QGAMING_SUPABASE_AUTH = qgSupabaseAuth;
 
   async function connect(){
     const redirectTo = currentRedirect();
-
+    console.log("QG REDIRECT:", redirectTo);
     if(!redirectTo){
       showMsg(
         "ورود Google نیاز به آدرس آنلاین دارد",
