@@ -1,0 +1,48 @@
+{
+  "tracks": [
+    {
+      "name": "505 - Arctic Monkeys",
+      "file": "505 - Arctic Monkeys.mp3"
+    },
+    {
+      "name": "Polished Perspectives",
+      "file": "qgAudio0.mp3"
+    },
+    {
+      "name": "View From the High Terrace",
+      "file": "qgAudio1.mp3"
+    },
+    {
+      "name": "Vanguard Stance",
+      "file": "qgAudio2.mp3"
+    },
+    {
+      "name": "Hardteek Heart Mechanics",
+      "file": "qgAudio3.mp3"
+    },
+    {
+      "name": "Sunlight On The Moss",
+      "file": "qgAudio4.mp3"
+    },
+    {
+      "name": "Ainsi Bas La Vida Hardtekk",
+      "file": "Ainsi Bas La Vida Hardtekk   underr4ted.m4a"
+    },
+    {
+      "name": "Sirens",
+      "file": "Sirens   Ludwig Göransson.m4a"
+    },
+    {
+      "name": "Blud (Slowed) — raen",
+      "file": "blud-slowed-raen.mp3"
+    },
+    {
+      "name": "Jumble (Super Slowed) — PINKY SMASH",
+      "file": "jumble-super-slowed-pinky-smash.m4a"
+    },
+    {
+      "name": "Loud Room (Super Slowed)",
+      "file": "loud-room-super-slowed.mp3"
+    }
+  ]
+}
