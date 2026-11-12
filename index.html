@@ -4178,14 +4178,11 @@ window.QGAMING_SUPABASE_AUTH = qgSupabaseAuth;
 
   // Google OAuth must return to the real QGAMING web origin.
   // The Google Client ID/Secret are configured in Supabase; the HTML only supplies the redirect URL.
-  const QG_GOOGLE_REDIRECT = "https://qgamingnews1.netlify.app/";
+  const QG_GOOGLE_REDIRECT = "https://qgamingyt.github.io/qgamingnews/";
 
-function currentRedirect(){
-    try{
-      if((location.protocol==="https:"||location.protocol==="http:")&&!/^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname)){
-        return location.origin+"/";
-      }
-    }catch(e){}
+  function currentRedirect(){
+    // GitHub Pages project sites live under /<repository>/.
+    // Keep the repository path when returning from Google OAuth.
     return QG_GOOGLE_REDIRECT;
   }
 
