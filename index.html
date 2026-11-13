@@ -13212,7 +13212,7 @@ body{background-color:#07111f}
  async function call(action,extra){const c=client();if(!c)throw new Error('کلاینت ورود آماده نیست');const {data,error}=await c.auth.getSession();if(error||!data.session)throw new Error('ابتدا وارد حساب شوید');const h=await digest();const res=await fetch(ENDPOINT,{method:'POST',headers:{'Authorization':'Bearer '+data.session.access_token,'apikey':DB4_PUBLIC_KEY,'Content-Type':'application/json'},body:JSON.stringify(Object.assign({action,device_key_hash:h,device_label:label()},extra||{}))});const body=await res.json().catch(()=>({}));if(!res.ok||!body.ok){const e=new Error(body.code==='DEVICE_COOLDOWN'?'این دستگاه به‌مدت '+(body.retry_after_seconds||60)+' ثانیه اجازه ورود ندارد.':body.code==='SESSION_REVOKED'?'این نشست از دستگاه دیگری خارج شده است.':body.code||'خطا در مدیریت نشست‌ها');e.code=body.code;e.retry=body.retry_after_seconds;throw e;}return body;}
  async function register(){return call('register');}
  async function logoutCurrent(){try{await call('logout_current');}catch(e){if(e.code!=='UNAUTHORIZED'&&e.code!=='SESSION_ID_MISSING')console.warn('[QG Session] logout cooldown:',e.message);}}
- async function heartbeat(){try{await call('heartbeat');return true;}catch(e){if(e.code==='SESSION_REVOKED'||e.code==='DEVICE_COOLDOWN'||e.code==='UNAUTHORIZED'){clearInterval(heartbeatTimer);heartbeatTimer=null;const c=client();if(c)await c.auth.signOut({scope:'local'});const gate=document.getElementById('qgV29AuthGate');if(gate){gate.hidden=false;document.documentElement.classList.add('qg-v29-auth-required');const app=document.getElementById('app');if(app){try{app.inert=true;}catch(_){}app.setAttribute('aria-hidden','true');}const st=document.getElementById('qgV29AuthStatus');if(st)st.textContent=e.message||'این نشست دیگر فعال نیست؛ دوباره وارد شوید.';}return false;}console.warn('[QG Session] heartbeat unavailable:',e.message);return true;}}
+ async function heartbeat(){try{await call('heartbeat');return true;}catch(e){if(e.code==='SESSION_REVOKED'||e.code==='DEVICE_COOLDOWN'||e.code==='UNAUTHORIZED'){clearInterval(heartbeatTimer);heartbeatTimer=null;const c=client();if(c)await c.auth.signOut({scope:'local'});const gate=document.getElementById('qteamIdGate');if(gate){gate.hidden=false;document.body.classList.add('qteam-auth-required');const app=document.getElementById('app');if(app){try{app.inert=true;}catch(_){}app.setAttribute('aria-hidden','true');}const st=document.getElementById('qtiLoginMsg');if(st){st.textContent=e.message||'این نشست دیگر فعال نیست؛ دوباره وارد شوید.';st.className='qti-message show error';}}return false;}console.warn('[QG Session] heartbeat unavailable:',e.message);return true;}}
  function startHeartbeat(){clearInterval(heartbeatTimer);heartbeatTimer=setInterval(heartbeat,60000);document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')heartbeat();});}
  function fmt(v){if(!v)return '—';try{return new Date(v).toLocaleString('fa-IR',{dateStyle:'medium',timeStyle:'short'});}catch(_){return v;}}
  function style(){if(document.getElementById('qgSessionReviewCss'))return;const s=document.createElement('style');s.id='qgSessionReviewCss';s.textContent=`#qgSessionReviewOpen{display:inline-flex;align-items:center;gap:7px;margin:5px;padding:10px 13px;border-radius:13px;border:1px solid rgba(139,92,246,.42);background:linear-gradient(135deg,#17152d,#102b3a);color:#e9e7ff;font:inherit;font-size:12px;font-weight:850;cursor:pointer}#qgSessionReviewModal{display:none;position:fixed;inset:0;z-index:2147482000;background:#030712d9;backdrop-filter:blur(9px);padding:14px;align-items:center;justify-content:center;direction:rtl;color:#eff6ff}#qgSessionReviewModal.open{display:flex}#qgSessionReviewModal .qgsr-panel{width:min(100%,620px);max-height:88dvh;overflow:auto;border:1px solid #8b5cf64d;border-radius:22px;background:radial-gradient(ellipse at 90% 0%,#6d28d933,transparent 45%),linear-gradient(150deg,#111b31,#080d19);box-shadow:0 24px 90px #000b;padding:17px}#qgSessionReviewModal .qgsr-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}#qgSessionReviewModal h2{font-size:19px;margin:0}#qgSessionReviewModal .qgsr-sub{font-size:11px;color:#aab8d0;line-height:1.8;margin:7px 0 14px}#qgSessionReviewModal button{font:inherit;cursor:pointer}#qgSessionReviewModal .qgsr-close{width:35px;height:35px;border-radius:11px;border:1px solid #ffffff22;background:#ffffff0c;color:white;font-size:21px}#qgSessionReviewModal .qgsr-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}#qgSessionReviewModal .qgsr-danger{border:1px solid #fb718555;border-radius:12px;background:#7f1d1d44;color:#fecaca;padding:10px 12px;font-size:11px;font-weight:800}#qgSessionReviewModal .qgsr-refresh{border:1px solid #67e8f955;border-radius:12px;background:#164e6344;color:#cffafe;padding:10px 12px;font-size:11px;font-weight:800}#qgSessionReviewModal .qgsr-item{padding:13px;margin:9px 0;border:1px solid #ffffff18;border-radius:15px;background:#ffffff08}#qgSessionReviewModal .qgsr-item.current{border-color:#34d39977;background:#064e3b25}#qgSessionReviewModal .qgsr-row{display:flex;justify-content:space-between;gap:10px;align-items:center}#qgSessionReviewModal .qgsr-name{font-size:13px;font-weight:850}#qgSessionReviewModal .qgsr-meta{font-size:10px;line-height:1.9;color:#a8b7cb;margin-top:7px}#qgSessionReviewModal .qgsr-current{font-size:9px;color:#6ee7b7;border:1px solid #34d39966;border-radius:20px;padding:4px 8px;white-space:nowrap}#qgSessionReviewModal .qgsr-exit{margin-top:9px;padding:8px 11px;border-radius:10px;border:1px solid #fb718555;background:#7f1d1d33;color:#fecaca;font-size:10px;font-weight:800}#qgSessionReviewModal .qgsr-status{font-size:11px;color:#93c5fd;min-height:22px;line-height:1.8}#qgSessionReviewModal .qgsr-empty{padding:22px;text-align:center;color:#aab8d0;font-size:12px}`;document.head.appendChild(s);}
@@ -13226,58 +13226,7 @@ body{background-color:#07111f}
 })();
 </script>
 
-<script id="qgaming-v29-auth-gate-js">(function(){
- 'use strict';
- var gate=document.getElementById('qgV29AuthGate'),googleBtn=document.getElementById('qgV29Google'),enterBtn=document.getElementById('qgV29Enter'),cancelBtn=document.getElementById('qgV29Cancel'),profile=document.getElementById('qgV29Profile'),intro=document.getElementById('qgV29Intro'),status=document.getElementById('qgV29AuthStatus');
- var confirmedUserId=null, busy=false, lastSessionUser=null;
- function lockAllowsApp(){return !!(window.QGAMING_GLOBAL_LOCK&&!window.QGAMING_GLOBAL_LOCK.isLocked());}
- function isGoogleUser(u){var a=(u&&u.app_metadata)||{},providers=a.providers||[],ids=(u&&u.identities)||[];return providers.indexOf('google')>=0||a.provider==='google'||ids.some(function(x){return x&&x.provider==='google';});}
- function showGate(mode,user){gate.hidden=false;document.documentElement.classList.add('qg-v29-auth-required');var app=document.getElementById('app');if(app){try{app.inert=true;}catch(e){}app.setAttribute('aria-hidden','true');}
-  var pending=mode==='confirm';profile.hidden=!pending;enterBtn.hidden=!pending;cancelBtn.hidden=!pending;googleBtn.hidden=pending;
-  intro.textContent=pending?'بررسی کنید این همان حسابی است که می‌خواهید برای QGAMING استفاده کنید.':'برای دسترسی به بخش‌های اصلی QGAMING، ورود با Google الزامی است.';
-  if(pending&&user){document.getElementById('qgV29Name').textContent=user.user_metadata?.full_name||user.user_metadata?.name||'کاربر Google';document.getElementById('qgV29Email').textContent=user.email||'ایمیل در دسترس نیست';var av=user.user_metadata?.avatar_url||user.user_metadata?.picture||'';var img=document.getElementById('qgV29Avatar');if(av){img.src=av;img.hidden=false;}else{img.removeAttribute('src');img.hidden=true;}}
- }
- function hideGate(){gate.hidden=true;document.documentElement.classList.remove('qg-v29-auth-required');var app=document.getElementById('app');if(app){try{app.inert=false;}catch(e){}app.removeAttribute('aria-hidden');}}
- function msg(t){status.textContent=t||'';}
- async function getClientReady(){for(var i=0;i<80;i++){var c=window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.getClient&&window.QGAMINGOnlineAuth.getClient();if(c&&c.auth)return c;await new Promise(function(r){setTimeout(r,250);});}return null;}
- async function sync(){var c=await getClientReady();if(!c){showGate('login');msg('سرویس ورود هنوز بارگذاری نشده است. اتصال شبکه را بررسی کنید.');return;}
-  try{var r=await c.auth.getSession(),u=r.data&&r.data.session&&r.data.session.user;if(r.error)throw r.error;
-   if(!u){lastSessionUser=null;confirmedUserId=null;showGate('login');msg('');return;}
-   lastSessionUser=u;
-   if(!isGoogleUser(u)){confirmedUserId=null;showGate('login');msg('برای ورود به QGAMING باید با حساب Google احراز هویت شوید.');return;}
-   if(confirmedUserId===u.id){if(lockAllowsApp())hideGate();else{confirmedUserId=null;showGate('confirm',u);}return;}
-   // Every fresh app load requires an explicit tap on «ورود به اپ», even when the Google session persists.
-   showGate('confirm',u);msg('');
-  }catch(e){showGate('login');msg('وضعیت نشست قابل تأیید نیست. دوباره تلاش کنید.');}
- }
- googleBtn.addEventListener('click',async function(){if(busy)return;busy=true;googleBtn.disabled=true;msg('در حال انتقال به ورود امن Google…');try{sessionStorage.setItem('qg_v29_oauth_pending','1');var a=window.QGAMINGOnlineAuth;if(!a||!a.connect)throw new Error('auth unavailable');await a.connect();}catch(e){sessionStorage.removeItem('qg_v29_oauth_pending');msg('ورود Google آغاز نشد. تنظیمات Supabase و اتصال شبکه را بررسی کنید.');}finally{busy=false;googleBtn.disabled=false;}});
- enterBtn.addEventListener('click',async function(){if(busy)return;busy=true;enterBtn.disabled=true;msg('در حال تأیید نشست…');try{
-   var c=await getClientReady();if(!c)throw new Error('auth client unavailable');
-   var r=await c.auth.getUser(),u=r.data&&r.data.user;if(r.error||!u)throw new Error('invalid session');
-   if(!isGoogleUser(u))throw new Error('ورود با Google قابل تأیید نیست. دوباره با Google وارد شوید.');
-   if(!lastSessionUser||u.id!==lastSessionUser.id)throw new Error('session changed');
-   // Always request a fresh global-lock status, and wait for the first in-flight check.
-   var gl=window.QGAMING_GLOBAL_LOCK;if(!gl||typeof gl.refresh!=='function')throw new Error('global lock unavailable');
-   await gl.refresh();var lockWaitUntil=Date.now()+8000;
-   while(typeof gl.isReady==='function'&&!gl.isReady()&&Date.now()<lockWaitUntil){await new Promise(function(resolve){setTimeout(resolve,150);});}
-   if(typeof gl.isReady==='function'&&!gl.isReady()){showGate('confirm',u);msg('بررسی وضعیت دیتاسنتر زمان‌بر شد. دوباره تلاش کنید.');return;}
-   if(!lockAllowsApp()){showGate('confirm',u);msg('قفل سراسری فعال است یا وضعیت سرور امن تأیید نشده؛ ورود به برنامه مسدود شد.');return;}
-   try{await window.QGSessionReview.register();}catch(sessionErr){console.warn('[QG Session] device registration denied:',sessionErr);await c.auth.signOut({scope:'local'});confirmedUserId=null;lastSessionUser=null;showGate('login');msg(sessionErr.message||'این دستگاه فعلاً اجازه ورود ندارد.');return;}
-   confirmedUserId=u.id;sessionStorage.removeItem('qg_v29_oauth_pending');hideGate();window.QGSessionReview.startHeartbeat();msg('');
-   // Refresh the existing QGAMING profile in the background; never leave the user stuck
-   // on the confirmation screen if a profile loader or network request hangs.
-   try{var refresh=window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.refreshUser;
-     if(typeof refresh==='function'){await Promise.race([Promise.resolve(refresh(u)),new Promise(function(_,reject){setTimeout(function(){reject(new Error('profile refresh timeout'));},8000);})]);}
-   }catch(profileErr){console.warn('QGAMING profile refresh deferred:',profileErr);}
-  }catch(e){console.warn('QGAMING account confirmation failed:',e);msg('تأیید نشست انجام نشد. اتصال را بررسی کنید و دوباره تلاش کنید.');}
-  finally{busy=false;enterBtn.disabled=false;}});
- cancelBtn.addEventListener('click',async function(){if(busy)return;busy=true;cancelBtn.disabled=true;msg('در حال لغو نشست فعلی…');try{var c=await getClientReady();if(c){try{if(window.QGSessionReview)await window.QGSessionReview.logoutCurrent();}catch(sessionErr){console.warn('[QG Session] logout cooldown:',sessionErr);}var r=await c.auth.signOut({scope:'local'});if(r.error)throw r.error;}confirmedUserId=null;lastSessionUser=null;sessionStorage.removeItem('qg_v29_oauth_pending');showGate('login');msg('نشست محلی بسته شد. برای انتخاب حساب دیگر، ورود با Google را بزنید.');}catch(e){msg('لغو نشست انجام نشد؛ دوباره تلاش کنید.');}finally{busy=false;cancelBtn.disabled=false;}});
- function lockChange(){if(!lockAllowsApp()){confirmedUserId=null;showGate('login');msg('دسترسی توسط وضعیت دیتاسنتر محدود شده است.');}else sync();}
- window.addEventListener('qg-v29-lock-change',lockChange);window.addEventListener('pageshow',sync);document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')sync();});
- var lockCheck=setInterval(function(){if(window.QGAMING_GLOBAL_LOCK){if(!lockAllowsApp()){confirmedUserId=null;showGate('login');}else sync();}},5000);
- // Mark an OAuth return only when Supabase has a valid user session; do not trust local profile flags.
- (async function(){var c=await getClientReady();if(!c)return;c.auth.onAuthStateChange(function(ev,session){if(ev==='SIGNED_IN'&&session&&session.user){lastSessionUser=session.user;if(isGoogleUser(session.user)){sessionStorage.setItem('qg_v29_oauth_pending','1');showGate('confirm',session.user);msg('');}else{confirmedUserId=null;sessionStorage.removeItem('qg_v29_oauth_pending');showGate('login');msg('برای ورود به QGAMING باید با Google وارد شوید.');}}else if(ev==='SIGNED_OUT'){confirmedUserId=null;lastSessionUser=null;sessionStorage.removeItem('qg_v29_oauth_pending');showGate('login');}});await sync();})();
-})();</script>
+<script id="qgaming-v29-auth-gate-js">(function(){'use strict';var old=document.getElementById('qgV29AuthGate');if(old)old.hidden=true;document.documentElement.classList.remove('qg-v29-auth-required');})();</script>
 
 
 <style id="qg-season-update-style">
@@ -14529,6 +14478,151 @@ body.qg-winter-theme .qg-home-hero,body.qg-winter-theme #homeView .card,body.qg-
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+
+<!-- QTEAM ID — unified first-entry login gate -->
+<style id="qteam-id-gate-css">
+#qteamIdGate{position:fixed;inset:0;z-index:1000000;display:grid;place-items:center;overflow-y:auto;padding:22px 14px calc(22px + env(safe-area-inset-bottom));background:radial-gradient(ellipse at 12% 12%,rgba(80,105,255,.20),transparent 38%),radial-gradient(ellipse at 88% 88%,rgba(34,211,238,.13),transparent 35%),rgba(5,8,18,.97);font-family:inherit;color:#f2f6ff}
+#qteamIdGate[hidden]{display:none!important}
+#qteamIdGate:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(rgba(130,160,210,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(130,160,210,.25) 1px,transparent 1px);background-size:34px 34px}
+#qteamIdGate .qti-card{position:relative;width:min(100%,440px);padding:26px 23px 20px;border:1px solid rgba(118,157,210,.28);border-radius:26px;background:linear-gradient(155deg,rgba(21,34,58,.97),rgba(10,18,34,.98));box-shadow:0 26px 90px rgba(0,0,0,.58),0 0 45px rgba(67,217,255,.07);overflow:hidden;animation:qtiEnter .55s cubic-bezier(.2,.8,.2,1) both}
+#qteamIdGate .qti-card:before{content:"";position:absolute;top:0;left:12%;right:12%;height:2px;background:linear-gradient(90deg,transparent,#43d9ff,#8b72ff,transparent);box-shadow:0 0 18px #43d9ff88}
+#qteamIdGate .qti-brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:9px}
+#qteamIdGate .qti-logo{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(140deg,#43d9ff,#796bff);color:#071323;font-size:22px;font-weight:1000;box-shadow:0 7px 24px #43d9ff38}
+#qteamIdGate .qti-brandname{font-size:20px;font-weight:950;letter-spacing:.4px;direction:ltr}
+#qteamIdGate .qti-brandname span{color:#43d9ff}
+#qteamIdGate .qti-tag{font-size:9px;letter-spacing:2px;color:#91a8c9;text-align:center;margin:0 0 15px;direction:ltr}
+#qteamIdGate .qti-ai{min-height:43px;display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 11px;margin:0 0 18px;border:1px solid rgba(67,217,255,.17);border-radius:13px;background:linear-gradient(100deg,rgba(67,217,255,.07),rgba(139,114,255,.09));text-align:center;color:#dcecff;font-size:12px;line-height:1.8}
+#qteamIdGate .qti-ai b{color:#43d9ff;font-size:10px;white-space:nowrap}
+#qteamIdGate .qti-view{display:none;animation:qtiFade .24s ease}
+#qteamIdGate .qti-view.active{display:block}
+#qteamIdGate h1{font-size:21px;text-align:center;margin:8px 0 5px;color:#f4f7ff}
+#qteamIdGate .qti-sub{font-size:12px;line-height:1.9;text-align:center;color:#9eafc9;margin:0 0 20px}
+#qteamIdGate .qti-field{margin:0 0 13px}
+#qteamIdGate label{display:block;margin:0 0 7px;font-size:12px;font-weight:750;color:#d8e4f8}
+#qteamIdGate input{width:100%;height:47px;border:1px solid #2b3e5c;border-radius:12px;background:#091326;color:#f2f6ff;padding:0 13px;font:inherit;font-size:13px;outline:none}
+#qteamIdGate input.ltr{direction:ltr;text-align:left}
+#qteamIdGate input:focus{border-color:#43d9ff;box-shadow:0 0 0 3px #43d9ff18}
+#qteamIdGate .qti-primary,#qteamIdGate .qti-google,#qteamIdGate .qti-secondary{width:100%;min-height:46px;border-radius:12px;font:inherit;font-weight:850;cursor:pointer;transition:transform .18s,filter .18s}
+#qteamIdGate .qti-primary{border:0;background:linear-gradient(100deg,#35c9f3,#8271ff);color:#071323;box-shadow:0 8px 22px #4c9dff2c}
+#qteamIdGate .qti-google{display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid #344765;background:#f5f8ff;color:#18243a}
+#qteamIdGate .qti-google svg{width:19px;height:19px}
+#qteamIdGate .qti-secondary{border:1px solid #344765;background:#14223a;color:#dce9ff}
+#qteamIdGate button:hover{filter:brightness(1.08)}#qteamIdGate button:active{transform:scale(.985)}
+#qteamIdGate .qti-divider{display:flex;align-items:center;gap:12px;color:#71829e;font-size:11px;margin:16px 0}
+#qteamIdGate .qti-divider:before,#qteamIdGate .qti-divider:after{content:"";height:1px;background:#293954;flex:1}
+#qteamIdGate .qti-links{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:13px 0 0}
+#qteamIdGate .qti-link{border:0;background:none;padding:0;color:#43d9ff;font:inherit;font-size:11px;cursor:pointer}
+#qteamIdGate .qti-note{font-size:10px;line-height:1.8;color:#8294b1;text-align:center;margin:13px 0 0}
+#qteamIdGate .qti-message{display:none;margin:10px 0 0;padding:9px 11px;border-radius:9px;font-size:11px;line-height:1.8;background:#18243a;color:#cbd9ee;text-align:center}
+#qteamIdGate .qti-message.show{display:block}
+#qteamIdGate .qti-message.error{color:#ffb0bd;background:#3a1c2b}
+#qteamIdGate .qti-message.success{color:#9af0ce;background:#12352f}
+#qteamIdGate .qti-strength{height:5px;border-radius:9px;background:#26344c;overflow:hidden;margin-top:7px}
+#qteamIdGate .qti-strength i{display:block;height:100%;width:0;background:#ff6b83;transition:width .2s,background .2s}
+#qteamIdGate .qti-footer{text-align:center;color:#647590;font-size:10px;margin-top:18px}
+@keyframes qtiEnter{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes qtiFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(max-width:380px){#qteamIdGate .qti-card{padding:23px 17px 18px;border-radius:21px}#qteamIdGate .qti-brandname{font-size:18px}}
+@media(prefers-reduced-motion:reduce){#qteamIdGate *,#qteamIdGate *:before{animation:none!important;transition:none!important}}
+</style>
+<div id="qteamIdGate" hidden role="dialog" aria-modal="true" aria-labelledby="qtiTitle">
+ <main class="qti-card">
+  <div class="qti-brand"><div class="qti-logo">Q</div><div class="qti-brandname">Q<span>TEAM</span> ID</div></div>
+  <div class="qti-tag">ONE ACCOUNT · ALL QTEAM APPS</div>
+  <div class="qti-ai" aria-live="polite"><b>QTEAM AI</b><span id="qtiAiMessage">کیوتیم در اختیار شماست</span></div>
+  <section class="qti-view active" id="qtiLoginView">
+   <h1 id="qtiTitle">خوش برگشتی!</h1><p class="qti-sub">با کیوتیم آیدی وارد QGAMING و دیگر برنامه‌های تیم شو.</p>
+   <form id="qtiLoginForm" novalidate>
+    <div class="qti-field"><label for="qtiLoginEmail">نام کاربری کیوتیم</label><input class="ltr" id="qtiLoginEmail" type="text" autocomplete="username" maxlength="64" placeholder="نام کاربری" required></div>
+    <div class="qti-field"><label for="qtiLoginPassword">رمز عبور</label><input class="ltr" id="qtiLoginPassword" type="password" autocomplete="current-password" placeholder="•••••" minlength="5" required></div>
+    <button class="qti-primary" type="submit">ورود به کیوتیم</button><div class="qti-message" id="qtiLoginMsg" role="status"></div>
+   </form>
+   <div class="qti-links"><button class="qti-link" type="button" data-qti-show="qtiResetView">حساب دارم ولی رمز انتخاب نکردم</button><button class="qti-link" type="button" data-qti-show="qtiSignupView">ثبت‌نام</button></div>
+   <div class="qti-divider">یا ورود یک‌مرحله‌ای</div>
+   <button class="qti-google" type="button" id="qtiGoogleBtn"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.4 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.7-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.2 6.1 29.4 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2C36.9 40.4 44 35 44 24c0-1.3-.1-2.7-.4-3.9z"/></svg>ورود با گوگل</button>
+   <p class="qti-note">ورود امن با حساب مرکزی QTeam؛ نشست ورود بین برنامه‌های متصل به همین پروژه مشترک خواهد بود.</p>
+  </section>
+  <section class="qti-view" id="qtiSignupView">
+   <button class="qti-link" type="button" data-qti-show="qtiLoginView">← بازگشت به ورود</button>
+   <h1>ساخت کیوتیم آیدی</h1><p class="qti-sub">یک حساب برای برنامه‌های QTeam و QGAMING.</p>
+   <form id="qtiSignupForm" novalidate>
+    <div class="qti-field"><label for="qtiSignupName">نام کاربری</label><input id="qtiSignupName" maxlength="24" autocomplete="nickname" placeholder="مثلاً: علی" required></div>
+    <div class="qti-field"><label for="qtiSignupEmail">ایمیل</label><input class="ltr" id="qtiSignupEmail" type="email" autocomplete="email" placeholder="name@example.com" required></div>
+    <div class="qti-field"><label for="qtiSignupPassword">رمز عبور (حداقل ۵ نویسه)</label><input class="ltr" id="qtiSignupPassword" type="password" minlength="5" maxlength="72" autocomplete="new-password" placeholder="•••••" required><div class="qti-strength"><i id="qtiStrengthFill"></i></div><div class="qti-note" id="qtiStrengthText">قدرت رمز پس از تایپ بررسی می‌شود.</div></div>
+    <button class="qti-primary" type="submit">ساخت حساب</button><div class="qti-message" id="qtiSignupMsg" role="status"></div>
+   </form>
+   <p class="qti-note">نام کاربری با قید یکتایی در دیتابیس مرکزی ثبت می‌شود و برای ورود در همه برنامه‌های متصل قابل استفاده است.</p>
+  </section>
+  <section class="qti-view" id="qtiClaimView">
+   <h1>انتخاب نام کاربری</h1><p class="qti-sub">برای استفاده از ورود با نام کاربری، یک شناسه یکتا برای حساب خود انتخاب کن.</p>
+   <form id="qtiClaimForm" novalidate><div class="qti-field"><label for="qtiClaimName">نام کاربری</label><input id="qtiClaimName" maxlength="24" autocomplete="nickname" placeholder="مثلاً: ali" required></div><button class="qti-primary" type="submit">ثبت نام کاربری</button><div class="qti-message" id="qtiClaimMsg" role="status"></div></form>
+   <p class="qti-note">نام کاربری پس از ثبت در تمام سرویس‌های متصل به QTeam ID استفاده می‌شود.</p>
+  </section>
+  <section class="qti-view" id="qtiResetView">
+   <button class="qti-link" type="button" data-qti-show="qtiLoginView">← بازگشت به ورود</button>
+   <h1>انتخاب رمز جدید</h1><p class="qti-sub">کد یک‌بارمصرف شش‌رقمی به ایمیل متصل به حساب ارسال می‌شود.</p>
+   <form id="qtiResetForm" novalidate>
+    <div class="qti-field"><label for="qtiResetEmail">نام کاربری کیوتیم</label><input class="ltr" id="qtiResetEmail" type="text" autocomplete="username" maxlength="64" required placeholder="نام کاربری"></div>
+    <div id="qtiRecoveryCodeWrap" hidden class="qti-field"><label for="qtiRecoveryCode">کد شش‌رقمی ارسال‌شده به ایمیل</label><input class="ltr" id="qtiRecoveryCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="۱۲۳۴۵۶"></div>
+    <div id="qtiNewPasswordWrap" hidden class="qti-field"><label for="qtiNewPassword">رمز جدید (حداقل ۸ نویسه)</label><input class="ltr" id="qtiNewPassword" type="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="رمز جدید"></div>
+    <button class="qti-primary" id="qtiResetSubmit" type="submit">ارسال کد بازیابی</button><div class="qti-message" id="qtiResetMsg" role="status"></div>
+   </form>
+  </section>
+  <div class="qti-footer">QTeam ID · یک حساب برای همه برنامه‌ها</div>
+ </main>
+</div>
+<script id="qteam-id-gate-js">
+(function(){
+ 'use strict';
+ var gate=document.getElementById('qteamIdGate'); if(!gate)return;
+ var $=function(id){return document.getElementById(id);};
+ var BASE='https://yrlgrqibhegxhqgvtmfg.supabase.co/functions/v1/';
+ var PUBLIC_KEY='sb_publishable_AXyN2rXjENVAqashwR4Wwg_xmTIjFB0';
+ var ai=['کیوتیم در اختیار شماست','یک حساب برای همه برنامه‌های QTeam','ورود امن و یکپارچه با QTeam ID'];
+ var aiIndex=0,aiTimer=null,opening=false;
+ function showMessage(id,text,type){var el=$(id);if(!el)return;el.textContent=text;el.className='qti-message show '+(type||'');}
+ function showView(id){gate.querySelectorAll('.qti-view').forEach(function(v){v.classList.toggle('active',v.id===id);});gate.querySelectorAll('.qti-message').forEach(function(m){m.className='qti-message';m.textContent='';});}
+ gate.querySelectorAll('[data-qti-show]').forEach(function(b){b.addEventListener('click',function(){showView(b.getAttribute('data-qti-show'));});});
+ function client(){return window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.getClient?window.QGAMINGOnlineAuth.getClient():window.QGAMING_SUPABASE_AUTH||null;}
+ function waitForClient(timeout){return new Promise(function(resolve){var start=Date.now();(function poll(){var c=client();if(c&&c.auth)return resolve(c);if(Date.now()-start>timeout)return resolve(null);setTimeout(poll,150);})();});}
+ function openGate(){gate.hidden=false;document.body.classList.add('qteam-auth-required');if(!aiTimer){$('qtiAiMessage').textContent=ai[0];aiTimer=setInterval(function(){aiIndex=(aiIndex+1)%ai.length;$('qtiAiMessage').textContent=ai[aiIndex];},5000);}}
+ function blockedUsername(name){var n=String(name||'').toLocaleLowerCase().replace(/[\s._-]/g,'');var bad=['کیر','کسکش','کصکش','کونی','جنده','حرومزاده','مادرجنده','fuck','shit','bitch','asshole','motherfucker'];return bad.some(function(t){return n.indexOf(t.replace(/[\s._-]/g,''))!==-1;});}
+ function validUsername(name){return /^[\p{L}\p{N}_.-]{3,24}$/u.test(name)&&!blockedUsername(name);}
+ function friendlyError(err){var msg=(err&&err.message)||'اتصال به سرویس ورود برقرار نشد.';if(/invalid login credentials/i.test(msg))return 'نام کاربری یا رمز عبور درست نیست.';if(/email not confirmed/i.test(msg))return 'ابتدا ایمیلت را تأیید کن.';if(/already exists|duplicate key|unique constraint/i.test(msg))return 'این نام کاربری قبلاً انتخاب شده است.';return msg;}
+ async function callEdge(slug,body){var c=await waitForClient(12000);if(!c)throw new Error('سرویس حساب آنلاین آماده نشد.');var res=await fetch(BASE+slug,{method:'POST',headers:{'Content-Type':'application/json','apikey':PUBLIC_KEY},body:JSON.stringify(body)});var data=await res.json().catch(function(){return {}});if(!res.ok)throw new Error(data.error||data.message||('خطای سرور '+res.status));return data;}
+ async function enterWithSession(c,session){
+   if(opening)return;opening=true;
+   try{
+    var gl=window.QGAMING_GLOBAL_LOCK;
+    if(gl&&typeof gl.refresh==='function'){
+      await gl.refresh();var until=Date.now()+8000;
+      while(typeof gl.isReady==='function'&&!gl.isReady()&&Date.now()<until)await new Promise(function(r){setTimeout(r,150);});
+      if(typeof gl.isReady==='function'&&!gl.isReady())throw new Error('بررسی وضعیت سرور زمان‌بر شد؛ دوباره تلاش کن.');
+      if(typeof gl.isLocked==='function'&&gl.isLocked())throw new Error('دسترسی QGAMING موقتاً توسط مدیر سرور محدود شده است.');
+    }
+    if(window.QGSessionReview&&typeof window.QGSessionReview.register==='function'){
+      try{await window.QGSessionReview.register();window.QGSessionReview.startHeartbeat();}
+      catch(e){throw new Error(e.message||'ثبت نشست این دستگاه انجام نشد.');}
+    }
+    gate.hidden=true;document.body.classList.remove('qteam-auth-required');
+    try{window.dispatchEvent(new CustomEvent('qteam-id-authenticated'));}catch(e){}
+    try{var u=session&&session.user;if(u&&window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.refreshUser)await window.QGAMINGOnlineAuth.refreshUser(u);}catch(e){console.warn('QTeam profile refresh deferred',e);}
+   }catch(e){openGate();showMessage('qtiLoginMsg',e.message||'ورود انجام نشد.','error');}
+   finally{opening=false;}
+ }
+ async function syncSession(){var c=await waitForClient(15000);if(!c){openGate();showMessage('qtiLoginMsg','سرویس ورود آنلاین در دسترس نیست.','error');return;}try{var r=await c.auth.getSession();var session=r&&r.data&&r.data.session;if(!session){openGate();return;}var username=session.user&&session.user.user_metadata&&session.user.user_metadata.username;if(!username){openGate();showView('qtiClaimView');return;}await enterWithSession(c,session);}catch(e){openGate();showMessage('qtiLoginMsg','بررسی نشست ناموفق بود؛ دوباره تلاش کن.','error');}}
+ $('qtiLoginForm').addEventListener('submit',async function(e){e.preventDefault();var username=$('qtiLoginEmail').value.trim(),password=$('qtiLoginPassword').value;if(!validUsername(username)){showMessage('qtiLoginMsg','نام کاربری معتبر وارد کن (۳ تا ۲۴ نویسه).','error');return;}if(!password||password.length>256){showMessage('qtiLoginMsg','رمز عبور معتبر وارد کن.','error');return;}var b=this.querySelector('button[type=submit]');b.disabled=true;b.textContent='در حال ورود…';try{var data=await callEdge('qteam-login',{username:username,password:password});var c=await waitForClient(12000);if(!c)throw new Error('کلاینت حساب آماده نیست.');var sr=await c.auth.setSession({access_token:data.access_token,refresh_token:data.refresh_token});if(sr.error)throw sr.error;if(sr.data&&sr.data.session){showMessage('qtiLoginMsg','ورود موفق بود؛ خوش آمدی!','success');await enterWithSession(c,sr.data.session);}else throw new Error('نشست ورود از سرور دریافت نشد.');}catch(err){showMessage('qtiLoginMsg',friendlyError(err),'error');}finally{b.disabled=false;b.textContent='ورود به کیوتیم';}});
+ $('qtiSignupForm').addEventListener('submit',async function(e){e.preventDefault();var name=$('qtiSignupName').value.trim(),email=$('qtiSignupEmail').value.trim().toLowerCase(),password=$('qtiSignupPassword').value;if(!validUsername(name)){showMessage('qtiSignupMsg','نام کاربری باید ۳ تا ۲۴ نویسه معتبر و بدون واژه نامناسب باشد.','error');return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){showMessage('qtiSignupMsg','ایمیل معتبر وارد کن.','error');return;}if(password.length<8){showMessage('qtiSignupMsg','رمز عبور باید حداقل ۸ نویسه باشد.','error');return;}var b=this.querySelector('button[type=submit]');b.disabled=true;b.textContent='در حال ساخت حساب…';try{var c=await waitForClient(12000);if(!c)throw new Error('سرویس حساب آنلاین آماده نیست.');var r=await c.auth.signUp({email:email,password:password,options:{data:{username:name,full_name:name},emailRedirectTo:location.href.split('#')[0]}});if(r.error)throw r.error;if(r.data&&r.data.session){showMessage('qtiSignupMsg','حساب ساخته شد؛ خوش آمدی!','success');await enterWithSession(c,r.data.session);}else showMessage('qtiSignupMsg','حساب ساخته شد. لینک تأیید به ایمیلت ارسال شد؛ پس از تأیید وارد شو.','success');}catch(err){showMessage('qtiSignupMsg',friendlyError(err),'error');}finally{b.disabled=false;b.textContent='ساخت حساب';}});
+ $('qtiClaimForm').addEventListener('submit',async function(e){e.preventDefault();var name=$('qtiClaimName').value.trim();if(!validUsername(name)){showMessage('qtiClaimMsg','نام کاربری باید ۳ تا ۲۴ نویسه معتبر باشد.','error');return;}var b=this.querySelector('button[type=submit]');b.disabled=true;try{var c=await waitForClient(12000);if(!c)throw new Error('سرویس حساب آماده نیست.');var r=await c.auth.updateUser({data:{username:name,full_name:name}});if(r.error)throw r.error;showMessage('qtiClaimMsg','نام کاربری ثبت شد.','success');await enterWithSession(c,{user:r.data.user});}catch(err){showMessage('qtiClaimMsg',friendlyError(err),'error');}finally{b.disabled=false;}});
+ $('qtiResetForm').addEventListener('submit',async function(e){e.preventDefault();var username=$('qtiResetEmail').value.trim(),wrap=$('qtiRecoveryCodeWrap'),code=$('qtiRecoveryCode').value.trim(),pw=$('qtiNewPassword').value;var b=$('qtiResetSubmit');if(!validUsername(username)){showMessage('qtiResetMsg','نام کاربری معتبر وارد کن.','error');return;}b.disabled=true;try{if(wrap.hidden){await callEdge('qteam-recovery',{action:'request',username:username});wrap.hidden=false;$('qtiNewPasswordWrap').hidden=false;b.textContent='تأیید کد و تغییر رمز';showMessage('qtiResetMsg','اگر حسابی با این نام کاربری وجود داشته باشد، کد بازیابی به ایمیل آن ارسال می‌شود.','success');}else{if(!/^\d{6}$/.test(code)){showMessage('qtiResetMsg','کد باید دقیقاً ۶ رقم باشد.','error');return;}if(pw.length<8||pw.length>128){showMessage('qtiResetMsg','رمز جدید باید حداقل ۸ نویسه باشد.','error');return;}await callEdge('qteam-recovery',{action:'confirm',username:username,token:code,password:pw});showMessage('qtiResetMsg','رمز جدید ثبت شد. حالا با نام کاربری و رمز تازه وارد شو.','success');wrap.hidden=true;$('qtiNewPasswordWrap').hidden=true;$('qtiRecoveryCode').value='';$('qtiNewPassword').value='';b.textContent='ارسال کد بازیابی';}}catch(err){showMessage('qtiResetMsg',friendlyError(err),'error');}finally{b.disabled=false;}});
+ $('qtiGoogleBtn').addEventListener('click',async function(){var b=this;b.disabled=true;try{var c=await waitForClient(12000);if(!c)throw new Error('سرویس حساب آماده نیست.');var r=await c.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.href.split('#')[0],queryParams:{access_type:'offline',prompt:'select_account'}}});if(r.error)throw r.error;}catch(e){showMessage('qtiLoginMsg',friendlyError(e),'error');}finally{b.disabled=false;}});
+ $('qtiSignupPassword').addEventListener('input',function(){var v=this.value,score=0;if(v.length>=8)score++;if(v.length>=12)score++;if(/[a-z]/i.test(v)&&/[A-Z]/.test(v))score++;if(/\d/.test(v))score++;if(/[^A-Za-z0-9]/.test(v))score++;$('qtiStrengthFill').style.width=(score*20)+'%';$('qtiStrengthFill').style.background=score<2?'#ff6b83':score<4?'#f5bd58':'#43d6a0';$('qtiStrengthText').textContent='قدرت رمز: '+(!v?'وارد نشده':score<2?'ضعیف':score<4?'متوسط':'قوی');});
+ async function init(){openGate();var c=await waitForClient(15000);if(!c){showMessage('qtiLoginMsg','سرویس ورود آنلاین در دسترس نیست.','error');return;}try{var hash=location.hash||'';if(hash.indexOf('type=recovery')!==-1){showView('qtiResetView');$('qtiRecoveryCodeWrap').hidden=false;$('qtiNewPasswordWrap').hidden=false;$('qtiResetSubmit').textContent='تأیید کد و تغییر رمز';}await syncSession();c.auth.onAuthStateChange(function(event,session){if(event==='PASSWORD_RECOVERY'){openGate();showView('qtiResetView');$('qtiRecoveryCodeWrap').hidden=false;$('qtiNewPasswordWrap').hidden=false;}else if(event==='SIGNED_IN'&&session&&session.user){var username=session.user.user_metadata&&session.user.user_metadata.username;if(username)enterWithSession(c,session);else{openGate();showView('qtiClaimView');}}else if(event==='SIGNED_OUT'){openGate();showView('qtiLoginView');}});}catch(e){openGate();showMessage('qtiLoginMsg','بررسی نشست ورود ناموفق بود.','error');}}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<!-- ===== END QTEAM ID GATE ===== -->
 
 </body>
 </html>
