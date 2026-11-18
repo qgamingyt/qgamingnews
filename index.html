@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <html dir="rtl" lang="fa">
-<head><script id="qg-v30-early">try{var t=localStorage.getItem("qgaming_app_theme_v1");document.documentElement.setAttribute("data-qg-theme",t==="black"||t==="white"?t:"season")}catch(e){}</script>
+<head><script id="qg-v30-early">try{var t=localStorage.getItem("qgaming_app_theme_v1");document.documentElement.setAttribute("data-qg-theme",t==="black"||t==="white"||t==="gta"?t:"season")}catch(e){}</script>
+<script id="qg-auth-flag">window.__qgAuthed=false;window.addEventListener("qteam-id-authenticated",function(){window.__qgAuthed=true;document.documentElement.classList.add("qg-authed")});</script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#07070d" name="theme-color"/>
@@ -1575,136 +1576,8 @@ html body{font-family:Vazirmatn,"IRANSansX",Tahoma,system-ui,sans-serif}
 </style>
 
 
-<style id="qg-newsbar-redesign-2026">
-/* QGAMING News Bar — 2026 redesign: crisp, compact, responsive */
-#qgPremiumNewsTicker.qg-premium-news-ticker{
-  position:relative!important; isolation:isolate!important; box-sizing:border-box!important;
-  width:calc(100% - 20px)!important; max-width:980px!important; min-height:58px!important;
-  margin:10px auto 14px!important; padding:7px 9px!important;
-  display:grid!important; grid-template-columns:62px minmax(0,1fr) 42px!important;
-  align-items:center!important; gap:9px!important; overflow:hidden!important;
-  border:1px solid rgba(76,220,255,.27)!important; border-radius:17px!important;
-  background:linear-gradient(112deg,#101a2b 0%,#111827 48%,#142b35 100%)!important;
-  box-shadow:0 8px 24px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.045)!important;
-  contain:layout paint!important; backdrop-filter:blur(14px)!important;
-}
-#qgPremiumNewsTicker:before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 95% 50%,rgba(34,211,238,.12),transparent 45%),linear-gradient(90deg,transparent 0%,rgba(255,255,255,.025) 50%,transparent 100%)!important}
-#qgPremiumNewsTicker:after{content:"QG • NEWS";position:absolute!important;right:12px!important;bottom:3px!important;font:800 6px/1 system-ui,sans-serif!important;letter-spacing:.14em!important;color:rgba(153,220,235,.35)!important;pointer-events:none!important}
-#qgPremiumNewsTicker .live-badge{
-  position:relative!important;left:auto!important;right:auto!important;top:auto!important;
-  transform:none!important;opacity:1!important;pointer-events:none!important;z-index:1!important;
-  min-width:0!important;width:62px!important;height:34px!important;box-sizing:border-box!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;
-  padding:0 8px!important;border:1px solid rgba(248,113,113,.32)!important;border-radius:11px!important;
-  color:#ffd6d6!important;background:linear-gradient(145deg,rgba(127,29,29,.34),rgba(69,10,10,.25))!important;
-  font:900 10px/1 system-ui,sans-serif!important;letter-spacing:.11em!important;
-}
-#qgPremiumNewsTicker .live-badge i{display:block!important;width:7px!important;height:7px!important;flex:0 0 7px!important;border-radius:50%!important;background:#fb7185!important;box-shadow:0 0 0 3px rgba(251,113,133,.12),0 0 12px rgba(251,113,133,.6)!important}
-#qgPremiumNewsTicker .top-notice{
-  min-width:0!important;width:100%!important;height:42px!important;box-sizing:border-box!important;
-  display:flex!important;align-items:center!important;overflow:hidden!important;border-radius:10px!important;
-  border:1px solid rgba(148,163,184,.12)!important;background:rgba(4,10,20,.38)!important;
-  box-shadow:none!important;
-}
-#qgPremiumNewsTicker .top-notice-track{height:100%!important;width:100%!important;min-width:0!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;overflow:hidden!important}
-#qgPremiumTickerText{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;padding:0 11px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;text-align:right!important;direction:rtl!important;color:#f3f7ff!important;font:700 12px/1.6 Tahoma,system-ui,sans-serif!important;text-shadow:none!important}
-#qgPremiumNewsTicker .qg-ticker-thumb{display:block!important;width:42px!important;height:42px!important;box-sizing:border-box!important;object-fit:cover!important;border-radius:11px!important;border:1px solid rgba(103,232,249,.25)!important;background:#172333!important;box-shadow:none!important}
-#qgPremiumNewsTicker .qg-ticker-thumb[hidden]{display:none!important}
-#qgPremiumNewsTicker.is-message-alert{border-color:rgba(103,232,249,.62)!important;box-shadow:0 8px 26px rgba(0,0,0,.27),0 0 0 2px rgba(34,211,238,.07)!important}
-#qgPremiumNewsTicker.is-message-alert .live-badge{border-color:rgba(103,232,249,.38)!important;color:#b8f4ff!important;background:rgba(8,83,105,.38)!important}
-#qgPremiumNewsTicker.is-settings-alert{border-color:rgba(196,181,253,.55)!important;box-shadow:0 8px 26px rgba(0,0,0,.27),0 0 0 2px rgba(167,139,250,.08)!important}
-#qgPremiumNewsTicker.is-settings-alert .live-badge{border-color:rgba(196,181,253,.38)!important;color:#e9ddff!important;background:rgba(76,29,149,.3)!important}
-@media(max-width:420px){
- #qgPremiumNewsTicker.qg-premium-news-ticker{width:calc(100% - 14px)!important;min-height:54px!important;grid-template-columns:54px minmax(0,1fr) 34px!important;gap:6px!important;padding:6px!important;border-radius:14px!important}
- #qgPremiumNewsTicker .live-badge{width:54px!important;height:32px!important;font-size:9px!important;gap:4px!important}
- #qgPremiumNewsTicker .top-notice{height:40px!important}
- #qgPremiumNewsTicker .qg-ticker-thumb{width:34px!important;height:34px!important;border-radius:9px!important}
- #qgPremiumTickerText{font-size:11px!important;padding:0 8px!important}
-}
-@media(prefers-reduced-motion:reduce){
- #qgPremiumNewsTicker *,#qgPremiumNewsTicker:before{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-}
-</style>
 
 
-<style id="qgTickerCinematicLayoutFix">
-/* QGaming cinematic ticker: use the empty space to the LEFT of LIVE */
-.top-notice-wrap.live-docked{
-  display:grid!important;
-  grid-template-columns:minmax(0,1fr) 82px!important;
-  gap:10px!important;
-  direction:ltr!important;
-  align-items:center!important;
-  overflow:hidden!important;
-  isolation:isolate;
-  background:linear-gradient(110deg,rgba(8,14,29,.97),rgba(15,25,43,.94) 52%,rgba(12,35,43,.94))!important;
-  border:1px solid rgba(94,234,212,.28)!important;
-  box-shadow:0 0 0 1px rgba(168,85,247,.08),0 8px 28px rgba(0,0,0,.22),inset 0 0 24px rgba(45,212,191,.045)!important;
-}
-.top-notice-wrap.live-docked .top-notice-track{
-  grid-column:1!important;grid-row:1!important;
-  min-width:0!important;width:100%!important;height:100%!important;
-  justify-content:flex-start!important;overflow:hidden!important;
-  mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 94%,transparent 100%);
-}
-.top-notice-wrap.live-docked .top-notice-item{
-  width:100%!important;min-width:0!important;max-width:100%!important;
-  padding:0 10px!important;box-sizing:border-box!important;
-  text-align:right!important;direction:rtl!important;
-  color:#e8fbff!important;font-size:clamp(10px,2.7vw,13px)!important;
-  font-weight:800!important;letter-spacing:.05px;
-  text-shadow:0 0 16px rgba(103,232,249,.18);
-  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
-}
-.top-notice-wrap.live-docked .live-badge{
-  grid-column:2!important;grid-row:1!important;justify-self:stretch!important;
-  width:82px!important;min-width:0!important;height:42px!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  gap:7px!important;position:relative!important;left:auto!important;top:auto!important;
-  transform:translateZ(0)!important;border-radius:15px!important;
-  background:linear-gradient(135deg,rgba(248,113,113,.20),rgba(88,28,52,.28))!important;
-  border:1px solid rgba(251,113,133,.35)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.11),0 0 18px rgba(244,63,94,.10)!important;
-  color:#ffe5eb!important;letter-spacing:1.1px!important;
-}
-.top-notice-wrap.live-docked .live-badge::before{
-  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
-  background:linear-gradient(115deg,transparent,rgba(255,255,255,.35),transparent 65%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
-  animation:qgCineShine 3.4s ease-in-out infinite;
-}
-.top-notice-wrap.live-docked .live-badge i{
-  width:8px!important;height:8px!important;flex:0 0 8px!important;
-  box-shadow:0 0 8px #ff4d68,0 0 20px rgba(255,77,104,.8)!important;
-  animation:qgCinePulse 1.25s ease-in-out infinite!important;
-}
-.top-notice-wrap.live-docked .top-notice-item.in{
-  animation:qgCineNewsEnter .78s cubic-bezier(.16,1,.3,1) both!important;
-}
-.top-notice-wrap.live-docked::after{
-  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(105deg,transparent 15%,rgba(103,232,249,.075) 48%,transparent 70%);
-  background-size:220% 100%;animation:qgCineSweep 5.5s linear infinite;
-}
-@keyframes qgCineNewsEnter{
-  0%{opacity:0;transform:translate3d(-22px,5px,0) scale(.975);filter:blur(7px)}
-  65%{opacity:1;transform:translate3d(2px,0,0) scale(1.005);filter:blur(0)}
-  100%{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}
-}
-@keyframes qgCinePulse{0%,100%{opacity:.58;transform:scale(.78)}50%{opacity:1;transform:scale(1.16)}}
-@keyframes qgCineSweep{0%{background-position:150% 0}100%{background-position:-120% 0}}
-@keyframes qgCineShine{0%,65%,100%{opacity:.25}35%{opacity:.9}}
-@media(max-width:390px){
- .top-notice-wrap.live-docked{grid-template-columns:minmax(0,1fr) 72px!important;gap:7px!important;width:calc(100% - 14px)!important}
- .top-notice-wrap.live-docked .live-badge{width:72px!important;height:38px!important;font-size:9px!important}
- .top-notice-wrap.live-docked .top-notice-item{padding:0 7px!important;font-size:10px!important}
-}
-@media(prefers-reduced-motion:reduce){
- .top-notice-wrap.live-docked::after,.top-notice-wrap.live-docked .live-badge::before,
- .top-notice-wrap.live-docked .live-badge i,.top-notice-wrap.live-docked .top-notice-item.in{animation:none!important}
-}
-</style>
 <style id="qg-global-page-transitions">
 #chatView .qg-chat-home,#chatView .qg-chat-shell,#chatView .qg-chat-pane,.page,.app-page{transition:opacity .22s ease,transform .28s cubic-bezier(.2,.8,.2,1)}
 .qg-transition-out{opacity:0!important;transform:translateY(6px)!important;pointer-events:none!important}
@@ -2060,7 +1933,7 @@ html,body{scroll-behavior:auto!important}
   <div class="qg-chat-shell">
     <header class="qg-chat-topbar">
       <button class="qg-chat-back" id="chatBack" type="button" aria-label="بازگشت">‹</button>
-      <div class="qg-autumn-brand qg-chat-brand-v04"><div class="qg-brand-heading"><img class="qg-chat-brand-icon" src="data:image/webp;base64,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" alt="نشان پاییزی QChat" width="52" height="52" loading="lazy" decoding="async"><div class="qg-brand-heading-text"><div class="qg-chat-title">QChat <span class="qg-autumn-leaf" aria-hidden="true">🍂</span></div><div class="qg-chat-subtitle">AUTUMN EDITION · QGAMING</div></div><span class="qg-chat-version" aria-label="نسخه کیوچت ۰٫۶">v0.6</span></div><span class="qg-connection-pill" id="qgQChatConnection" role="status" aria-live="polite"><i></i><span>در حال بررسی اتصال…</span></span></div>
+      <div class="qg-autumn-brand qg-chat-brand-v04"><div class="qg-brand-heading"><img class="qg-chat-brand-icon" src="data:image/webp;base64,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" alt="نشان پاییزی QChat" width="52" height="52" loading="lazy" decoding="async"><div class="qg-brand-heading-text"><div class="qg-chat-title">QChat <span class="qg-autumn-leaf" aria-hidden="true">🍂</span></div><div class="qg-chat-subtitle">AUTUMN EDITION · QGAMING</div></div><span class="qg-chat-version" aria-label="نسخه کیوچت ۰٫۸">v0.8</span></div><span class="qg-connection-pill" id="qgQChatConnection" role="status" aria-live="polite"><i></i><span>در حال بررسی اتصال…</span></span></div>
       <div class="qg-chat-tools"><button id="qgQChatRefresh" type="button" aria-label="تلاش دوباره برای اتصال و تازه‌سازی" title="تلاش دوباره">↻</button></div>
     </header>
     <div class="qg-chat-list-home" id="qgChatHome">
@@ -2816,70 +2689,6 @@ setInterval(() =&gt; loadLatest(true), CONFIG.POLL_MS);
   }
 })();
 </script>
-<style id="qgaming-ticker-final-css">
-/* ===== QGAMING 0.69 — DEFINITIVE TOP NEWS BAR ===== */
-#topNoticeWrap.qg-final-ticker{
-  position:relative!important;display:block!important;width:100%!important;height:52px!important;
-  min-height:52px!important;margin:0 0 12px!important;padding:0!important;overflow:hidden!important;
-  border-radius:16px!important;isolation:isolate!important;
-  background:linear-gradient(135deg,rgba(18,15,31,.97),rgba(9,16,28,.95))!important;
-  border:1px solid rgba(168,85,247,.25)!important;
-  box-shadow:0 12px 32px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 25px rgba(34,211,238,.035)!important;
-}
-#topNoticeWrap.qg-final-ticker::before{
- content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
- background:linear-gradient(105deg,transparent 10%,rgba(168,85,247,.10),rgba(34,211,238,.07),transparent 90%);
- animation:qgTickerGlow 5s ease-in-out infinite alternate;
-}
-#topNoticeWrap.qg-final-ticker .top-notice{
- position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
- display:flex!important;align-items:center!important;justify-content:center!important;
- background:transparent!important;border:0!important;overflow:hidden!important;z-index:2!important;
-}
-#topNoticeWrap.qg-final-ticker .top-notice-track{
- width:100%!important;height:100%!important;display:flex!important;align-items:center!important;
- justify-content:center!important;overflow:hidden!important;
-}
-#topNoticeWrap.qg-final-ticker .top-notice-item{
- width:100%!important;max-width:100%!important;padding:0 12px!important;display:block!important;
- overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;text-align:center!important;
- direction:rtl!important;color:#f7f3ff!important;font-size:12px!important;font-weight:750!important;
- transition:none!important;
-}
-#topNoticeWrap.qg-final-ticker .top-notice-item.qg-in{animation:qgTickerIn .58s cubic-bezier(.16,1,.3,1) both!important}
-#topNoticeWrap.qg-final-ticker .top-notice-item.qg-out{animation:qgTickerOut .42s ease both!important}
-#topNoticeWrap.qg-final-ticker .live-badge{
- position:absolute!important;z-index:8!important;top:50%!important;left:50%!important;
- height:39px!important;min-width:78px!important;padding:0 13px!important;border-radius:999px!important;
- display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;
- opacity:0!important;pointer-events:none!important;transform:translate(-50%,-50%) scale(.72)!important;
- background:linear-gradient(135deg,rgba(115,20,32,.78),rgba(55,10,18,.65))!important;
- border:1px solid rgba(255,95,109,.48)!important;color:#ffb5ba!important;font-size:11px!important;font-weight:900!important;
- box-shadow:0 0 24px rgba(255,60,80,.18),inset 0 1px 0 rgba(255,255,255,.08)!important;
- transition:left .9s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1),opacity .4s ease!important;
-}
-#topNoticeWrap.qg-final-ticker .live-badge i{
- width:8px!important;height:8px!important;min-width:8px!important;border-radius:50%!important;background:#ff465c!important;
- box-shadow:0 0 8px #ff465c,0 0 18px rgba(255,70,92,.65)!important;animation:qgLiveDot 1s ease-in-out infinite!important;
-}
-#topNoticeWrap.qg-final-ticker.qg-notice .live-badge{opacity:0!important;left:50%!important;transform:translate(-50%,-50%) scale(.72)!important}
-#topNoticeWrap.qg-final-ticker.qg-live-center .live-badge{opacity:1!important;left:50%!important;transform:translate(-50%,-50%) scale(1)!important}
-#topNoticeWrap.qg-final-ticker.qg-live-leaving .live-badge{opacity:0!important;left:calc(100% + 90px)!important;transform:translate(-50%,-50%) scale(.84)!important}
-#topNoticeWrap.qg-final-ticker.qg-news{display:grid!important;grid-template-columns:82px minmax(0,1fr)!important;gap:7px!important;align-items:center!important}
-#topNoticeWrap.qg-final-ticker.qg-news .live-badge{position:relative!important;top:auto!important;left:auto!important;transform:none!important;opacity:1!important;width:82px!important;min-width:82px!important;height:40px!important;grid-column:1!important;grid-row:1!important}
-#topNoticeWrap.qg-final-ticker.qg-news .top-notice{position:relative!important;inset:auto!important;grid-column:2!important;grid-row:1!important;width:100%!important;height:100%!important}
-#topNoticeWrap.qg-final-ticker.qg-news .top-notice-item{padding:0 7px!important}
-@keyframes qgTickerIn{from{opacity:0;transform:translateY(12px) scale(.97);}to{opacity:1;transform:none;}}
-@keyframes qgTickerOut{from{opacity:1;transform:none;}to{opacity:0;transform:translateY(-7px) scale(.9);}}
-@keyframes qgLiveDot{0%,100%{opacity:.45;transform:scale(.72)}50%{opacity:1;transform:scale(1.18)}}
-@keyframes qgTickerGlow{from{transform:translateX(-3%);opacity:.65}to{transform:translateX(3%);opacity:1}}
-@media(max-width:390px){
- #topNoticeWrap.qg-final-ticker{height:48px!important;min-height:48px!important}
- #topNoticeWrap.qg-final-ticker.qg-news{grid-template-columns:70px minmax(0,1fr)!important;gap:6px!important}
- #topNoticeWrap.qg-final-ticker.qg-news .live-badge{width:70px!important;min-width:70px!important;height:36px!important;font-size:9px!important}
- #topNoticeWrap.qg-final-ticker .top-notice-item{font-size:9px!important}
-}
-</style>
 <script>
 (function(){
   function bootFinalTicker(){
@@ -3407,14 +3216,6 @@ setInterval(() =&gt; loadLatest(true), CONFIG.POLL_MS);
   }else{ready();}
 })();
 </script>
-<style id="qg-news-ticker-texture-2026">
-/* ===== QGAMING NEWS BAR — SMALL PREMIUM TEXTURE ===== */
-
-
-@media(prefers-reduced-motion:reduce){
-  
-}
-</style>
 <script id="qgLowDevicePerformanceJS">
 /* QGAMING adaptive motion policy:
    Do not classify phones by model, RAM, CPU count, screen width or network type.
@@ -3974,8 +3775,12 @@ window.addEventListener("qg-guest-account-changed",load);load();
     }
     return 'qg-audio/'+(track.file||((track.id||'')+'.mp3')).split('/').map(encodeURIComponent).join('/');
   }
+  var pendingInit=false;
+  function qgCanPlay(){return window.__qgAuthed===true&&!(document.body&&document.body.classList.contains('qteam-auth-required'));}
+  window.addEventListener('qteam-id-authenticated',function(){if(pendingInit){pendingInit=false;loadTrack(0,false);}});
   async function loadPlaylistManifest(){
     playlistReady=true;
+    if(!qgCanPlay()){pendingInit=true;return;}
     loadTrack(0,false);
     start();
   }
@@ -3996,7 +3801,7 @@ window.addEventListener("qg-guest-account-changed",load);load();
   }
 
   function playCurrent(){
-    if(!enabled)return;
+    if(!enabled||!qgCanPlay())return;
     if(!player.src) loadTrack(index,false);
     player.volume=volume*master;
     const p=player.play();
@@ -4024,7 +3829,7 @@ window.addEventListener("qg-guest-account-changed",load);load();
   });
 
   function start(){
-    if(!playlistReady||!enabled)return;
+    if(!playlistReady||!enabled||!qgCanPlay())return;
     if(!player.src) loadTrack(index,false);
     playCurrent();
   }
@@ -4643,7 +4448,7 @@ body[data-qg-graphics="high"] .header,body[data-qg-graphics="high"] .bottom-nav{
     musicTimer=setTimeout(function(){try{window.QGAMINGAudio&&window.QGAMINGAudio.start&&window.QGAMINGAudio.start()}catch(_){}},10000);
   }
   function resumeMusic(){try{window.QGAMINGAudio&&window.QGAMINGAudio.start&&window.QGAMINGAudio.start()}catch(_){} }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scheduleMusic,{once:true});else scheduleMusic();
+  window.addEventListener('qteam-id-authenticated',scheduleMusic,{once:true});if(window.__qgAuthed)scheduleMusic();
   ['pointerdown','touchstart','keydown'].forEach(function(ev){window.addEventListener(ev,resumeMusic,{passive:true});});
 })();
 </script>
@@ -9909,15 +9714,14 @@ function updateTickerThumb(){
  }else{img.onerror=null;img.removeAttribute('src');img.hidden=true}
 }
 
-function buildTicker(){
- if(tickerNode())return;
+function buildTicker(){return;if(tickerNode())return;
  var ticker=document.createElement('div');ticker.id='qgPremiumNewsTicker';ticker.className='top-notice-wrap qg-premium-news-ticker';ticker.setAttribute('role','status');ticker.setAttribute('aria-live','polite');ticker.setAttribute('aria-atomic','true');ticker.setAttribute('aria-label','نوار اخبار زنده QGAMING نسخه 3.1 Dynamic Live Bar');
  ticker.innerHTML='<div class="live-badge"><i aria-hidden="true"></i><span>LIVE</span></div><div class="top-notice"><div class="top-notice-track"><div id="qgPremiumTickerText" class="top-notice-item in">در حال آماده‌سازی اخبار…</div></div></div><img class="qg-ticker-thumb" id="qgTickerThumb" alt="تصویر خبر" loading="lazy" decoding="async" hidden>';
  document.body.insertBefore(ticker,document.body.firstChild);
 }
 function refreshCurrentNews(){collectNewsLines();if(!tickerNode())buildTicker();}
 function showNewsStep(){return;var ticker=tickerNode();if(tickerPaused||(ticker&&ticker.classList.contains('is-message-alert')))return;collectNewsLines();if(!newsLines.length)return;tickerIndex=(tickerIndex+1)%newsLines.length;setTickerText((newsItems[tickerIndex]&&newsItems[tickerIndex].text)||newsLines[tickerIndex]);updateTickerThumb();}
-function startTicker(){if(tickerTimer)clearInterval(tickerTimer);collectNewsLines();if(!tickerNode())buildTicker();if(newsLines.length){tickerIndex=Math.max(0,tickerIndex)%newsLines.length;setTickerText((newsItems[tickerIndex]&&newsItems[tickerIndex].text)||newsLines[tickerIndex]);updateTickerThumb()}else{setTickerText('');updateTickerThumb()}tickerTimer=setInterval(function(){collectNewsLines();if(newsLines.length)showNewsStep()},6500)}
+function startTicker(){return;if(tickerTimer)clearInterval(tickerTimer);collectNewsLines();if(!tickerNode())buildTicker();if(newsLines.length){tickerIndex=Math.max(0,tickerIndex)%newsLines.length;setTickerText((newsItems[tickerIndex]&&newsItems[tickerIndex].text)||newsLines[tickerIndex]);updateTickerThumb()}else{setTickerText('');updateTickerThumb()}tickerTimer=setInterval(function(){collectNewsLines();if(newsLines.length)showNewsStep()},6500)}
 function showTickerAlert(label,text,ms,icon,extraClass){try{window.QGNB&&window.QGNB.alert(label,text,ms,icon,extraClass)}catch(e){}
  buildTicker();var ticker=tickerNode();if(!ticker)return;
  alertSerial++;var serial=alertSerial;if(alertRestore)clearTimeout(alertRestore);
@@ -10681,273 +10485,9 @@ body.qgaming-global-locked #app *,body.qgaming-global-locked #app *:before,body.
 })();
 </script>
 
-<style id="qg-newsbar-23-layout-fix">
-#qgPremiumNewsTicker.top-notice-wrap{display:grid!important;grid-template-columns:72px minmax(0,1fr)!important;align-items:center!important;gap:8px!important;width:calc(100% - 28px)!important;max-width:900px!important;min-height:54px!important;height:54px!important;margin:18px auto!important;padding:5px 8px!important;box-sizing:border-box!important;overflow:hidden!important;isolation:isolate!important}
-#qgPremiumNewsTicker .live-badge{position:relative!important;inset:auto!important;left:auto!important;top:auto!important;transform:none!important;opacity:1!important;display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;width:72px!important;height:38px!important;box-sizing:border-box!important;z-index:2!important;pointer-events:none!important}
-#qgPremiumNewsTicker .top-notice{display:block!important;position:relative!important;min-width:0!important;width:100%!important;height:42px!important;overflow:hidden!important;box-sizing:border-box!important}
-#qgPremiumNewsTicker .top-notice-track{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;height:100%!important;min-width:0!important;overflow:hidden!important}
-#qgPremiumNewsTicker #qgPremiumTickerText{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;padding:0 9px!important;box-sizing:border-box!important;white-space:normal!important;overflow:hidden!important;text-overflow:ellipsis!important;overflow-wrap:anywhere!important;line-height:1.5!important;text-align:center!important;direction:rtl!important;font-size:clamp(10px,2.8vw,13px)!important}
-#qgPremiumNewsTicker .qg-ticker-thumb{position:absolute!important;left:14px!important;top:50%!important;transform:translateY(-50%)!important;width:36px!important;height:36px!important;object-fit:cover!important;border-radius:10px!important;z-index:3!important}
-#qgPremiumNewsTicker.is-message-alert #qgPremiumTickerText,#qgPremiumNewsTicker.is-settings-alert #qgPremiumTickerText{color:#7cecff!important}
-@media(max-width:390px){#qgPremiumNewsTicker.top-notice-wrap{grid-template-columns:60px minmax(0,1fr)!important;width:calc(100% - 18px)!important;gap:6px!important}#qgPremiumNewsTicker .live-badge{width:60px!important;font-size:10px!important}#qgPremiumNewsTicker #qgPremiumTickerText{padding:0 5px!important;font-size:10px!important}}
-</style>
 
 
 <!-- QGAMING NEWSBAR 2.5 — REBUILT LAYOUT (legacy ticker layouts superseded) -->
-<style id="qg-newsbar-25-rebuilt-css">
-/* Remove conflicting legacy bars; the unified live bar below remains the single visible ticker. */
-body > #topNoticeWrap,
-#topNoticeWrap,
-body > .top-notice-wrap:not(#qgPremiumNewsTicker),
-.top-notice-wrap:not(#qgPremiumNewsTicker) {
-  display:none !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 {
-  box-sizing:border-box !important;
-  position:relative !important;
-  isolation:isolate !important;
-  display:grid !important;
-  grid-template-columns:52px minmax(0,1fr) 82px !important;
-  grid-template-rows:1fr !important;
-  grid-template-areas:"thumb news live" !important;
-  align-items:center !important;
-  gap:9px !important;
-  direction:ltr !important;
-  width:calc(100% - 28px) !important;
-  max-width:760px !important;
-  height:62px !important;
-  min-height:62px !important;
-  margin:12px auto 12px !important;
-  padding:6px 8px !important;
-  overflow:hidden !important;
-  border:1px solid rgba(88,220,255,.32) !important;
-  border-radius:21px !important;
-  background:linear-gradient(112deg,rgba(9,16,31,.98),rgba(15,28,43,.96) 50%,rgba(12,25,38,.98)) !important;
-  box-shadow:0 12px 32px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 30px rgba(34,211,238,.035) !important;
-  color:#f5f7ff !important;
-  transform:translateZ(0) !important;
-  transition:border-color .45s ease,box-shadow .45s ease !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25::before {
-  content:"" !important;
-  position:absolute !important;
-  z-index:0 !important;
-  inset:0 !important;
-  border-radius:inherit !important;
-  padding:1px !important;
-  background:linear-gradient(115deg,rgba(34,211,238,.7),rgba(139,92,246,.16) 36%,rgba(34,211,238,.42) 68%,rgba(244,114,182,.48)) !important;
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0) !important;
-  -webkit-mask-composite:xor !important;
-  mask-composite:exclude !important;
-  pointer-events:none !important;
-  opacity:.78 !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25::after {
-  content:"" !important;
-  position:absolute !important;
-  z-index:4 !important;
-  top:-35% !important;
-  bottom:-35% !important;
-  left:-48% !important;
-  width:32% !important;
-  border-radius:50% !important;
-  background:linear-gradient(90deg,transparent,rgba(133,242,255,.12),rgba(211,187,255,.25),transparent) !important;
-  filter:blur(3px) !important;
-  transform:skewX(-18deg) !important;
-  pointer-events:none !important;
-  animation:qgNewsbar25Sweep 5.8s cubic-bezier(.4,0,.2,1) infinite !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 > * { position:relative !important; z-index:1 !important; min-width:0 !important; }
-#qgPremiumNewsTicker.qg-newsbar-25 .qg-ticker-thumb-slot {
-  grid-area:thumb !important;
-  align-self:center !important;
-  justify-self:start !important;
-  position:relative !important;
-  display:grid !important;
-  place-items:center !important;
-  width:50px !important;
-  height:50px !important;
-  min-width:50px !important;
-  overflow:hidden !important;
-  border:1px solid rgba(255,255,255,.18) !important;
-  border-radius:14px !important;
-  background:radial-gradient(circle at 25% 15%,rgba(34,211,238,.19),transparent 55%),linear-gradient(145deg,#251b42,#101a2b) !important;
-  box-shadow:0 4px 15px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.12) !important;
-  transform:translateZ(0) !important;
-  animation:qgNewsbar25ThumbFloat 4.5s ease-in-out infinite !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .qg-ticker-brand-mark {
-  display:grid !important;
-  place-items:center !important;
-  width:100% !important;
-  height:100% !important;
-  color:#d8faff !important;
-  font-size:24px !important;
-  line-height:1 !important;
-  font-weight:1000 !important;
-  font-style:italic !important;
-  text-shadow:0 0 16px rgba(34,211,238,.6),0 2px 4px rgba(0,0,0,.6) !important;
-  background:linear-gradient(145deg,rgba(139,92,246,.12),rgba(34,211,238,.04)) !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .qg-ticker-thumb {
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  object-fit:cover !important;
-  border-radius:inherit !important;
-  border:0 !important;
-  opacity:0 !important;
-  transform:scale(1.04) !important;
-  transition:opacity .38s ease,transform .6s cubic-bezier(.16,1,.3,1) !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .qg-ticker-thumb:not([hidden]) { opacity:1 !important; transform:scale(1) !important; }
-#qgPremiumNewsTicker.qg-newsbar-25 .top-notice {
-  grid-area:news !important;
-  position:relative !important;
-  inset:auto !important;
-  align-self:stretch !important;
-  display:flex !important;
-  width:100% !important;
-  height:100% !important;
-  min-width:0 !important;
-  margin:0 !important;
-  padding:0 !important;
-  overflow:hidden !important;
-  border:1px solid rgba(153,172,211,.12) !important;
-  border-radius:14px !important;
-  background:linear-gradient(110deg,rgba(255,255,255,.025),rgba(102,217,255,.045),rgba(168,85,247,.045)) !important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),inset 0 0 24px rgba(34,211,238,.025) !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .top-notice::after {
-  content:"" !important;
-  position:absolute !important;
-  right:0 !important;
-  top:15% !important;
-  bottom:15% !important;
-  width:2px !important;
-  border-radius:2px !important;
-  background:linear-gradient(180deg,#6ee7f9,#a78bfa,#f0abfc) !important;
-  box-shadow:0 0 12px rgba(103,232,249,.38) !important;
-  opacity:.85 !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .top-notice-track {
-  display:flex !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  width:100% !important;
-  height:100% !important;
-  min-width:0 !important;
-  padding:0 13px 0 6px !important;
-  overflow:hidden !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .top-notice-item {
-  display:block !important;
-  width:100% !important;
-  max-width:100% !important;
-  min-width:0 !important;
-  margin:0 !important;
-  padding:0 !important;
-  overflow:hidden !important;
-  text-overflow:ellipsis !important;
-  white-space:nowrap !important;
-  text-align:right !important;
-  direction:rtl !important;
-  color:#f0f6ff !important;
-  font-size:clamp(10px,2.8vw,13px) !important;
-  line-height:1.55 !important;
-  font-weight:800 !important;
-  letter-spacing:0 !important;
-  text-shadow:0 0 18px rgba(103,232,249,.09) !important;
-  transition:none !important;
-  will-change:transform,opacity,filter !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .top-notice-item.in { animation:qgNewsbar25TextIn .82s cubic-bezier(.16,1,.3,1) both !important; }
-#qgPremiumNewsTicker.qg-newsbar-25 .top-notice-item.out { animation:qgNewsbar25TextOut .24s ease both !important; }
-#qgPremiumNewsTicker.qg-newsbar-25 .live-badge {
-  grid-area:live !important;
-  position:relative !important;
-  inset:auto !important;
-  align-self:center !important;
-  justify-self:stretch !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:7px !important;
-  width:100% !important;
-  min-width:0 !important;
-  height:42px !important;
-  margin:0 !important;
-  padding:0 8px !important;
-  overflow:visible !important;
-  border:1px solid rgba(251,113,133,.36) !important;
-  border-radius:14px !important;
-  background:linear-gradient(135deg,rgba(127,29,45,.35),rgba(49,17,38,.48)) !important;
-  color:#ffd0d8 !important;
-  font-size:10px !important;
-  font-weight:1000 !important;
-  letter-spacing:1.1px !important;
-  opacity:1 !important;
-  transform:none !important;
-  box-shadow:0 0 0 1px rgba(255,255,255,.025),0 4px 16px rgba(244,63,94,.08),inset 0 1px 0 rgba(255,255,255,.07) !important;
-  transition:box-shadow .35s ease,border-color .35s ease,background .35s ease !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .live-badge::before {
-  content:"" !important;
-  position:absolute !important;
-  inset:-4px !important;
-  border:1px solid rgba(251,113,133,.24) !important;
-  border-radius:17px !important;
-  opacity:0 !important;
-  transform:scale(.88) !important;
-  animation:qgNewsbar25LiveRing 2.3s ease-out infinite !important;
-  pointer-events:none !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25 .live-badge i {
-  position:relative !important;
-  display:block !important;
-  width:8px !important;
-  height:8px !important;
-  min-width:8px !important;
-  flex:0 0 8px !important;
-  border-radius:50% !important;
-  background:#ff5d78 !important;
-  box-shadow:0 0 8px #ff5d78,0 0 18px rgba(255,93,120,.72) !important;
-  animation:qgNewsbar25Dot 1.35s ease-in-out infinite !important;
-}
-#qgPremiumNewsTicker.qg-newsbar-25.is-message-alert .top-notice,
-#qgPremiumNewsTicker.qg-newsbar-25.is-settings-alert .top-notice { border-color:rgba(244,114,182,.38) !important; background:linear-gradient(110deg,rgba(244,114,182,.07),rgba(139,92,246,.08)) !important; }
-#qgPremiumNewsTicker.qg-newsbar-25.is-message-alert .live-badge { border-color:rgba(244,114,182,.65) !important; box-shadow:0 0 24px rgba(244,114,182,.15),inset 0 1px 0 rgba(255,255,255,.08) !important; }
-@keyframes qgNewsbar25Sweep { 0%,10%{left:-48%;opacity:0} 22%{opacity:.9} 62%{opacity:.45} 84%,100%{left:125%;opacity:0} }
-@keyframes qgNewsbar25TextIn { 0%{opacity:0;filter:blur(8px);transform:translate3d(0,13px,0) scale(.975);text-shadow:0 0 28px rgba(103,232,249,.38)} 58%{opacity:1;filter:blur(0);transform:translate3d(0,-1px,0) scale(1.006)} 100%{opacity:1;filter:blur(0);transform:translate3d(0,0,0) scale(1);text-shadow:0 0 0 rgba(103,232,249,0)} }
-@keyframes qgNewsbar25TextOut { to{opacity:0;filter:blur(5px);transform:translate3d(0,-9px,0) scale(.985)} }
-@keyframes qgNewsbar25Dot { 0%,100%{opacity:.55;transform:scale(.78)} 50%{opacity:1;transform:scale(1.22)} }
-@keyframes qgNewsbar25LiveRing { 0%{opacity:0;transform:scale(.88)} 24%{opacity:.65} 100%{opacity:0;transform:scale(1.13)} }
-@keyframes qgNewsbar25ThumbFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-1px)} }
-@media(max-width:430px){
- #qgPremiumNewsTicker.qg-newsbar-25{grid-template-columns:46px minmax(0,1fr) 69px !important;gap:7px !important;width:calc(100% - 22px) !important;height:58px !important;min-height:58px !important;margin:10px auto 10px !important;padding:5px 6px !important;border-radius:18px !important}
- #qgPremiumNewsTicker.qg-newsbar-25 .qg-ticker-thumb-slot{width:44px !important;height:44px !important;min-width:44px !important;border-radius:12px !important}
- #qgPremiumNewsTicker.qg-newsbar-25 .live-badge{height:38px !important;gap:5px !important;padding:0 5px !important;font-size:9px !important;letter-spacing:.7px !important;border-radius:12px !important}
- #qgPremiumNewsTicker.qg-newsbar-25 .top-notice-track{padding:0 10px 0 4px !important}
- #qgPremiumNewsTicker.qg-newsbar-25 .top-notice-item{font-size:clamp(9px,2.65vw,11px) !important}
-}
-@media(max-width:340px){
- #qgPremiumNewsTicker.qg-newsbar-25{grid-template-columns:38px minmax(0,1fr) 62px !important;gap:5px !important;width:calc(100% - 16px) !important}
- #qgPremiumNewsTicker.qg-newsbar-25 .qg-ticker-thumb-slot{width:36px !important;height:42px !important;min-width:36px !important}
- #qgPremiumNewsTicker.qg-newsbar-25 .live-badge{font-size:8px !important}
-}
-@media(prefers-reduced-motion:reduce){
- #qgPremiumNewsTicker.qg-newsbar-25::after,
- #qgPremiumNewsTicker.qg-newsbar-25 .qg-ticker-thumb-slot,
- #qgPremiumNewsTicker.qg-newsbar-25 .live-badge::before,
- #qgPremiumNewsTicker.qg-newsbar-25 .live-badge i,
- #qgPremiumNewsTicker.qg-newsbar-25 .top-notice-item.in{animation:none !important}
- #qgPremiumNewsTicker.qg-newsbar-25 .top-notice-item{filter:none !important;transition:none !important}
-}
-</style>
 <style id="qg-newsbar-26-overflow-fix">
 /* Fix the ticker escaping the viewport on mobile: constrain it to the actual viewport. */
 html, body { max-width:100%; overflow-x:hidden !important; }
@@ -10983,57 +10523,6 @@ html, body { max-width:100%; overflow-x:hidden !important; }
 
 
 <!-- QGAMING Newsbar: clean rebuild 2.8 -->
-<style id="qg-newsbar-clean-rebuild-28">
-/* One restrained, modern ticker skin; preserve the existing ticker controller and event hooks. */
-.top-notice-wrap{
-  position:relative!important; box-sizing:border-box!important;
-  display:grid!important; grid-template-columns:minmax(0,1fr) 66px!important;
-  align-items:center!important; gap:8px!important;
-  width:calc(100% - 28px)!important; max-width:760px!important; min-width:0!important;
-  margin:12px auto 14px!important; padding:5px!important;
-  overflow:hidden!important; isolation:isolate!important;
-  border:1px solid rgba(103,220,245,.23)!important; border-radius:19px!important;
-  background:linear-gradient(115deg,rgba(9,17,31,.97),rgba(15,27,45,.96) 60%,rgba(19,23,42,.98))!important;
-  box-shadow:0 8px 26px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.045)!important;
-}
-.top-notice-wrap:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(105deg,transparent 0%,rgba(79,218,241,.055) 48%,transparent 70%);background-size:220% 100%;animation:qgCleanSheen28 9s ease-in-out infinite}
-.top-notice-wrap .top-notice{
-  position:relative!important; box-sizing:border-box!important; width:100%!important; min-width:0!important; max-width:100%!important;
-  height:48px!important; min-height:48px!important; margin:0!important; overflow:hidden!important;
-  display:flex!important; align-items:center!important; justify-content:flex-start!important;
-  border:0!important; border-radius:13px!important; background:rgba(255,255,255,.025)!important;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)!important;
-}
-.top-notice-track{display:flex!important;align-items:center!important;width:100%!important;min-width:0!important;height:100%!important;overflow:hidden!important;padding:0 12px!important;box-sizing:border-box!important;white-space:nowrap!important}
-.top-notice-item{
-  display:block!important; width:100%!important; min-width:0!important; max-width:100%!important;
-  margin:0!important; padding:0!important; overflow:hidden!important; text-overflow:ellipsis!important; white-space:nowrap!important;
-  text-align:right!important; direction:rtl!important; color:#e6f2fb!important;
-  font-size:11px!important; line-height:1.4!important; font-weight:650!important; letter-spacing:0!important;
-  text-shadow:none!important; transform-origin:right center!important;
-}
-.top-notice-item.in{animation:qgCleanTitleIn28 .46s cubic-bezier(.2,.75,.25,1) both!important}
-.top-notice-item.out{animation:qgCleanTitleOut28 .18s ease both!important}
-.top-notice-wrap .live-badge{
-  position:relative!important; inset:auto!important; transform:none!important; opacity:1!important; z-index:2!important; pointer-events:none!important;
-  box-sizing:border-box!important; display:flex!important; align-items:center!important; justify-content:center!important; gap:6px!important;
-  width:66px!important; min-width:66px!important; height:34px!important; padding:0 6px!important;
-  border:1px solid rgba(255,105,137,.27)!important; border-radius:11px!important;
-  background:linear-gradient(145deg,rgba(101,35,58,.42),rgba(42,22,39,.72))!important;
-  color:#ffdce5!important; font-size:10px!important; font-weight:850!important; letter-spacing:.8px!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important; animation:none!important;
-}
-.top-notice-wrap .live-badge i{display:block!important;flex:0 0 6px!important;width:6px!important;height:6px!important;min-width:6px!important;border-radius:50%!important;background:#ff6485!important;box-shadow:0 0 0 3px rgba(255,100,133,.1)!important;animation:qgCleanDot28 2.2s ease-in-out infinite!important}
-/* Neutralize legacy centered/docked layout states that used to push the ticker out of place. */
-.top-notice-wrap.live-centered,.top-notice-wrap.sequence-start,.top-notice-wrap.live-docked{grid-template-columns:minmax(0,1fr) 66px!important;gap:8px!important}
-.top-notice-wrap.live-centered .live-badge,.top-notice-wrap.sequence-start .live-badge,.top-notice-wrap.live-docked .live-badge{position:relative!important;left:auto!important;top:auto!important;opacity:1!important;transform:none!important}
-@keyframes qgCleanTitleIn28{from{opacity:0;transform:translateY(5px);filter:blur(2px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
-@keyframes qgCleanTitleOut28{to{opacity:0;transform:translateY(-3px)}}
-@keyframes qgCleanSheen28{0%,100%{background-position:120% 0;opacity:.45}50%{background-position:-30% 0;opacity:.9}}
-@keyframes qgCleanDot28{0%,100%{opacity:.75}50%{opacity:1;box-shadow:0 0 0 4px rgba(255,100,133,.13)!important}}
-@media(max-width:390px){.top-notice-wrap{width:calc(100% - 24px)!important;grid-template-columns:minmax(0,1fr) 60px!important;gap:6px!important;padding:4px!important;border-radius:16px!important}.top-notice-wrap .top-notice{height:44px!important;min-height:44px!important;border-radius:11px!important}.top-notice-track{padding:0 8px!important}.top-notice-item{font-size:10px!important}.top-notice-wrap .live-badge{width:60px!important;min-width:60px!important;height:31px!important;font-size:9px!important;gap:5px!important}.top-notice-wrap.live-centered,.top-notice-wrap.sequence-start,.top-notice-wrap.live-docked{grid-template-columns:minmax(0,1fr) 60px!important;gap:6px!important}}
-@media(prefers-reduced-motion:reduce){.top-notice-wrap:before,.top-notice-wrap .live-badge i,.top-notice-item.in,.top-notice-item.out{animation:none!important;filter:none!important;transition:none!important}}
-</style>
 
 
 <style id="qg-newsbar-30-css">
@@ -12088,7 +11577,7 @@ function build(){var content=$('qgQHeadContent');if(!content||content.dataset.qg
  var card=content.querySelector('.qg-qhead-profile-card'),root=D.createElement('div');root.id='qgsRoot';root.className='qgs';
  var dr=design||DD,draft={mine:dr.mine,wall:dr.wall,fs:dr.fs,r:dr.r};
  root.innerHTML='<div class="qgs-hero"><div class="qgs-av" data-s="av"></div><div class="qgs-id" data-s="id"></div>'+TICK+'</div>'
- +'<div class="qgs-card"><div class="qgs-row"><span>نسخه</span><b>0.99beta</b></div><div class="qgs-row"><span>پکیج</span><b>com.qgamingnewsweb.orginally</b><button type="button" class="qgs-btn" id="qgsCopyPkg">کپی</button></div></div>'
+ +'<div class="qgs-card"><div class="qgs-row"><span>نسخه QChat</span><b>0.8</b></div><div class="qgs-row"><span>پکیج</span><b>com.qgamingnewsweb.orginally</b><button type="button" class="qgs-btn" id="qgsCopyPkg">کپی</button></div></div>'
  +'<h3 class="qgs-h">تنظیمات عمومی</h3><div class="qgs-card"><div data-s="pub"></div>'+sw('qgsPresence','نمایش وضعیت اتصال به کاربران دیگر','دیگران می‌بینند شما آنلاین هستید یا نه.','presence')+sw('qgsAnim','انیمیشن برنامه','روشن: حرکت‌ها و افکت‌ها فعال هستند.','anim')+'</div>'
  +'<h3 class="qgs-h">شخصی‌سازی ظاهر</h3><div class="qgs-card"><div class="qgs-chatprev" id="qgsPrev"><header><em>🤖</em><span class="qgs-bot">QBot '+TICK+'</span></header><div class="qgs-msgs"><div class="qgs-bub bot"><small>QBot</small>سلام! 👋 ظاهر چت خودت رو از پایین شخصی‌سازی کن.</div><div class="qgs-bub me">عالیه! همین رنگ رو دوست دارم ✨</div></div></div>'
  +'<div class="qgs-ctl"><span>رنگ پیام شما</span><div class="qgs-sws" id="qgsCols">'+COLORS.map(function(c){return '<button type="button" class="qgs-swatch" data-c="'+c+'" style="background:'+c+'" aria-label="رنگ"></button>'}).join('')+'</div></div>'
@@ -13001,7 +12490,7 @@ body{background-color:#07111f}
    });
    document.body.appendChild(layer);
  }
- function boot(){fixNav();addSeasonParticles();}
+ function boot(){fixNav();}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
  window.addEventListener('pageshow',fixNav,{passive:true});
 })();
@@ -13248,10 +12737,10 @@ html.qg-arcade-active .arcade-progress i{transition:none}
 (function(){
  'use strict';
  var D=document,R=D.documentElement,TK='qgaming_app_theme_v1';
- function theme(){try{var t=localStorage.getItem(TK);return t==='black'||t==='white'?t:'season'}catch(e){return 'season'}}
+ function theme(){try{var t=localStorage.getItem(TK);return t==='black'||t==='white'||t==='gta'?t:'season'}catch(e){return 'season'}}
  function applyTheme(t){
   R.setAttribute('data-qg-theme',t);
-  var col=t==='white'?'#ffffff':t==='black'?'#000000':'#07070d';
+  var col=t==='white'?'#ffffff':t==='black'?'#000000':t==='gta'?'#12051f':'#07070d';
   var m=D.querySelector('meta[name="theme-color"]');if(!m){m=D.createElement('meta');m.name='theme-color';D.head.appendChild(m)}m.content=col;
   try{var tg=window.Telegram&&window.Telegram.WebApp;if(tg){tg.setHeaderColor&&tg.setHeaderColor(col);tg.setBackgroundColor&&tg.setBackgroundColor(col)}}catch(e){}
   [].forEach.call(D.querySelectorAll('#qgThemeSec .qgth-opt'),function(b){b.classList.toggle('on',b.dataset.t===t)});
@@ -13263,14 +12752,14 @@ html.qg-arcade-active .arcade-progress i{transition:none}
   sec.innerHTML='<div class="qgs-sec">تم برنامه</div><div class="qgs-group"><div class="qgth-row">'+
    '<button type="button" class="qgth-opt" data-t="black"><span class="qgth-sw b"></span>بلک<span class="qgth-tag"></span></button>'+
    '<button type="button" class="qgth-opt" data-t="white"><span class="qgth-sw w"></span>وایت<span class="qgth-tag"></span></button>'+
-   '<button type="button" class="qgth-opt" data-t="season"><span class="qgth-sw s"></span>تم سیزن<span class="qgth-tag">پیش‌فرض</span></button></div></div>';
+   '<button type="button" class="qgth-opt" data-t="season"><span class="qgth-sw s"></span>تم سیزن<span class="qgth-tag">برفی سبک</span></button><button type="button" class="qgth-opt" data-t="gta"><span class="qgth-sw g"></span>GTA VI<span class="qgth-tag">جدید</span></button></div></div>';
   body.insertBefore(sec,body.firstChild);
   sec.addEventListener('click',function(e){var b=e.target.closest('.qgth-opt');if(b)setTheme(b.dataset.t)});
   applyTheme(theme());
  }
  applyTheme(theme());
  D.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('#qgSettingsButton,#qgSubRow,.qgsub-row-btn'))[60,250,700].forEach(function(ms){setTimeout(ensureThemeUI,ms)})},true);
- setInterval(function(){if(!D.hidden)ensureThemeUI()},1500);
+ setInterval(function(){if(!D.hidden)ensureThemeUI()},5000);
  window.addEventListener('storage',function(e){if(e.key===TK)applyTheme(theme());if(e.key==='qg_chat_design_v1')chatDesign()});
 
  /* chat colour design (device-local) — applied even before the settings script runs */
@@ -14314,7 +13803,7 @@ body.qg-winter-theme .qg-home-hero,body.qg-winter-theme #homeView .card,body.qg-
  'use strict';
  function $(id){return document.getElementById(id)}
  function init(){
-  document.body.classList.add('qg-winter-theme');
+  
   // Trailer Tube remains only as the renamed Gaming Videos destination in the bottom navigation.
   var obsoleteTrailerCard=$('qgGamingVideosHomeCard');if(obsoleteTrailerCard)obsoleteTrailerCard.remove();
   // QChat moves into the bottom navigation; its old home card is removed.
@@ -14491,7 +13980,7 @@ body.qg-winter-theme .qg-home-hero,body.qg-winter-theme #homeView .card,body.qg-
 
 <style id="qg-2026-user-change-pack">
 /* Keep one current live news bar and one current bottom navigation. */
-html body #qgNB{display:grid!important;visibility:visible!important;opacity:1!important}
+html body #qgNB{display:none!important}
 html body #qgPremiumNewsTicker{display:none!important}
 html body .top-notice-wrap{display:none!important}
 html body nav.bottom-nav:not(#bottomNav){display:none!important}
@@ -14647,17 +14136,7 @@ html body{background:radial-gradient(130% 70% at 50% -10%,#16396b 0%,transparent
 #qgSessionReviewOpen,.qg-header-shortcuts,#qgHeaderSessionReview,#qgHeaderAccount{display:none!important}
 #qgSRProfileBtn{display:inline-grid;place-items:center;width:30px;height:30px;margin-inline:6px;border-radius:50%;border:1px solid rgba(160,215,255,.5);background:linear-gradient(145deg,rgba(143,208,255,.28),rgba(255,255,255,.06));color:var(--qg-ice);font-size:15px;line-height:1;cursor:pointer;vertical-align:middle;box-shadow:0 0 12px rgba(143,208,255,.25);padding:0}
 #qgSRProfileBtn:active{transform:scale(.92)}
-/* textured snow: static layered flakes + soft drift */
-body::after{content:"";position:fixed;left:-10%;top:-20%;width:120%;height:140%;pointer-events:none;z-index:1;opacity:.55;
-background-image:radial-gradient(circle,rgba(255,255,255,.95) 0 1.2px,transparent 1.8px),radial-gradient(circle,rgba(220,240,255,.8) 0 .9px,transparent 1.5px),radial-gradient(circle,rgba(255,255,255,.7) 0 2px,transparent 3px);
-background-size:71px 83px,113px 97px,197px 211px;background-position:0 0,31px 47px,73px 19px;animation:qgSnowDrift 38s linear infinite}
-@keyframes qgSnowDrift{to{transform:translate3d(-24px,70px,0)}}
-html[data-qg-net="slow"] body::after,html[data-qg-perf="low"] body::after{animation:none}
-@media(prefers-reduced-motion:reduce){body::after{animation:none}}
-/* frosted cards with snow caps */
 html body #homeView .card,html body .qg-home-hero{position:relative;overflow:hidden;border-radius:var(--qg-r)!important;border:1px solid rgba(190,226,255,.22)!important;background:linear-gradient(155deg,rgba(40,80,140,.38),rgba(12,28,56,.62))!important;box-shadow:0 14px 34px rgba(2,10,28,.45),inset 0 1px 0 rgba(255,255,255,.18)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-html body #homeView .card::before,html body .qg-home-hero::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;pointer-events:none;z-index:2;
-background:radial-gradient(ellipse 22px 9px at 12% 0,#fff 0 60%,transparent 64%),radial-gradient(ellipse 30px 11px at 34% 0,#f2f9ff 0 60%,transparent 64%),radial-gradient(ellipse 20px 8px at 55% 0,#fff 0 60%,transparent 64%),radial-gradient(ellipse 34px 12px at 78% 0,#eef7ff 0 60%,transparent 64%),radial-gradient(ellipse 18px 7px at 94% 0,#fff 0 60%,transparent 64%);opacity:.92}
 html body #homeView .card h3{color:#f2faff!important;letter-spacing:.2px}
 html body #homeView .card .icon{background:linear-gradient(145deg,rgba(143,208,255,.28),rgba(255,255,255,.06))!important;border:1px solid rgba(190,226,255,.3)!important;border-radius:16px!important}
 html body #homeView .card .badge{border-radius:999px!important;background:rgba(143,208,255,.16)!important;border:1px solid rgba(190,226,255,.35)!important;color:var(--qg-ice)!important}
@@ -14686,28 +14165,150 @@ var t=setInterval(function(){if(place()||++tries>80)clearInterval(t)},500);
 D.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#qgSRProfileBtn"))return},true);
 })();
 </script>
-<style id="qg-snow-theme-v1">
-:root{--qg-snow-1:#eaf6ff;--qg-snow-2:#9fd4ff;--qg-snow-glow:rgba(160,215,255,.35)}
-#qgSnowCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:.9}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(120% 60% at 50% -10%,rgba(190,225,255,.16),transparent 60%),linear-gradient(180deg,rgba(150,200,255,.05),transparent 40%)}
-.nav-btn.active,.bottom-nav .active{color:var(--qg-snow-1)!important;text-shadow:0 0 12px var(--qg-snow-glow)}
-.bottom-nav{border-top:1px solid rgba(200,230,255,.22)!important;box-shadow:0 -6px 24px rgba(120,180,255,.12)!important}
-.view .card,.view [class*="card"]{border-color:rgba(200,230,255,.18)!important;box-shadow:0 8px 26px rgba(90,150,230,.10)}
-@media(prefers-reduced-motion:reduce){#qgSnowCanvas{display:none}}
-body[data-qg-graphics="low"] #qgSnowCanvas{display:none}
-</style><script id="qg-snow-theme-v1-js">
-(function(){try{
-if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-var weak=(navigator.hardwareConcurrency||4)<=2||(navigator.deviceMemory||4)<=2;
-var c=document.createElement('canvas');c.id='qgSnowCanvas';c.setAttribute('aria-hidden','true');document.body.appendChild(c);
-var x=c.getContext('2d'),W,H,N=weak?25:(innerWidth<700?45:90),f=[],run=true;
-function rs(){var d=Math.min(devicePixelRatio||1,2);W=c.width=innerWidth*d;H=c.height=innerHeight*d;f.forEach(function(p){p.x=Math.random()*W})}
-rs();addEventListener('resize',rs);
-for(var i=0;i<N;i++)f.push({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*2.2+.8)*(devicePixelRatio>1?1.5:1),s:Math.random()*.7+.3,d:Math.random()*Math.PI*2});
-document.addEventListener('visibilitychange',function(){run=!document.hidden;if(run)tick()});
-function tick(){if(!run)return;x.clearRect(0,0,W,H);x.fillStyle='rgba(235,247,255,.9)';x.beginPath();
-f.forEach(function(p){p.y+=p.s;p.d+=.01;p.x+=Math.sin(p.d)*.4;if(p.y>H+5){p.y=-5;p.x=Math.random()*W}x.moveTo(p.x,p.y);x.arc(p.x,p.y,p.r,0,6.283)});
-x.fill();requestAnimationFrame(tick)}
-tick()}catch(e){}})();
-</script></body>
+
+<style id="qg-final-layer-css">
+/* ==========================================================================
+   QGAMING final layer: single Dynamic Island, light themes, Telegram-style QChat
+   ========================================================================== */
+
+/* ---- 1) Top news: ONLY the Dynamic Island (#qgDI). Old bars stay hidden. ---- */
+html body #qgNB,html body #qgPremiumNewsTicker,html body .top-notice-wrap,html body #topNoticeWrap,
+html body #qgAudioIslandTrigger,html body #qgAudioIslandPanel,html body #qgWinterParticles,html body #qgSnowCanvas{display:none!important}
+
+/* ---- 2) Login page: no Dynamic Island, no music until the user is signed in ---- */
+html:not(.qg-authed) #qgDI,body.qteam-auth-required #qgDI{display:none!important}
+
+/* ---- 3) Performance ---- */
+html body header.header,html body #bottomNav.bottom-nav,html body #chatView .qg-chat-topbar,
+html body #qgLiveConversation .qgl-head,html body #qgLiveConversation .qgl-compose,
+html body .card,html body .qg-news-card,html body .qg-home-hero,html body .qgs-sheet,
+html body #qgDI .qgdi-side,html body #qgDI .qgdi-quick{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+#qgNewsList .qg-news-card{content-visibility:auto;contain-intrinsic-size:auto 340px}
+html.qg-tab-hidden *,html.qg-tab-hidden *::before,html.qg-tab-hidden *::after{animation-play-state:paused!important}
+html[data-qg-graphics="low"] *,html.qg-fps-low *{scroll-behavior:auto!important}
+
+/* ---- 4) Theme: SEASON (snow) rebuilt as one cheap composited layer ---- */
+html[data-qg-theme="season"]{background:#07142b}
+html[data-qg-theme="season"] body{background:transparent!important}
+html[data-qg-theme="season"]::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(130% 70% at 50% -10%,#16396b 0%,transparent 60%),linear-gradient(180deg,#07142b 0%,#0a1c3b 55%,#06101f 100%)}
+html[data-qg-theme="season"]::after{content:"";position:fixed;left:0;right:0;top:-400px;height:calc(100% + 400px);z-index:-1;pointer-events:none;opacity:.55;
+ background-image:radial-gradient(circle,rgba(255,255,255,.95) 0 1.3px,transparent 2px),radial-gradient(circle,rgba(220,240,255,.8) 0 1px,transparent 1.6px),radial-gradient(circle,rgba(255,255,255,.7) 0 2px,transparent 3px);
+ background-size:100px 100px,200px 200px,400px 400px;background-position:0 0,40px 60px,150px 110px;
+ animation:qgSnowLite 34s linear infinite;will-change:transform}
+@keyframes qgSnowLite{to{transform:translate3d(0,400px,0)}}
+html[data-qg-graphics="low"][data-qg-theme="season"]::after,html[data-qg-perf="low"][data-qg-theme="season"]::after,
+html[data-qg-net="slow"][data-qg-theme="season"]::after,html.qg-low-device[data-qg-theme="season"]::after,
+html.qg-fps-low[data-qg-theme="season"]::after,html[data-qg-anim="off"][data-qg-theme="season"]::after{animation:none;will-change:auto}
+html[data-qg-graphics="low"][data-qg-theme="season"]::after{display:none}
+@media(prefers-reduced-motion:reduce){html[data-qg-theme="season"]::after{animation:none}}
+
+/* ---- 5) Theme: GTA VI (Vice City sunset, fully static = zero lag) ---- */
+html[data-qg-theme="gta"]{--qg-gta-pink:#ff4fa3;--qg-gta-orange:#ff9a4a;--qg-gta-cyan:#22e3d4;--qg-gta-deep:#12051f;color-scheme:dark;background:#12051f}
+html[data-qg-theme="gta"] body{background:transparent!important}
+html[data-qg-theme="gta"]::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(circle at 50% 73%,#fff1a8 0 5.5%,#ffc15a 6.5% 12%,#ff7a59 13% 18%,rgba(255,79,163,0) 19%),
+ radial-gradient(70% 38% at 50% 76%,rgba(255,110,90,.5),transparent 72%),
+ linear-gradient(180deg,#12051f 0%,#2b0b4f 33%,#6b1a74 55%,#d73f78 77%,#ff9a4a 100%)}
+html[data-qg-theme="gta"]::after{content:"";position:fixed;left:0;right:0;bottom:0;height:36vh;z-index:-1;pointer-events:none;opacity:.92;
+ background:url("data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 300%22 preserveAspectRatio=%22xMidYMax meet%22%3E%3Cg fill=%22%230b0214%22 fill-opacity=%22.9%22%3E%3Cg transform=%22translate(-30 0)%22%3E%3Cpath d=%22M96 300C100 220 104 160 120 90L128 92C114 160 112 225 112 300Z%22/%3E%3Cpath d=%22M124 90C90 60 50 62 18 88C52 76 88 80 124 90Z%22/%3E%3Cpath d=%22M124 90C100 40 60 22 24 34C64 42 96 62 124 90Z%22/%3E%3Cpath d=%22M124 90C140 45 176 28 196 40C164 46 142 66 124 90Z%22/%3E%3Cpath d=%22M124 90C150 78 186 84 198 112C176 98 150 94 124 90Z%22/%3E%3Cpath d=%22M124 90C112 60 118 30 134 8C132 40 130 62 124 90Z%22/%3E%3Cpath d=%22M124 90C100 100 70 124 62 156C84 126 104 108 124 90Z%22/%3E%3C/g%3E%3Cg transform=%22translate(560 40) scale(-.78 .78)%22%3E%3Cpath d=%22M96 300C100 220 104 160 120 90L128 92C114 160 112 225 112 300Z%22/%3E%3Cpath d=%22M124 90C90 60 50 62 18 88C52 76 88 80 124 90Z%22/%3E%3Cpath d=%22M124 90C100 40 60 22 24 34C64 42 96 62 124 90Z%22/%3E%3Cpath d=%22M124 90C140 45 176 28 196 40C164 46 142 66 124 90Z%22/%3E%3Cpath d=%22M124 90C150 78 186 84 198 112C176 98 150 94 124 90Z%22/%3E%3Cpath d=%22M124 90C112 60 118 30 134 8C132 40 130 62 124 90Z%22/%3E%3Cpath d=%22M124 90C100 100 70 124 62 156C84 126 104 108 124 90Z%22/%3E%3C/g%3E%3Cg transform=%22translate(250 130) scale(.5 .5)%22%3E%3Cpath d=%22M96 300C100 220 104 160 120 90L128 92C114 160 112 225 112 300Z%22/%3E%3Cpath d=%22M124 90C90 60 50 62 18 88C52 76 88 80 124 90Z%22/%3E%3Cpath d=%22M124 90C100 40 60 22 24 34C64 42 96 62 124 90Z%22/%3E%3Cpath d=%22M124 90C140 45 176 28 196 40C164 46 142 66 124 90Z%22/%3E%3Cpath d=%22M124 90C150 78 186 84 198 112C176 98 150 94 124 90Z%22/%3E%3Cpath d=%22M124 90C112 60 118 30 134 8C132 40 130 62 124 90Z%22/%3E%3Cpath d=%22M124 90C100 100 70 124 62 156C84 126 104 108 124 90Z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat-x center bottom/auto 100%}
+html[data-qg-theme="gta"] body :is(.qg-home-hero,.arcade-shell,.qgs-group,.qgs-card,.qgsub-panel,.qg-about-v2-card,.article,.menu-card,.qg-news-card,.card),
+html[data-qg-theme="gta"] body #homeView .card,html[data-qg-theme="gta"] body #homeView .qg-home-hero,
+html[data-qg-theme="gta"] body header.header #accountQuick,html[data-qg-theme="gta"] body .qg-nowruz-chip{
+ background:linear-gradient(155deg,rgba(76,18,108,.76),rgba(28,7,50,.86))!important;border:1px solid rgba(255,79,163,.36)!important;
+ box-shadow:0 10px 26px rgba(12,0,26,.5),inset 0 1px 0 rgba(255,255,255,.1)!important}
+html[data-qg-theme="gta"] body #homeView .qg-home-hero h2{background:linear-gradient(90deg,#ff9a4a,#ff4fa3 55%,#22e3d4);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}
+html[data-qg-theme="gta"] body #homeView .qg-home-kicker{color:#22e3d4!important;letter-spacing:2px}
+html[data-qg-theme="gta"] body #homeView .qg-home-kicker::after{content:"  ·  GTA VI";color:#ff4fa3}
+html[data-qg-theme="gta"] body #homeView .card p{color:#dcbde9!important}
+html[data-qg-theme="gta"] body #homeView .card .icon{background:linear-gradient(145deg,rgba(255,79,163,.32),rgba(255,154,74,.14))!important;border:1px solid rgba(255,154,74,.4)!important}
+html[data-qg-theme="gta"] body #bottomNav.bottom-nav{background:rgba(26,6,48,.95)!important;border:1px solid rgba(255,79,163,.42)!important;box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 18px rgba(255,79,163,.2)!important}
+html[data-qg-theme="gta"] body #bottomNav .nav-btn.active{color:#22e3d4!important;background:linear-gradient(145deg,rgba(255,79,163,.3),rgba(255,154,74,.14))!important}
+html[data-qg-theme="gta"] body #bottomNav .nav-btn.active .nav-glyph{background:rgba(34,227,212,.12)!important;color:#22e3d4!important;border-color:rgba(34,227,212,.5)!important}
+html[data-qg-theme="gta"] #qgThemeSec .qgth-opt.on{border-color:#ff4fa3;background:rgba(255,79,163,.12);box-shadow:0 0 0 1px rgba(255,79,163,.45)}
+#qgThemeSec .qgth-row{grid-template-columns:repeat(4,1fr)!important;gap:6px!important}
+#qgThemeSec .qgth-opt{font-size:10.5px!important}
+#qgThemeSec .qgth-sw.g{background:linear-gradient(180deg,#2b0b4f,#d73f78 62%,#ff9a4a);position:relative}
+#qgThemeSec .qgth-sw.g:after{content:"VI";position:absolute;inset:0;display:grid;place-items:center;font:900 14px/1 system-ui,sans-serif;color:#fff;text-shadow:0 0 6px #ff4fa3}
+
+/* ---- 6) QChat: Telegram look (dark Telegram palette) ---- */
+html body #chatView{--tgc-bg:#0e1621;--tgc-bar:#17212b;--tgc-in:#182533;--tgc-out:#2b5278;--tgc-field:#242f3d;--tgc-line:rgba(255,255,255,.07);--tgc-sub:#708499;--tgc-blue:#2ea6ff}
+html[data-qg-theme="gta"] body #chatView{--tgc-bg:#150727;--tgc-bar:#2a0d4e;--tgc-in:#3a1565;--tgc-out:#a3267a;--tgc-field:#240a42;--tgc-line:rgba(255,79,163,.2);--tgc-sub:#c9a3dc;--tgc-blue:#ff4fa3}
+html body #chatView.qg-qchat-root{background:var(--tgc-bg)!important;color:#fff!important}
+html body #chatView .qg-chat-shell{background:var(--tgc-bg)!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+/* top bar */
+html body #chatView .qg-chat-topbar{background:var(--tgc-bar)!important;border:0!important;border-bottom:1px solid var(--tgc-line)!important;border-radius:0!important;box-shadow:none!important;min-height:56px!important;padding:6px 10px!important;gap:8px!important}
+html body #chatView .qg-chat-topbar:after,html body #chatView .qg-chat-topbar:before{display:none!important}
+html body #chatView .qg-chat-back,html body #chatView .qgl-back,html body #chatView #qgSavedBack{width:40px!important;height:40px!important;border:0!important;background:transparent!important;color:#aab8c5!important;font-size:30px!important;line-height:1!important;box-shadow:none!important}
+html body #chatView .qg-chat-brand-icon{width:34px!important;height:34px!important;border-radius:50%!important;object-fit:cover}
+html body #chatView .qg-chat-title{font-size:19px!important;font-weight:700!important;color:#fff!important;letter-spacing:0!important}
+html body #chatView .qg-chat-subtitle,html body #chatView .qg-autumn-leaf{display:none!important}
+html body #chatView .qg-chat-version{background:rgba(46,166,255,.16)!important;color:#6cc0ff!important;border:0!important;font-size:10.5px!important;padding:3px 8px!important}
+html body #chatView .qg-chat-tools button{background:transparent!important;border:0!important;color:#aab8c5!important;box-shadow:none!important}
+/* chat list */
+html body #chatView .qg-chat-list-home{background:var(--tgc-bg)!important;padding:0 0 96px!important}
+html body #chatView .qg-pinned{margin:0!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+html body #chatView .qg-chat-row{display:flex!important;align-items:center!important;gap:12px!important;width:100%!important;margin:0!important;padding:9px 14px!important;min-height:72px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:start!important;color:#fff!important;position:relative!important;transform:none!important}
+html body #chatView .qg-chat-row::after{content:"";position:absolute;bottom:0;inset-inline-start:80px;inset-inline-end:0;height:1px;background:var(--tgc-line)}
+html body #chatView .qg-chat-row:active{background:rgba(255,255,255,.06)!important}
+html body #chatView .qg-chat-row .qg-chat-avatar{width:54px!important;height:54px!important;flex:0 0 54px!important;border-radius:50%!important;display:grid!important;place-items:center!important;font-size:22px!important;font-weight:700!important;color:#fff!important;border:0!important;box-shadow:none!important;overflow:hidden}
+html body #chatView .qg-chat-row .qg-chat-avatar.saved{background:linear-gradient(180deg,#4fb6ff,#2086e8)!important}
+html body #chatView .qg-chat-row .qg-sys-avatar{background:linear-gradient(135deg,#ffb74d,#ff7043)!important}
+html body #chatView .qg-chat-row-main{flex:1 1 auto!important;min-width:0!important;display:block!important}
+html body #chatView .qg-chat-row-main b{display:flex!important;align-items:center!important;gap:5px!important;font-size:16px!important;font-weight:600!important;color:#fff!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body #chatView .qg-chat-row-main small{display:block!important;margin-top:3px!important;font-size:14px!important;color:var(--tgc-sub)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body #chatView .qg-chat-time{align-self:flex-start!important;margin-top:10px!important;font-size:12px!important;color:var(--tgc-sub)!important}
+html body #chatView .qg-pin-ico{width:15px!important;height:15px!important;fill:var(--tgc-sub)!important;stroke:none!important;opacity:.9}
+html body #chatView .qg-bot-pill{font-style:normal!important;font-size:10px!important;padding:1px 6px!important;border-radius:6px!important;background:rgba(46,166,255,.18)!important;color:#6cc0ff!important}
+/* search */
+html body #chatView .qg-qhead-search-card{margin:8px 12px 4px!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+html body #chatView .qg-qhead-section-title{display:none!important}
+html body #chatView .qg-qhead-search-row{display:flex!important;align-items:center!important;height:40px!important;gap:8px!important;padding:0 14px!important;border-radius:20px!important;background:var(--tgc-field)!important;border:0!important;box-shadow:none!important}
+html body #chatView .qg-qhead-search-row input{flex:1!important;min-width:0!important;height:100%!important;background:transparent!important;border:0!important;outline:0!important;color:#fff!important;font-size:15px!important;box-shadow:none!important}
+html body #chatView .qg-qhead-search-row span,html body #chatView .qg-qhead-search-row button{color:var(--tgc-sub)!important;background:transparent!important;border:0!important;font-size:19px!important;box-shadow:none!important}
+html body #chatView .qg-qhead-status{font-size:12px!important;color:var(--tgc-sub)!important;padding:6px 6px 0!important}
+/* round "new chat" button like Telegram */
+html body #chatView .qg-new-chat-wrap{position:fixed!important;z-index:40!important;inset-inline-end:16px!important;bottom:calc(20px + env(safe-area-inset-bottom,0px))!important;margin:0!important;padding:0!important;width:auto!important;background:transparent!important;border:0!important;box-shadow:none!important}
+html body #chatView #qgNewChatBtn{width:56px!important;height:56px!important;min-width:0!important;padding:0!important;border-radius:50%!important;display:grid!important;place-items:center!important;background:var(--tgc-blue)!important;color:#fff!important;border:0!important;box-shadow:0 6px 18px rgba(0,0,0,.45)!important}
+html body #chatView #qgNewChatBtn>span:not(.qg-plus-glyph){display:none!important}
+html body #chatView #qgNewChatBtn .qg-plus-glyph{font-size:30px!important;line-height:1!important;color:#fff!important}
+/* conversation */
+html body #chatView #qgLiveConversation{background:var(--tgc-bg)!important}
+html body #chatView #qgLiveConversation .qgl-head,html body #chatView .qg-inner-head{background:var(--tgc-bar)!important;border:0!important;border-bottom:1px solid var(--tgc-line)!important;border-radius:0!important;box-shadow:none!important;min-height:56px!important;padding:6px 10px!important;padding-top:calc(6px + env(safe-area-inset-top,0px))!important;gap:10px!important}
+html body #chatView #qgLiveConversation .qgl-head-avatar{width:42px!important;height:42px!important;flex:0 0 42px!important;border-radius:50%!important;font-size:20px!important;border:0!important;box-shadow:none!important}
+html body #chatView #qgLiveConversation .qgl-ident b,html body #chatView .qg-inner-head b{font-size:16px!important;font-weight:600!important;color:#fff!important}
+html body #chatView #qgLiveConversation .qgl-ident small,html body #chatView .qg-inner-head small{font-size:12.5px!important;color:var(--tgc-sub)!important}
+html body #chatView #qgLiveConversation .qgl-peer-status[data-state="online"],html body #chatView #qgLiveConversation .qgl-peer-status[data-state="online"] span{color:#6cc0ff!important}
+html body #chatView #qgLiveConversation .qgl-messages,html body #chatView .qg-saved-body{background:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1.3px) 0 0/26px 26px,var(--tgc-bg)!important;padding:8px 10px 10px!important;gap:2px!important}
+html body #chatView #qgLiveConversation .qgl-message{max-width:100%!important;margin:1px 0!important;gap:0!important}
+html body #chatView #qgLiveConversation .qgl-message-avatar{display:none!important}
+html body #chatView #qgLiveConversation .qgl-message .qgl-message-inner{max-width:min(82%,460px)!important;padding:6px 10px 4px!important;margin:0!important;border:0!important;border-radius:14px 14px 14px 4px!important;background:var(--tgc-in)!important;box-shadow:0 1px 1px rgba(0,0,0,.22)!important;color:#fff!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html body #chatView #qgLiveConversation .qgl-message.mine .qgl-message-inner{background:var(--tgc-out)!important;border-radius:14px 14px 4px 14px!important}
+html body #chatView #qgLiveConversation .qgl-message-body{font-size:15px!important;line-height:1.5!important;color:#fff!important}
+html body #chatView #qgLiveConversation .qgl-message-sender{font-size:13px!important;font-weight:600!important;color:#6ab3f3!important;margin-bottom:1px!important}
+html body #chatView #qgLiveConversation .qgl-message-foot{font-size:11px!important;color:#7a8fa3!important;margin-top:1px!important;justify-content:flex-end!important}
+html body #chatView #qgLiveConversation .qgl-message.mine .qgl-message-foot{color:#8fb7e3!important}
+html body #chatView #qgLiveConversation .qgl-day-separator{align-self:center!important;margin:8px auto!important;padding:3px 12px!important;border-radius:14px!important;background:rgba(10,18,26,.55)!important;color:#fff!important;font-size:12.5px!important;letter-spacing:0!important}
+html body #chatView #qgLiveConversation .qgl-reply-preview{background:var(--tgc-bar)!important;border:0!important;border-top:1px solid var(--tgc-line)!important;border-inline-start:3px solid var(--tgc-blue)!important;border-radius:0!important;color:#fff!important}
+/* composer */
+html body #chatView #qgLiveConversation .qgl-compose,html body #chatView .qg-saved-compose{display:flex!important;align-items:flex-end!important;gap:6px!important;margin:0!important;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))!important;background:var(--tgc-bar)!important;border:0!important;border-top:1px solid var(--tgc-line)!important;border-radius:0!important;box-shadow:none!important}
+html body #chatView #qgLiveConversation .qgl-compose textarea,html body #chatView .qg-saved-compose textarea{flex:1 1 auto!important;min-height:40px!important;max-height:120px!important;padding:9px 14px!important;border:0!important;border-radius:20px!important;background:var(--tgc-field)!important;color:#fff!important;font-size:15.5px!important;outline:0!important;box-shadow:none!important}
+html body #chatView #qgLiveConversation .qgl-attach,html body #chatView .qg-saved-compose .qg-attach{width:40px!important;height:40px!important;flex:0 0 40px!important;border:0!important;border-radius:50%!important;background:transparent!important;color:#7e91a4!important;font-size:26px!important;box-shadow:none!important}
+html body #chatView #qgLiveConversation .qgl-send,html body #chatView .qg-saved-compose .qg-send{flex:0 0 42px!important;width:42px!important;min-width:42px!important;height:42px!important;padding:0!important;border:0!important;border-radius:50%!important;display:grid!important;place-items:center!important;background:var(--tgc-blue)!important;color:#fff!important;box-shadow:none!important}
+html body #chatView #qgLiveConversation .qgl-send span{display:none!important}
+html body #chatView #qgLiveConversation .qgl-send i{font-style:normal!important;font-size:18px!important;line-height:1!important}
+/* saved messages bubbles */
+html body #chatView .qg-saved-msg{background:var(--tgc-out)!important;border:0!important;border-radius:14px 14px 4px 14px!important;color:#fff!important;box-shadow:0 1px 1px rgba(0,0,0,.22)!important;padding:6px 10px 4px!important}
+
+</style>
+<script id="qg-final-layer-js">
+(function(){'use strict';
+ var R=document.documentElement;
+ document.addEventListener('visibilitychange',function(){R.classList.toggle('qg-tab-hidden',document.hidden)});
+ function clean(){['qgWinterParticles','qgSnowCanvas','qgPremiumNewsTicker','topNoticeWrap'].forEach(function(id){var e=document.getElementById(id);if(e&&e.parentNode)e.parentNode.removeChild(e)})}
+ clean();setTimeout(clean,1500);setTimeout(clean,5000);
+})();
+
+</script>
+</body>
 </html>
