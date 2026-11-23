@@ -13834,53 +13834,62 @@ body.qg-winter-theme .qg-home-hero,body.qg-winter-theme #homeView .card,body.qg-
 
 
 <!-- QTEAM ID — unified first-entry login gate -->
-<style id="qteam-id-gate-css">
-#qteamIdGate{position:fixed;inset:0;z-index:1000000;display:grid;place-items:center;overflow-y:auto;padding:22px 14px calc(22px + env(safe-area-inset-bottom));background:radial-gradient(ellipse at 12% 12%,rgba(80,105,255,.20),transparent 38%),radial-gradient(ellipse at 88% 88%,rgba(34,211,238,.13),transparent 35%),rgba(5,8,18,.97);font-family:inherit;color:#f2f6ff}
+<style id="qteam-id-ultra-motion-css">
 #qteamIdGate[hidden]{display:none!important}
-#qteamIdGate:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(rgba(130,160,210,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(130,160,210,.25) 1px,transparent 1px);background-size:34px 34px}
-#qteamIdGate .qti-card{position:relative;width:min(100%,440px);padding:26px 23px 20px;border:1px solid rgba(118,157,210,.28);border-radius:26px;background:linear-gradient(155deg,rgba(21,34,58,.97),rgba(10,18,34,.98));box-shadow:0 26px 90px rgba(0,0,0,.58),0 0 45px rgba(67,217,255,.07);overflow:hidden;animation:qtiEnter .55s cubic-bezier(.2,.8,.2,1) both}
-#qteamIdGate .qti-card:before{content:"";position:absolute;top:0;left:12%;right:12%;height:2px;background:linear-gradient(90deg,transparent,#43d9ff,#8b72ff,transparent);box-shadow:0 0 18px #43d9ff88}
-#qteamIdGate .qti-brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:9px}
-#qteamIdGate .qti-logo{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(140deg,#43d9ff,#796bff);color:#071323;font-size:22px;font-weight:1000;box-shadow:0 7px 24px #43d9ff38}
-#qteamIdGate .qti-brandname{font-size:20px;font-weight:950;letter-spacing:.4px;direction:ltr}
-#qteamIdGate .qti-brandname span{color:#43d9ff}
-#qteamIdGate .qti-tag{font-size:9px;letter-spacing:2px;color:#91a8c9;text-align:center;margin:0 0 15px;direction:ltr}
-#qteamIdGate .qti-ai{min-height:43px;display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 11px;margin:0 0 18px;border:1px solid rgba(67,217,255,.17);border-radius:13px;background:linear-gradient(100deg,rgba(67,217,255,.07),rgba(139,114,255,.09));text-align:center;color:#dcecff;font-size:12px;line-height:1.8}
-#qteamIdGate .qti-ai b{color:#43d9ff;font-size:10px;white-space:nowrap}
-#qteamIdGate .qti-view{display:none;animation:qtiFade .24s ease}
-#qteamIdGate .qti-view.active{display:block}
-#qteamIdGate h1{font-size:21px;text-align:center;margin:8px 0 5px;color:#f4f7ff}
-#qteamIdGate .qti-sub{font-size:12px;line-height:1.9;text-align:center;color:#9eafc9;margin:0 0 20px}
-#qteamIdGate .qti-field{margin:0 0 13px}
-#qteamIdGate label{display:block;margin:0 0 7px;font-size:12px;font-weight:750;color:#d8e4f8}
-#qteamIdGate input{width:100%;height:47px;border:1px solid #2b3e5c;border-radius:12px;background:#091326;color:#f2f6ff;padding:0 13px;font:inherit;font-size:13px;outline:none}
-#qteamIdGate input.ltr{direction:ltr;text-align:left}
-#qteamIdGate input:focus{border-color:#43d9ff;box-shadow:0 0 0 3px #43d9ff18}
-#qteamIdGate .qti-primary,#qteamIdGate .qti-google,#qteamIdGate .qti-secondary{width:100%;min-height:46px;border-radius:12px;font:inherit;font-weight:850;cursor:pointer;transition:transform .18s,filter .18s}
-#qteamIdGate .qti-primary{border:0;background:linear-gradient(100deg,#35c9f3,#8271ff);color:#071323;box-shadow:0 8px 22px #4c9dff2c}
-#qteamIdGate .qti-google{display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid #344765;background:#f5f8ff;color:#18243a}
-#qteamIdGate .qti-google svg{width:19px;height:19px}
-#qteamIdGate .qti-secondary{border:1px solid #344765;background:#14223a;color:#dce9ff}
-#qteamIdGate button:hover{filter:brightness(1.08)}#qteamIdGate button:active{transform:scale(.985)}
-#qteamIdGate .qti-divider{display:flex;align-items:center;gap:12px;color:#71829e;font-size:11px;margin:16px 0}
-#qteamIdGate .qti-divider:before,#qteamIdGate .qti-divider:after{content:"";height:1px;background:#293954;flex:1}
-#qteamIdGate .qti-links{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:13px 0 0}
-#qteamIdGate .qti-link{border:0;background:none;padding:0;color:#43d9ff;font:inherit;font-size:11px;cursor:pointer}
-#qteamIdGate .qti-note{font-size:10px;line-height:1.8;color:#8294b1;text-align:center;margin:13px 0 0}
-#qteamIdGate .qti-message{display:none;margin:10px 0 0;padding:9px 11px;border-radius:9px;font-size:11px;line-height:1.8;background:#18243a;color:#cbd9ee;text-align:center}
-#qteamIdGate .qti-message.show{display:block}
-#qteamIdGate .qti-message.error{color:#ffb0bd;background:#3a1c2b}
-#qteamIdGate .qti-message.success{color:#9af0ce;background:#12352f}
-#qteamIdGate .qti-strength{height:5px;border-radius:9px;background:#26344c;overflow:hidden;margin-top:7px}
-#qteamIdGate .qti-strength i{display:block;height:100%;width:0;background:#ff6b83;transition:width .2s,background .2s}
-#qteamIdGate .qti-footer{text-align:center;color:#647590;font-size:10px;margin-top:18px}
-@keyframes qtiEnter{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
-@keyframes qtiFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media(max-width:380px){#qteamIdGate .qti-card{padding:23px 17px 18px;border-radius:21px}#qteamIdGate .qti-brandname{font-size:18px}}
-@media(prefers-reduced-motion:reduce){#qteamIdGate *,#qteamIdGate *:before{animation:none!important;transition:none!important}}
+#qteamIdGate{--qti-cyan:#65e8ff;--qti-blue:#668cff;--qti-violet:#a58bff;--qti-pink:#f18bea;position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;overflow:auto;overscroll-behavior:contain;padding:26px 15px;background:#070910;color:#f8f9ff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;isolation:isolate}
+#qteamIdGate *{box-sizing:border-box}
+#qteamIdGate .qti-fx{position:fixed;inset:0;width:100%;height:100%;z-index:-2;pointer-events:none}
+#qteamIdGate .qti-backdrop{position:fixed;inset:-20%;z-index:-3;pointer-events:none;background:radial-gradient(ellipse at 15% 20%,rgba(84,75,230,.26),transparent 34%),radial-gradient(ellipse at 85% 30%,rgba(28,190,220,.2),transparent 31%),radial-gradient(ellipse at 50% 100%,rgba(191,75,206,.16),transparent 36%);animation:qtiBackdropDrift 24s ease-in-out infinite alternate;will-change:transform}
+#qteamIdGate .qti-gridveil{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.2;background-image:linear-gradient(rgba(180,205,255,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(180,205,255,.075) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(ellipse at center,#000,transparent 82%)}
+#qteamIdGate .qti-shell{width:min(100%,470px);position:relative;perspective:1000px;animation:qtiEnter .9s cubic-bezier(.16,1,.3,1) both;margin:auto}
+#qteamIdGate .qti-shell:before{content:"";position:absolute;inset:-1px;border-radius:32px;padding:1px;background:conic-gradient(from var(--qti-angle,0deg),rgba(101,232,255,.1),rgba(101,232,255,.85),rgba(165,139,255,.7),rgba(241,139,234,.65),rgba(101,232,255,.1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:qtiBorderSpin 12s linear infinite;opacity:.9}
+#qteamIdGate .qti-card{position:relative;width:100%;max-height:none;overflow:hidden;border:1px solid rgba(255,255,255,.105);border-radius:31px;background:linear-gradient(145deg,rgba(20,24,37,.94),rgba(8,11,19,.97));backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);padding:34px 32px 25px;box-shadow:0 34px 100px rgba(0,0,0,.62),0 0 70px rgba(83,130,255,.08),inset 0 1px 0 rgba(255,255,255,.08);transform:translateZ(0);will-change:transform}
+#qteamIdGate .qti-card:before{content:"";position:absolute;inset:-1px;pointer-events:none;background:radial-gradient(420px circle at var(--qti-mx,50%) var(--qti-my,0%),rgba(100,210,255,.12),transparent 45%);opacity:.95}
+#qteamIdGate .qti-card:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 25%,rgba(255,255,255,.045) 48%,transparent 70%);transform:translate3d(-130%,0,0);animation:qtiShine 7s cubic-bezier(.4,0,.2,1) infinite;will-change:transform}
+#qteamIdGate .qti-topline{height:2px;position:absolute;top:0;left:8%;right:8%;background:linear-gradient(90deg,transparent,var(--qti-cyan),var(--qti-violet),var(--qti-pink),transparent);filter:drop-shadow(0 0 8px rgba(101,232,255,.85));animation:qtiTopPulse 3s ease-in-out infinite}
+#qteamIdGate .qti-brand{position:relative;display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 10px;animation:qtiFadeRise .75s .12s both}
+#qteamIdGate .qti-logo{width:47px;height:47px;display:grid;place-items:center;border-radius:15px;color:#080b13;font-size:24px;font-weight:1000;background:linear-gradient(135deg,#8af1ff,#9caaff 55%,#f2a5f0);box-shadow:0 8px 32px rgba(91,210,255,.28),inset 0 1px 1px rgba(255,255,255,.75);position:relative;isolation:isolate;animation:qtiMarkFloat 4s ease-in-out infinite}
+#qteamIdGate .qti-logo:after{content:"";position:absolute;inset:-6px;border:1px solid rgba(101,232,255,.35);border-radius:19px;animation:qtiMarkRing 3s ease-out infinite;z-index:-1}
+#qteamIdGate .qti-brandname{direction:ltr;font-size:21px;font-weight:950;letter-spacing:.5px;color:#f8f9ff;text-shadow:0 0 25px rgba(101,232,255,.13)}#qteamIdGate .qti-brandname span{color:var(--qti-cyan)}
+#qteamIdGate .qti-tag{width:max-content;max-width:100%;margin:0 auto 14px;padding:6px 12px;border:1px solid rgba(165,139,255,.28);border-radius:999px;color:#c7b9ff;background:linear-gradient(90deg,rgba(112,91,220,.13),rgba(46,160,197,.09));font-size:9px;letter-spacing:1.7px;text-align:center;direction:ltr;box-shadow:0 0 22px rgba(150,120,255,.09);animation:qtiFadeRise .75s .2s both}
+#qteamIdGate .qti-ai{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 0 19px;color:#8e9ab0;font-size:10px;text-align:center}#qteamIdGate .qti-ai b{color:var(--qti-cyan);font-size:9px;letter-spacing:1px}
+#qteamIdGate .qti-view{display:none;position:relative}#qteamIdGate .qti-view.active{display:block;animation:qtiFadeRise .32s both}
+#qteamIdGate h1{color:#f8f9ff;text-align:center;font-size:25px;line-height:1.45;letter-spacing:-.7px;margin:0 0 6px;font-weight:850}
+#qteamIdGate .qti-sub{color:#929bad;text-align:center;font-size:11px;line-height:2;margin:0 0 22px}
+#qteamIdGate .qti-field{margin:0 0 14px}#qteamIdGate .qti-field label{display:flex;align-items:center;justify-content:space-between;margin:0 1px 7px;color:#e0e5f1;font-size:11px;font-weight:750}
+#qteamIdGate input{width:100%;height:52px;border:1px solid rgba(255,255,255,.13);border-radius:14px;background:rgba(5,8,15,.62);color:#f7f8ff;padding:0 14px;font:inherit;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s,transform .2s}
+#qteamIdGate input.ltr{direction:ltr;text-align:left}#qteamIdGate input::placeholder{color:#687387}
+#qteamIdGate input:focus{border-color:rgba(101,232,255,.78);background:rgba(8,16,27,.9);box-shadow:0 0 0 4px rgba(101,232,255,.09),0 0 26px rgba(50,190,230,.1);transform:translateY(-1px)}
+#qteamIdGate button{font:inherit;cursor:pointer}#qteamIdGate .qti-primary,#qteamIdGate .qti-google,#qteamIdGate .qti-secondary{width:100%;min-height:52px;border-radius:14px;font-size:13px;font-weight:900;transition:transform .2s,filter .2s,box-shadow .2s}
+#qteamIdGate .qti-primary{position:relative;isolation:isolate;overflow:hidden;border:0;color:#080b13;background:linear-gradient(105deg,#6deaff 0%,#91b2ff 48%,#dca0f2 100%);background-size:160% 100%;box-shadow:0 10px 32px rgba(101,193,255,.2),inset 0 1px 0 rgba(255,255,255,.65);animation:qtiButtonGradient 7s ease-in-out infinite}
+#qteamIdGate .qti-primary:before{content:"";position:absolute;inset:-80% -40%;background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.58) 50%,transparent 58%);transform:translate3d(-80%,0,0) rotate(10deg);animation:qtiButtonShine 4.5s ease-in-out infinite;will-change:transform}
+#qteamIdGate .qti-primary:hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(101,193,255,.3),0 0 24px rgba(165,139,255,.15);filter:saturate(1.15)}#qteamIdGate .qti-primary:active,#qteamIdGate .qti-google:active{transform:scale(.985)}#qteamIdGate button:disabled{opacity:.62;cursor:wait;transform:none}
+#qteamIdGate .qti-google{display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(110deg,rgba(255,255,255,.055),rgba(255,255,255,.025));color:#f0f2fa;font-weight:750}
+#qteamIdGate .qti-google:hover{background:rgba(255,255,255,.095);border-color:rgba(255,255,255,.32);transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,0,0,.18)}#qteamIdGate .qti-google svg{width:18px;height:18px;flex:none}
+#qteamIdGate .qti-secondary{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#e5edff}
+#qteamIdGate .qti-divider{display:flex;align-items:center;gap:13px;color:#8791a5;font-size:10px;margin:17px 0}#qteamIdGate .qti-divider:before,#qteamIdGate .qti-divider:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18))}
+#qteamIdGate .qti-links{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:13px 0 0}#qteamIdGate .qti-link{border:0;background:none;padding:3px 0;color:var(--qti-cyan);font-size:10px;font-weight:700}
+#qteamIdGate .qti-link:hover{color:#c0f7ff;text-shadow:0 0 12px #65e8ff55}
+#qteamIdGate .qti-note{font-size:10px;line-height:1.85;color:#8294b1;text-align:center;margin:12px 0 0}
+#qteamIdGate .qti-message{display:none;margin:10px 0 0;padding:9px 11px;border:1px solid rgba(255,255,255,.08);border-radius:11px;font-size:10px;line-height:1.8;background:rgba(255,255,255,.055);color:#dbe4f5;text-align:center}
+#qteamIdGate .qti-message.show{display:block;animation:qtiFadeRise .22s both}#qteamIdGate .qti-message.error{color:#ffbdc7;background:rgba(120,35,54,.2);border-color:rgba(255,110,140,.2)}#qteamIdGate .qti-message.success{color:#a8f3d7;background:rgba(24,120,88,.17);border-color:rgba(85,230,170,.2)}
+#qteamIdGate .qti-strength{height:5px;border-radius:9px;background:#26344c;overflow:hidden;margin-top:7px}#qteamIdGate .qti-strength i{display:block;height:100%;width:0;background:#ff6b83;transition:width .2s,background .2s}
+#qteamIdGate .qti-footer{text-align:center;color:#647590;font-size:9px;margin-top:17px;position:relative}
+@keyframes qtiEnter{from{opacity:0;transform:translate3d(0,30px,0) scale(.97);filter:blur(5px)}to{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}}
+@keyframes qtiFadeRise{from{opacity:0;transform:translate3d(0,13px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes qtiBackdropDrift{from{transform:translate3d(-1.5%,0,0) scale(1)}to{transform:translate3d(2%,1.5%,0) scale(1.07)}}@keyframes qtiBorderSpin{to{--qti-angle:360deg}}
+@keyframes qtiShine{0%,66%,100%{transform:translate3d(-130%,0,0)}82%{transform:translate3d(130%,0,0)}}@keyframes qtiTopPulse{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes qtiMarkFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-4px,0)}}@keyframes qtiMarkRing{0%{transform:scale(.92);opacity:.65}100%{transform:scale(1.35);opacity:0}}
+@keyframes qtiButtonGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}@keyframes qtiButtonShine{0%,65%,100%{transform:translate3d(-80%,0,0) rotate(10deg)}82%{transform:translate3d(80%,0,0) rotate(10deg)}}
+@media(max-width:480px){#qteamIdGate{padding:17px 13px}#qteamIdGate .qti-card{padding:29px 21px 23px;border-radius:26px}#qteamIdGate .qti-shell:before{border-radius:27px}#qteamIdGate h1{font-size:23px}}
+@media(max-width:350px){#qteamIdGate .qti-card{padding:24px 16px 20px}#qteamIdGate .qti-brandname{font-size:18px}}
+@media(max-height:650px){#qteamIdGate{place-items:start center}#qteamIdGate .qti-card{padding-top:23px;padding-bottom:18px}#qteamIdGate .qti-ai{margin-bottom:12px}#qteamIdGate .qti-sub{margin-bottom:15px}}
+@media(prefers-reduced-motion:reduce){#qteamIdGate *,#qteamIdGate *:before,#qteamIdGate *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}#qteamIdGate .qti-shell{opacity:1;transform:none}}
 </style>
 <div id="qteamIdGate" hidden role="dialog" aria-modal="true" aria-labelledby="qtiTitle">
- <main class="qti-card">
+ <canvas class="qti-fx" id="qtiFx" aria-hidden="true"></canvas><div class="qti-backdrop"></div><div class="qti-gridveil"></div>
+ <main class="qti-shell"><section class="qti-card">
+  <div class="qti-topline"></div>
   <div class="qti-brand"><div class="qti-logo">Q</div><div class="qti-brandname">Q<span>TEAM</span> ID</div></div>
   <div class="qti-tag">ONE ACCOUNT · ALL QTEAM APPS</div>
   <div class="qti-ai" aria-live="polite"><b>QTEAM AI</b><span id="qtiAiMessage">کیوتیم در اختیار شماست</span></div>
@@ -13923,13 +13932,19 @@ body.qg-winter-theme .qg-home-hero,body.qg-winter-theme #homeView .card,body.qg-
    </form>
   </section>
   <div class="qti-footer">QTeam ID · یک حساب برای همه برنامه‌ها</div>
- </main>
+ </section></main>
 </div>
 <script id="qteam-id-gate-js">
 (function(){
  'use strict';
  var gate=document.getElementById('qteamIdGate'); if(!gate)return;
  var $=function(id){return document.getElementById(id);};
+ // Lightweight animated particle field: pauses when the gate is hidden or tab is inactive.
+ var fx=$('qtiFx'),fxCtx=fx&&fx.getContext?fx.getContext('2d',{alpha:true}):null,fxFrame=0,fxDots=[],fxW=0,fxH=0;
+ function sizeFx(){if(!fx||!fxCtx)return;var dpr=Math.min(window.devicePixelRatio||1,1.5);fxW=window.innerWidth;fxH=window.innerHeight;fx.width=Math.round(fxW*dpr);fx.height=Math.round(fxH*dpr);fxCtx.setTransform(dpr,0,0,dpr,0,0);var count=Math.max(20,Math.min(58,Math.round(fxW/19)));fxDots=Array.from({length:count},function(){return{x:Math.random()*fxW,y:Math.random()*fxH,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:.7+Math.random()*1.25,a:.18+Math.random()*.42};});}
+ function drawFx(){if(!fxCtx||gate.hidden||document.hidden){fxFrame=0;return;}fxCtx.clearRect(0,0,fxW,fxH);for(var i=0;i<fxDots.length;i++){var p=fxDots[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>fxW)p.vx*=-1;if(p.y<0||p.y>fxH)p.vy*=-1;fxCtx.beginPath();fxCtx.arc(p.x,p.y,p.r,0,Math.PI*2);fxCtx.fillStyle='rgba(116,220,255,'+p.a+')';fxCtx.fill();for(var j=i+1;j<fxDots.length;j++){var q=fxDots[j],dx=p.x-q.x,dy=p.y-q.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<105){fxCtx.beginPath();fxCtx.moveTo(p.x,p.y);fxCtx.lineTo(q.x,q.y);fxCtx.strokeStyle='rgba(120,170,255,'+((1-dist/105)*.11)+')';fxCtx.lineWidth=.7;fxCtx.stroke();}}}fxFrame=requestAnimationFrame(drawFx);}
+ function startFx(){if(!fxCtx||fxFrame||window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(!fxW)sizeFx();fxFrame=requestAnimationFrame(drawFx);}
+ if(fxCtx){sizeFx();window.addEventListener('resize',sizeFx,{passive:true});document.addEventListener('visibilitychange',function(){if(document.hidden){if(fxFrame)cancelAnimationFrame(fxFrame);fxFrame=0;}else if(!gate.hidden)startFx();});var motionCard=gate.querySelector('.qti-card');if(motionCard){motionCard.addEventListener('pointermove',function(e){var r=motionCard.getBoundingClientRect();motionCard.style.setProperty('--qti-mx',(e.clientX-r.left)+'px');motionCard.style.setProperty('--qti-my',(e.clientY-r.top)+'px');},{passive:true});}}
  var BASE='https://yrlgrqibhegxhqgvtmfg.supabase.co/functions/v1/';
  var PUBLIC_KEY='sb_publishable_AXyN2rXjENVAqashwR4Wwg_xmTIjFB0';
  var ai=['کیوتیم در اختیار شماست','یک حساب برای همه برنامه‌های QTeam','ورود امن و یکپارچه با QTeam ID'];
@@ -13937,9 +13952,10 @@ body.qg-winter-theme .qg-home-hero,body.qg-winter-theme #homeView .card,body.qg-
  function showMessage(id,text,type){var el=$(id);if(!el)return;el.textContent=text;el.className='qti-message show '+(type||'');}
  function showView(id){gate.querySelectorAll('.qti-view').forEach(function(v){v.classList.toggle('active',v.id===id);});gate.querySelectorAll('.qti-message').forEach(function(m){m.className='qti-message';m.textContent='';});}
  gate.querySelectorAll('[data-qti-show]').forEach(function(b){b.addEventListener('click',function(){showView(b.getAttribute('data-qti-show'));});});
+ var passField=$('qtiLoginPassword');if(passField){var reveal=document.createElement('button');reveal.type='button';reveal.className='qti-link';reveal.textContent='نمایش رمز';reveal.style.marginTop='7px';reveal.setAttribute('aria-label','نمایش یا پنهان کردن رمز عبور');reveal.addEventListener('click',function(){var visible=passField.type==='password';passField.type=visible?'text':'password';reveal.textContent=visible?'پنهان کردن رمز':'نمایش رمز';});var passWrap=passField.parentNode;passWrap.appendChild(reveal); }
  function client(){return window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.getClient?window.QGAMINGOnlineAuth.getClient():window.QGAMING_SUPABASE_AUTH||null;}
  function waitForClient(timeout){return new Promise(function(resolve){var start=Date.now();(function poll(){var c=client();if(c&&c.auth)return resolve(c);if(Date.now()-start>timeout)return resolve(null);setTimeout(poll,150);})();});}
- function openGate(){gate.hidden=false;document.body.classList.add('qteam-auth-required');if(!aiTimer){$('qtiAiMessage').textContent=ai[0];aiTimer=setInterval(function(){aiIndex=(aiIndex+1)%ai.length;$('qtiAiMessage').textContent=ai[aiIndex];},5000);}}
+ function openGate(){gate.hidden=false;document.body.classList.add('qteam-auth-required');startFx();if(!aiTimer){$('qtiAiMessage').textContent=ai[0];aiTimer=setInterval(function(){aiIndex=(aiIndex+1)%ai.length;$('qtiAiMessage').textContent=ai[aiIndex];},5000);}}
  function blockedUsername(name){var n=String(name||'').toLocaleLowerCase().replace(/[\s._-]/g,'');var bad=['کیر','کسکش','کصکش','کونی','جنده','حرومزاده','مادرجنده','fuck','shit','bitch','asshole','motherfucker'];return bad.some(function(t){return n.indexOf(t.replace(/[\s._-]/g,''))!==-1;});}
  function validUsername(name){return /^[\p{L}\p{N}_.-]{3,24}$/u.test(name)&&!blockedUsername(name);}
  function friendlyError(err){var msg=(err&&err.message)||'اتصال به سرویس ورود برقرار نشد.';if(/invalid login credentials/i.test(msg))return 'نام کاربری یا رمز عبور درست نیست.';if(/email not confirmed/i.test(msg))return 'ابتدا ایمیلت را تأیید کن.';if(/already exists|duplicate key|unique constraint/i.test(msg))return 'این نام کاربری قبلاً انتخاب شده است.';return msg;}
