@@ -1803,6 +1803,17 @@ html,body{scroll-behavior:auto!important}
 
 
 
+<style id="qchat-layout-fix-v1">
+/* FIX 1: hidden QChat panes were forced to display:block by the ID/class pane rule, so they still took space in the flex column and squeezed the chat list. */
+#chatView.qg-qchat-root .qg-chat-pane[hidden],
+#chatView.qg-qchat-root #qgChatHome[hidden],
+#chatView.qg-qchat-root #qgSavedPane[hidden],
+#chatView.qg-qchat-root #qgQUpdatePane[hidden],
+#chatView.qg-qchat-root #qgQHeadPane[hidden]{display:none!important;visibility:hidden!important;pointer-events:none!important}
+/* FIX 2: the nav entrance animation ended with transform:none, which cancelled translateX(-50%) and pushed the nav to the right edge. */
+@keyframes qdNavRise{from{opacity:0;transform:translate(-50%,34px) scale(.96)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+#chatView.qg-qchat-root #qgQChatBottomNav{left:50%!important;right:auto!important}
+</style>
 </head>
 <body>
 <div id="app">
@@ -13674,7 +13685,7 @@ body>#chatView.qg-qchat-root.qg-qchat-open{position:fixed!important;inset:0!impo
 
 /* ---- bottom nav (floating pill, design .navbar) ---- */
 #chatView.qg-qchat-root #qgQChatBottomNav{position:absolute!important;z-index:6;bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;left:50%!important;right:auto!important;top:auto!important;transform:translateX(-50%);width:min(320px,calc(100% - 40px))!important;height:auto!important;min-height:0!important;margin:0!important;
-  display:grid!important;grid-template-columns:1fr 1fr!important;padding:6px!important;border-radius:26px!important;background:rgba(20,23,30,.96)!important;border:1px solid rgba(255,255,255,.1)!important;box-shadow:0 18px 40px -12px rgba(0,0,0,.8)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;animation:qdRise .8s var(--qd-ease) 1.8s both}
+  display:grid!important;grid-template-columns:1fr 1fr!important;padding:6px!important;border-radius:26px!important;background:rgba(20,23,30,.96)!important;border:1px solid rgba(255,255,255,.1)!important;box-shadow:0 18px 40px -12px rgba(0,0,0,.8)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;animation:qdNavRise .8s var(--qd-ease) 1.8s both}
 #chatView.qg-qchat-root #qgQChatBottomNav[hidden]{display:none!important}
 #chatView.qg-qchat-root #qgQChatBottomNav .qd-pill{position:absolute;top:6px;bottom:6px;right:6px;width:calc(50% - 6px);border-radius:20px;background:linear-gradient(135deg,rgba(244,163,89,.22),rgba(217,119,53,.12));border:1px solid rgba(244,163,89,.25);transition:transform .45s var(--qd-ease);pointer-events:none}
 #chatView.qg-qchat-root #qgQChatBottomNav:has(#qgQHeadTab.active) .qd-pill{transform:translateX(-100%)}
