@@ -2091,6 +2091,15 @@ html,body{scroll-behavior:auto!important}
   </div>
 </div>
 
+<section id="qgSessPanel" class="qgsp" aria-labelledby="qgSpTitle">
+  <header class="qgsp-head"><span class="qgsp-shield" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.6-3.1 8-7.5 9.5-4.4-1.5-7.5-4.9-7.5-9.5V6L12 3z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/></svg></span>
+    <div class="qgsp-ht"><h3 id="qgSpTitle">نشست‌ها و دستگاه‌های ورودی</h3><small id="qgSpSub">دستگاه‌هایی که با حساب QGAMING وارد شده‌اند</small></div>
+    <span class="qgsp-count" id="qgSpCount" hidden>0</span>
+    <button type="button" class="qgsp-ref" id="qgSpRef" aria-label="بروزرسانی"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg></button></header>
+  <div class="qgsp-body" id="qgSpBody"></div>
+  <footer class="qgsp-foot" id="qgSpFoot" hidden><button type="button" class="qgsp-others" id="qgSpOthers">خروج از همه‌ی دستگاه‌های دیگر</button><p>دستگاهی که خارج شود تا ۶۰ ثانیه اجازه‌ی ورود دوباره ندارد. شناسه‌ی دستگاه در همین مرورگر ذخیره می‌شود؛ پاک کردن داده‌های مرورگر ممکن است شناسه‌ی تازه بسازد.</p></footer>
+</section>
+
 <div class="qg-unified-legacy-holder" aria-hidden="true">
 <div class="qg-profile-card qg-profile-card-redesign" id="qgGuestProfileCard">
   <div class="qg-profile-row">
@@ -12023,16 +12032,16 @@ body{background-color:#07111f}
  const KEY_NAME='qg_device_install_key_v1';
  let currentHash=null, heartbeatTimer=null, busy=false;
  function client(){return window.QGAMING_SUPABASE_AUTH||null;}
- function rawKey(){let k=localStorage.getItem(KEY_NAME);if(!k){k=crypto.randomUUID();localStorage.setItem(KEY_NAME,k);}return k;}
+ function rawKey(){let k=null;try{k=localStorage.getItem(KEY_NAME);}catch(_){}if(!k)k=window.__qgDevKey||null;if(!k){try{k=crypto.randomUUID();}catch(_){k=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(function(x){return x.toString(16).padStart(2,'0')}).join('');}try{localStorage.setItem(KEY_NAME,k);}catch(_){}window.__qgDevKey=k;}return k;}
  async function digest(){if(currentHash)return currentHash;const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(rawKey()));currentHash=Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');return currentHash;}
- function label(){const ua=navigator.userAgent||'';const type=/Android|iPhone|Mobi/i.test(ua)?'موبایل':/iPad|Tablet/i.test(ua)?'تبلت':'دسکتاپ';let browser=/Edg\//.test(ua)?'Edge':/Firefox\//.test(ua)?'Firefox':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'مرورگر';return type+' • '+browser;}
- async function call(action,extra){const c=client();if(!c)throw new Error('کلاینت ورود آماده نیست');const {data,error}=await c.auth.getSession();if(error||!data.session)throw new Error('ابتدا وارد حساب شوید');const h=await digest();const res=await fetch(ENDPOINT,{method:'POST',headers:{'Authorization':'Bearer '+data.session.access_token,'apikey':DB4_PUBLIC_KEY,'Content-Type':'application/json'},body:JSON.stringify(Object.assign({action,device_key_hash:h,device_label:label()},extra||{}))});const body=await res.json().catch(()=>({}));if(!res.ok||!body.ok){const e=new Error(body.code==='DEVICE_COOLDOWN'?'این دستگاه به‌مدت '+(body.retry_after_seconds||60)+' ثانیه اجازه ورود ندارد.':body.code==='SESSION_REVOKED'?'این نشست از دستگاه دیگری خارج شده است.':body.code||'خطا در مدیریت نشست‌ها');e.code=body.code;e.retry=body.retry_after_seconds;throw e;}return body;}
+ function label(){const ua=navigator.userAgent||'';const type=/iPad|Tablet/i.test(ua)?'تبلت':/Android|iPhone|Mobi/i.test(ua)?'موبایل':'دسکتاپ';let browser=/Edg\//.test(ua)?'Edge':/OPR\//.test(ua)?'Opera':/Firefox\//.test(ua)?'Firefox':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':'مرورگر';let os=/Windows/i.test(ua)?'Windows':/Android/i.test(ua)?'Android':/iPhone|iPad|iPod/i.test(ua)?'iOS':/Mac OS X/i.test(ua)?'macOS':/Linux/i.test(ua)?'Linux':'';return type+' • '+browser+(os?' • '+os:'');}
+ async function call(action,extra){const c=client();if(!c)throw new Error('کلاینت ورود آماده نیست');const {data,error}=await c.auth.getSession();if(error||!data.session)throw new Error('ابتدا وارد حساب شوید');const h=await digest();const ctl=typeof AbortController==='function'?new AbortController():null;const to=ctl?setTimeout(function(){ctl.abort();},15000):0;let res;try{res=await fetch(ENDPOINT,{method:'POST',signal:ctl?ctl.signal:undefined,headers:{'Authorization':'Bearer '+data.session.access_token,'apikey':DB4_PUBLIC_KEY,'Content-Type':'application/json'},body:JSON.stringify(Object.assign({action,device_key_hash:h,device_label:label()},extra||{}))});}catch(fe){const ne=new Error(fe&&fe.name==='AbortError'?'پاسخ سرور نشست‌ها دیر رسید؛ دوباره تلاش کن.':'اتصال به سرور نشست‌ها برقرار نشد.');ne.code='NETWORK';throw ne;}finally{if(to)clearTimeout(to);}const body=await res.json().catch(()=>({}));if(!res.ok||!body.ok){const e=new Error(body.code==='DEVICE_COOLDOWN'?'این دستگاه به‌مدت '+(body.retry_after_seconds||60)+' ثانیه اجازه ورود ندارد.':body.code==='SESSION_REVOKED'?'این نشست از دستگاه دیگری خارج شده است.':body.code==='UNAUTHORIZED'?'نشست ورود منقضی شده؛ دوباره وارد شو.':(body.code||('خطای سرور نشست‌ها ('+res.status+')')));e.code=body.code||('HTTP_'+res.status);e.retry=body.retry_after_seconds;throw e;}return body;}
  async function register(){return call('register');}
  async function logoutCurrent(){try{await call('logout_current');}catch(e){if(e.code!=='UNAUTHORIZED'&&e.code!=='SESSION_ID_MISSING')console.warn('[QG Session] logout cooldown:',e.message);}}
  async function heartbeat(){try{await call('heartbeat');return true;}catch(e){if(e.code==='SESSION_REVOKED'||e.code==='DEVICE_COOLDOWN'||e.code==='UNAUTHORIZED'){clearInterval(heartbeatTimer);heartbeatTimer=null;const c=client();if(c)await c.auth.signOut({scope:'local'});const gate=document.getElementById('qteamIdGate');if(gate){gate.hidden=false;document.body.classList.add('qteam-auth-required');const app=document.getElementById('app');if(app){try{app.inert=true;}catch(_){}app.setAttribute('aria-hidden','true');}const st=document.getElementById('qtiLoginMsg');if(st){st.textContent=e.message||'این نشست دیگر فعال نیست؛ دوباره وارد شوید.';st.className='qti-message show error';}}return false;}console.warn('[QG Session] heartbeat unavailable:',e.message);return true;}}
  function startHeartbeat(){clearInterval(heartbeatTimer);heartbeatTimer=setInterval(heartbeat,60000);document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')heartbeat();});}
  function fmt(v){if(!v)return '—';try{return new Date(v).toLocaleString('fa-IR',{dateStyle:'medium',timeStyle:'short'});}catch(_){return v;}}
- function style(){if(document.getElementById('qgSessionReviewCss'))return;const s=document.createElement('style');s.id='qgSessionReviewCss';s.textContent=`#qgSessionReviewOpen{display:inline-flex;align-items:center;gap:7px;margin:5px;padding:10px 13px;border-radius:13px;border:1px solid rgba(139,92,246,.42);background:linear-gradient(135deg,#17152d,#102b3a);color:#e9e7ff;font:inherit;font-size:12px;font-weight:850;cursor:pointer}#qgSessionReviewModal{display:none;position:fixed;inset:0;z-index:2147482000;background:#030712d9;backdrop-filter:blur(9px);padding:14px;align-items:center;justify-content:center;direction:rtl;color:#eff6ff}#qgSessionReviewModal.open{display:flex}#qgSessionReviewModal .qgsr-panel{width:min(100%,620px);max-height:88dvh;overflow:auto;border:1px solid #8b5cf64d;border-radius:22px;background:radial-gradient(ellipse at 90% 0%,#6d28d933,transparent 45%),linear-gradient(150deg,#111b31,#080d19);box-shadow:0 24px 90px #000b;padding:17px}#qgSessionReviewModal .qgsr-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}#qgSessionReviewModal h2{font-size:19px;margin:0}#qgSessionReviewModal .qgsr-sub{font-size:11px;color:#aab8d0;line-height:1.8;margin:7px 0 14px}#qgSessionReviewModal button{font:inherit;cursor:pointer}#qgSessionReviewModal .qgsr-close{width:35px;height:35px;border-radius:11px;border:1px solid #ffffff22;background:#ffffff0c;color:white;font-size:21px}#qgSessionReviewModal .qgsr-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}#qgSessionReviewModal .qgsr-danger{border:1px solid #fb718555;border-radius:12px;background:#7f1d1d44;color:#fecaca;padding:10px 12px;font-size:11px;font-weight:800}#qgSessionReviewModal .qgsr-refresh{border:1px solid #67e8f955;border-radius:12px;background:#164e6344;color:#cffafe;padding:10px 12px;font-size:11px;font-weight:800}#qgSessionReviewModal .qgsr-item{padding:13px;margin:9px 0;border:1px solid #ffffff18;border-radius:15px;background:#ffffff08}#qgSessionReviewModal .qgsr-item.current{border-color:#34d39977;background:#064e3b25}#qgSessionReviewModal .qgsr-row{display:flex;justify-content:space-between;gap:10px;align-items:center}#qgSessionReviewModal .qgsr-name{font-size:13px;font-weight:850}#qgSessionReviewModal .qgsr-meta{font-size:10px;line-height:1.9;color:#a8b7cb;margin-top:7px}#qgSessionReviewModal .qgsr-current{font-size:9px;color:#6ee7b7;border:1px solid #34d39966;border-radius:20px;padding:4px 8px;white-space:nowrap}#qgSessionReviewModal .qgsr-exit{margin-top:9px;padding:8px 11px;border-radius:10px;border:1px solid #fb718555;background:#7f1d1d33;color:#fecaca;font-size:10px;font-weight:800}#qgSessionReviewModal .qgsr-status{font-size:11px;color:#93c5fd;min-height:22px;line-height:1.8}#qgSessionReviewModal .qgsr-empty{padding:22px;text-align:center;color:#aab8d0;font-size:12px}`;document.head.appendChild(s);}
+ function style(){if(document.getElementById('qgSessionReviewCss'))return;const s=document.createElement('style');s.id='qgSessionReviewCss';s.textContent=`#qgSessionReviewOpen{display:inline-flex;align-items:center;gap:7px;margin:5px;padding:10px 13px;border-radius:13px;border:1px solid rgba(139,92,246,.42);background:linear-gradient(135deg,#17152d,#102b3a);color:#e9e7ff;font:inherit;font-size:12px;font-weight:850;cursor:pointer}#qgSessionReviewModal{display:none;position:fixed;inset:0;z-index:2147482000;background:#030712d9;backdrop-filter:blur(9px);padding:14px;align-items:center;justify-content:center;direction:rtl;color:#eff6ff}#qgSessionReviewModal.open{display:flex}#qgSessionReviewModal .qgsr-panel{width:min(100%,620px);max-height:88dvh;overflow:auto;border:1px solid #8b5cf64d;border-radius:22px;background:radial-gradient(ellipse at 90% 0%,#6d28d933,transparent 45%),linear-gradient(150deg,#111b31,#080d19);box-shadow:0 24px 90px #000b;padding:17px}#qgSessionReviewModal .qgsr-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}#qgSessionReviewModal h2{font-size:19px;margin:0}#qgSessionReviewModal .qgsr-sub{font-size:11px;color:#aab8d0;line-height:1.8;margin:7px 0 14px}#qgSessionReviewModal button{font:inherit;cursor:pointer}#qgSessionReviewModal .qgsr-close{width:35px;height:35px;border-radius:11px;border:1px solid #ffffff22;background:#ffffff0c;color:white;font-size:21px}#qgSessionReviewModal .qgsr-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}#qgSessionReviewModal .qgsr-danger{border:1px solid #fb718555;border-radius:12px;background:#7f1d1d44;color:#fecaca;padding:10px 12px;font-size:11px;font-weight:800}#qgSessionReviewModal .qgsr-refresh{border:1px solid #67e8f955;border-radius:12px;background:#164e6344;color:#cffafe;padding:10px 12px;font-size:11px;font-weight:800}#qgSessionReviewModal .qgsr-item{padding:13px;margin:9px 0;border:1px solid #ffffff18;border-radius:15px;background:#ffffff08}#qgSessionReviewModal .qgsr-item.current{border-color:#34d39977;background:#064e3b25}#qgSessionReviewModal .qgsr-row{display:flex;justify-content:space-between;gap:10px;align-items:center}#qgSessionReviewModal .qgsr-name{font-size:13px;font-weight:850}#qgSessionReviewModal .qgsr-meta{white-space:pre-line;font-size:10px;line-height:1.9;color:#a8b7cb;margin-top:7px}#qgSessionReviewModal .qgsr-current{font-size:9px;color:#6ee7b7;border:1px solid #34d39966;border-radius:20px;padding:4px 8px;white-space:nowrap}#qgSessionReviewModal .qgsr-exit{margin-top:9px;padding:8px 11px;border-radius:10px;border:1px solid #fb718555;background:#7f1d1d33;color:#fecaca;font-size:10px;font-weight:800}#qgSessionReviewModal .qgsr-status{font-size:11px;color:#93c5fd;min-height:22px;line-height:1.8}#qgSessionReviewModal .qgsr-empty{padding:22px;text-align:center;color:#aab8d0;font-size:12px}`;document.head.appendChild(s);}
  function buildModal(){style();let m=document.getElementById('qgSessionReviewModal');if(m)return m;m=document.createElement('div');m.id='qgSessionReviewModal';m.innerHTML='<section class="qgsr-panel" role="dialog" aria-modal="true" aria-labelledby="qgsrTitle"><div class="qgsr-head"><h2 id="qgsrTitle">🛡 مدیریت نشست‌ها</h2><button class="qgsr-close" type="button" aria-label="بستن">×</button></div><p class="qgsr-sub">دستگاه‌هایی که به حساب QGAMING متصل‌اند. نشست فعلی با نشان سبز مشخص می‌شود.</p><div class="qgsr-actions"><button class="qgsr-refresh" type="button" data-action="refresh">↻ بروزرسانی</button><button class="qgsr-danger" type="button" data-action="others">خروج از تمام دستگاه‌های دیگر</button></div><div class="qgsr-status" aria-live="polite"></div><div class="qgsr-list"></div><p class="qgsr-sub">محدودیت ورود مجدد برای دستگاه خارج‌شده: ۶۰ ثانیه. شناسه دستگاه در همین مرورگر ذخیره می‌شود؛ پاک‌کردن داده‌های مرورگر ممکن است شناسه تازه‌ای بسازد.</p></section>';document.body.appendChild(m);m.querySelector('.qgsr-close').onclick=()=>m.classList.remove('open');m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});m.querySelector('[data-action="refresh"]').onclick=load;m.querySelector('[data-action="others"]').onclick=async()=>{if(busy)return;if(!confirm('از تمام نشست‌های دیگر این حساب خارج شود؟'))return;busy=true;status('در حال خروج از دستگاه‌های دیگر…');try{const r=await call('revoke_others');status(r.revoked_count+' نشست خارج شد.');await load();}catch(e){status(e.message);}finally{busy=false;}};return m;}
  function status(t){const x=document.querySelector('#qgSessionReviewModal .qgsr-status');if(x)x.textContent=t||'';}
  async function load(){const m=buildModal();status('در حال دریافت فهرست دستگاه‌ها…');const list=m.querySelector('.qgsr-list');list.innerHTML='';try{const r=await call('list');if(!r.sessions.length){list.innerHTML='<div class="qgsr-empty">هنوز دستگاهی ثبت نشده است.</div>';status('');return;}r.sessions.forEach(s=>{const current=s.auth_session_id===r.current_session_id;const el=document.createElement('article');el.className='qgsr-item'+(current?' current':'');const title=document.createElement('div');title.className='qgsr-row';const name=document.createElement('span');name.className='qgsr-name';name.textContent=s.device_label||((s.device_type||'device')+' • '+(s.browser||''));title.appendChild(name);if(current){const tag=document.createElement('span');tag.className='qgsr-current';tag.textContent='دستگاه فعلی';title.appendChild(tag);}else if(s.revoked_at){const tag=document.createElement('span');tag.className='qgsr-current';tag.style.color='#fda4af';tag.textContent='خارج‌شده';title.appendChild(tag);}el.appendChild(title);const meta=document.createElement('div');meta.className='qgsr-meta';meta.textContent='مرورگر: '+(s.browser||'—')+' • سیستم‌عامل: '+(s.operating_system||'—')+'\nاولین ورود: '+fmt(s.first_seen_at)+'\nآخرین فعالیت: '+fmt(s.last_seen_at);el.appendChild(meta);if(!current&&!s.revoked_at){const b=document.createElement('button');b.className='qgsr-exit';b.textContent='خروج از این دستگاه';b.onclick=async()=>{if(busy)return;if(!confirm('این دستگاه از حساب خارج شود؟'))return;busy=true;b.disabled=true;try{await call('revoke',{auth_session_id:s.auth_session_id});status('نشست دستگاه انتخاب‌شده لغو شد؛ محدودیت ۶۰ ثانیه‌ای فعال شد.');await load();}catch(e){status(e.message);b.disabled=false;}finally{busy=false;}};el.appendChild(b);}list.appendChild(el);});status('');}catch(e){status('دریافت نشست‌ها ناموفق بود: '+e.message);}}
@@ -13921,6 +13930,192 @@ function build(){
   paint();
 }
 build();
+})();
+</script>
+<style id="qg-account-redesign-v1">
+/* ===== Account page redesign + sessions panel ===== */
+#accountView{--ac1:#8b5cf6;--ac2:#22d3ee;--acg:rgba(139,92,246,.32);--acl:rgba(255,255,255,.09);--acm:#9aa6bd;--ace:cubic-bezier(.22,1,.36,1);--acs:cubic-bezier(.34,1.56,.64,1)}
+@keyframes qgaRise{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes qgaRing{from{transform:scale(1);opacity:.7}to{transform:scale(2.4);opacity:0}}
+@keyframes qgaShine{0%,55%{transform:translateX(-180%) skewX(18deg)}100%{transform:translateX(320%) skewX(18deg)}}
+@keyframes qgaSpin{to{transform:rotate(360deg)}}
+@keyframes qgaFloat{50%{transform:translateY(-3px)}}
+@keyframes qgaSk{0%{transform:translateX(120%)}100%{transform:translateX(-120%)}}
+html body #accountView.active>*{animation:qgaRise .65s var(--ace) both}
+html body #accountView.active>*:nth-child(2){animation-delay:.07s}html body #accountView.active>*:nth-child(3){animation-delay:.14s}html body #accountView.active>*:nth-child(4){animation-delay:.21s}
+html body #accountView .qg-account-hero{position:relative;overflow:hidden;display:flex!important;align-items:center;gap:14px;padding:18px!important;border-radius:26px!important;border:1px solid var(--acl)!important;background:radial-gradient(90% 140% at 100% 0,var(--acg),transparent 62%),linear-gradient(150deg,rgba(32,38,70,.92),rgba(11,14,28,.96))!important;box-shadow:0 18px 44px -18px #000!important}
+html body #accountView .qg-account-hero::before{content:"";position:absolute;top:0;left:26px;right:26px;height:2px;background:linear-gradient(90deg,transparent,var(--ac2),var(--ac1),transparent);opacity:.9}
+html body #accountView .qg-account-hero-icon{flex:0 0 58px;width:58px;height:58px;border-radius:19px!important;display:grid;place-items:center;font-size:26px;color:#fff;background:linear-gradient(135deg,var(--ac1),var(--ac2))!important;box-shadow:0 12px 30px -8px var(--acg);animation:qgaFloat 4s ease-in-out infinite}
+html body #accountView .qg-account-hero-copy{flex:1;min-width:0}
+html body #accountView .qg-account-kicker{display:block;font-size:10px!important;letter-spacing:2px;font-weight:900;color:var(--ac2)!important}
+html body #accountView .qg-account-hero h2{margin:3px 0 4px!important;font-size:21px!important;font-weight:900}
+html body #accountView .qg-account-hero p{margin:0!important;font-size:11.5px!important;line-height:1.8;color:var(--acm)!important}
+html body #accountView .qg-account-live{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:9.5px;font-weight:900;letter-spacing:1px;color:#a7f3d0;background:rgba(16,185,129,.12);border:1px solid rgba(52,211,153,.3)}
+html body #accountView .qg-account-live i{position:relative;width:7px;height:7px;border-radius:50%;background:#34d399}
+html body #accountView .qg-account-live i::after{content:"";position:absolute;inset:0;border-radius:50%;background:#34d399;animation:qgaRing 2s ease-out infinite}
+
+html body #accountView .qg-unified-guest,html body #accountView .qg-unified-online,html body #accountView .qgsp{position:relative;border-radius:24px!important;border:1px solid var(--acl)!important;background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.02))!important;box-shadow:0 14px 36px -18px #000!important;padding:16px!important;margin:0 0 14px!important}
+html body #accountView .qg-unified-guest::before,html body #accountView .qg-unified-online::before,html body #accountView .qgsp::before{content:"";position:absolute;top:-1px;right:-1px;width:20px;height:20px;border-top:2px solid var(--ac2);border-right:2px solid var(--ac2);border-top-right-radius:24px;pointer-events:none}
+html body #accountView .qg-unified-guest::after,html body #accountView .qg-unified-online::after,html body #accountView .qgsp::after{content:"";position:absolute;bottom:-1px;left:-1px;width:20px;height:20px;border-bottom:2px solid var(--ac1);border-left:2px solid var(--ac1);border-bottom-left-radius:24px;pointer-events:none}
+html body #accountView .qg-unified-head{display:flex!important;align-items:center;gap:12px}
+html body #accountView .qg-unified-avatar{flex:0 0 58px;width:58px;height:58px;border-radius:50%!important;display:grid;place-items:center;font-size:27px;background:linear-gradient(145deg,#1b2342,#0d1226)!important;border:2px solid transparent!important;background-clip:padding-box;box-shadow:0 0 0 2px var(--ac1),0 0 22px -2px var(--acg)}
+html body #accountView .qg-unified-head-main{flex:1;min-width:0}
+html body #accountView .qg-unified-kicker{font-size:10px!important;font-weight:800;color:var(--ac2)!important}
+html body #accountView .qg-unified-name{font-size:17px!important;font-weight:900;margin:2px 0}
+html body #accountView .qg-unified-status{font-size:11px!important;color:var(--acm)!important;line-height:1.7}
+html body #accountView .qg-unified-photo-btn,html body #accountView .qg-unified-online-actions button,html body #accountView .qg-unified-owner-row button,html body #accountView #qgUnifiedCopyGuest{border-radius:13px!important;border:1px solid var(--acl)!important;background:rgba(255,255,255,.06)!important;color:#eef2ff!important;font:inherit;font-size:11.5px!important;font-weight:800;padding:10px 13px!important;cursor:pointer;transition:transform .3s var(--acs),background .25s,border-color .25s}
+html body #accountView .qg-unified-photo-btn:active,html body #accountView .qg-unified-online-actions button:active,html body #accountView .qg-unified-owner-row button:active,html body #accountView #qgUnifiedCopyGuest:active{transform:scale(.92)}
+html body #accountView .qg-unified-guest-id-row{display:flex!important;align-items:center;gap:10px;margin-top:14px!important;padding:10px 12px!important;border-radius:15px!important;background:rgba(0,0,0,.28)!important;border:1px dashed rgba(255,255,255,.14)!important}
+html body #accountView .qg-unified-guest-id-row span{font-size:11px;color:var(--acm)}
+html body #accountView .qg-unified-guest-id-row b{flex:1;min-width:0;direction:ltr;text-align:left;font-size:12.5px;letter-spacing:.5px;overflow-wrap:anywhere;font-family:ui-monospace,Menlo,Consolas,monospace}
+html body #accountView .qg-unified-owner-row{display:flex!important;gap:9px;margin-top:12px!important}
+html body #accountView .qg-unified-owner-row button{flex:1}
+html body #accountView .qg-unified-owner{background:linear-gradient(135deg,rgba(250,204,21,.18),rgba(245,158,11,.08))!important;border-color:rgba(250,204,21,.35)!important;color:#fde68a!important}
+html body #accountView .qg-unified-divider{display:flex!important;align-items:center;gap:12px;margin:6px 4px 14px!important;color:var(--acm)!important;font-size:11px;font-weight:800}
+html body #accountView .qg-unified-divider::before,html body #accountView .qg-unified-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--acl),transparent)}
+html body #accountView .qg-unified-online-head{display:flex!important;align-items:center;gap:12px;margin-bottom:14px}
+html body #accountView .qg-unified-online-head>div{flex:1;min-width:0}
+html body #accountView .qg-unified-online-head b{display:block;font-size:14.5px}
+html body #accountView .qg-unified-online-head small{font-size:11px;color:var(--acm)}
+html body #accountView .qg-online-dot{position:relative;flex:0 0 12px;width:12px;height:12px;border-radius:50%;background:#64748b}
+html body #accountView .qg-online-dot.online{background:#34d399;box-shadow:0 0 14px #34d399}
+html body #accountView .qg-online-dot.online::after{content:"";position:absolute;inset:0;border-radius:50%;background:#34d399;animation:qgaRing 2s ease-out infinite}
+html body #accountView .qg-unified-online-badge{padding:5px 11px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:1px;color:#cbd5e1;background:rgba(148,163,184,.14);border:1px solid rgba(148,163,184,.28)}
+html body #accountView .qg-unified-online-badge.online{color:#a7f3d0;background:rgba(16,185,129,.14);border-color:rgba(52,211,153,.4)}
+html body #accountView .qg-unified-fields{display:grid!important;grid-template-columns:1fr 1fr;gap:9px}
+html body #accountView .qg-unified-field{display:flex!important;flex-direction:column;gap:5px;min-width:0;padding:11px 12px!important;border-radius:15px!important;background:rgba(0,0,0,.26)!important;border:1px solid rgba(255,255,255,.07)!important}
+html body #accountView .qg-unified-field:nth-child(3),html body #accountView .qg-unified-field:nth-child(4){grid-column:1/-1}
+html body #accountView .qg-unified-field>span{font-size:10px;font-weight:800;color:var(--acm)}
+html body #accountView .qg-unified-field b{font-size:12.5px;overflow-wrap:anywhere}
+html body #accountView .qg-unified-field input{width:100%;min-width:0;height:38px;padding:0 11px;border-radius:11px;border:1px solid var(--acl);background:rgba(255,255,255,.04);color:#fff;font:inherit;font-size:16px;outline:0;direction:ltr;text-align:left;transition:border-color .25s,box-shadow .25s}
+html body #accountView .qg-unified-field input:focus{border-color:var(--ac2);box-shadow:0 0 0 4px rgba(34,211,238,.12)}
+html body #accountView .qg-unified-online-actions{display:flex!important;gap:9px;margin-top:12px!important;flex-wrap:wrap}
+html body #accountView .qg-unified-online-actions button{flex:1 1 140px}
+html body #accountView .qg-unified-google{display:inline-flex!important;align-items:center;justify-content:center;gap:9px;background:#fff!important;color:#111827!important;border-color:#fff!important}
+html body #accountView .qg-unified-google>span:first-child{font-weight:900;color:#4285f4}
+html body #accountView #qgUnifiedSaveRecovery{background:linear-gradient(135deg,var(--ac1),var(--ac2))!important;border-color:transparent!important;color:#fff!important}
+html body #accountView .qg-unified-online-note{margin-top:11px!important;font-size:10.5px!important;line-height:1.9;color:var(--acm)!important}
+
+/* sessions panel */
+html body #accountView .qgsp-head{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.qgsp-shield{flex:0 0 44px;width:44px;height:44px;border-radius:15px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--ac1),var(--ac2));box-shadow:0 10px 26px -8px var(--acg)}
+.qgsp-shield svg,.qgsp-ref svg,.qgsp-ico svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.qgsp-shield svg{width:23px;height:23px}
+.qgsp-ht{flex:1;min-width:0}.qgsp-ht h3{margin:0;font-size:15px;font-weight:900}.qgsp-ht small{display:block;margin-top:2px;font-size:10.5px;color:var(--acm);line-height:1.6}
+.qgsp-count{min-width:26px;height:26px;padding:0 8px;border-radius:13px;display:grid;place-items:center;font-size:12px;font-weight:900;color:#06202a;background:linear-gradient(135deg,var(--ac2),#a7f3d0);animation:qgaRise .5s var(--acs) both}
+.qgsp-count[hidden]{display:none}
+.qgsp-ref{flex:0 0 38px;width:38px;height:38px;border-radius:13px;display:grid;place-items:center;border:1px solid var(--acl);background:rgba(255,255,255,.06);color:#e2e8f0;cursor:pointer;transition:transform .3s var(--acs)}
+.qgsp-ref:active{transform:scale(.88)}.qgsp-ref svg{width:19px;height:19px}.qgsp-ref.spin svg{animation:qgaSpin .8s linear infinite}
+.qgsp-card{position:relative;display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;padding:13px;border-radius:19px;background:rgba(0,0,0,.26);border:1px solid rgba(255,255,255,.08);animation:qgaRise .55s var(--ace) both;animation-delay:calc(var(--i,0)*70ms)}
+.qgsp-card.cur{background:linear-gradient(150deg,rgba(16,185,129,.16),rgba(34,211,238,.06));border-color:rgba(52,211,153,.45);box-shadow:0 0 28px -14px #34d399}
+.qgsp-card.rev{opacity:.55}
+.qgsp-ico{position:relative;flex:0 0 46px;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#e0e7ff;background:linear-gradient(145deg,#1d2547,#0e1328);border:1px solid rgba(255,255,255,.1)}
+.qgsp-card.cur .qgsp-ico{color:#a7f3d0;background:linear-gradient(145deg,#0f3b34,#0a1f24);animation:qgaFloat 4s ease-in-out infinite}
+.qgsp-ico svg{width:24px;height:24px}
+.qgsp-ico i{position:absolute;bottom:-2px;left:-2px;width:12px;height:12px;border-radius:50%;border:2px solid #0d1226;background:#64748b}
+.qgsp-ico i.on{background:#34d399}.qgsp-ico i.idle{background:#fbbf24}.qgsp-ico i.off{background:#f87171}
+.qgsp-ico i.on::after{content:"";position:absolute;inset:-2px;border-radius:50%;background:#34d399;animation:qgaRing 2s ease-out infinite}
+.qgsp-main{flex:1;min-width:0}
+.qgsp-name{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:13px;font-weight:900}
+.qgsp-tag{padding:3px 8px;border-radius:999px;font-size:9.5px;font-weight:900;color:#a7f3d0;background:rgba(16,185,129,.16);border:1px solid rgba(52,211,153,.4)}
+.qgsp-tag.rev{color:#fecaca;background:rgba(239,68,68,.14);border-color:rgba(248,113,113,.4)}
+.qgsp-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.qgsp-chip{padding:3px 9px;border-radius:999px;font-size:10px;color:#cbd5e1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.qgsp-meta{display:grid;gap:3px;margin-top:9px;font-size:10.5px;line-height:1.7;color:var(--acm)}
+.qgsp-meta b{color:#e2e8f0;font-weight:700}
+.qgsp-exit{margin-top:11px;padding:8px 13px;border-radius:11px;border:1px solid rgba(248,113,113,.4);background:rgba(127,29,29,.28);color:#fecaca;font:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:transform .3s var(--acs),background .2s}
+.qgsp-exit:active{transform:scale(.93)}.qgsp-exit.arm{background:#b91c1c;color:#fff}.qgsp-exit:disabled{opacity:.5}
+.qgsp-sec{margin:14px 3px 9px;font-size:11px;font-weight:900;color:var(--acm)}
+.qgsp-sk{position:relative;overflow:hidden;height:84px;margin-bottom:10px;border-radius:19px;background:rgba(255,255,255,.05)}
+.qgsp-sk::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent);animation:qgaSk 1.3s linear infinite}
+.qgsp-msg{padding:22px 14px;text-align:center;font-size:12px;line-height:2;color:var(--acm);border-radius:19px;background:rgba(0,0,0,.22);border:1px dashed rgba(255,255,255,.14)}
+.qgsp-msg b{display:block;margin-bottom:4px;font-size:13px;color:#e2e8f0}
+.qgsp-msg.err{color:#fecaca;border-color:rgba(248,113,113,.4)}
+.qgsp-act{margin-top:11px;padding:9px 16px;border-radius:12px;border:1px solid var(--acl);background:linear-gradient(135deg,var(--ac1),var(--ac2));color:#fff;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.qgsp-foot{margin-top:6px}.qgsp-foot[hidden]{display:none}
+.qgsp-others{width:100%;min-height:46px;border-radius:15px;border:1px solid rgba(248,113,113,.45);background:rgba(127,29,29,.3);color:#fecaca;font:inherit;font-size:12.5px;font-weight:900;cursor:pointer;transition:transform .3s var(--acs),background .2s}
+.qgsp-others:active{transform:scale(.97)}.qgsp-others.arm{background:#b91c1c;color:#fff}.qgsp-others:disabled{opacity:.4}
+.qgsp-foot p{margin:10px 3px 0;font-size:10px;line-height:1.9;color:var(--acm)}
+@media(max-width:380px){html body #accountView .qg-unified-fields{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html body #accountView *{animation:none!important;transition-duration:.01ms!important}}
+html[data-qg-anim=off] body #accountView *{animation:none!important}
+</style>
+<script id="qg-session-panel-v1">
+(function(){'use strict';
+var $=function(id){return document.getElementById(id)};
+var panel=$('qgSessPanel');if(!panel)return;
+var body=$('qgSpBody'),foot=$('qgSpFoot'),cnt=$('qgSpCount'),ref=$('qgSpRef'),oth=$('qgSpOthers');
+var busy=false,autoReg=false,last=0,timer=null,armT={};
+var IC={phone:'<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M11 18.5h2"/></svg>',
+ tablet:'<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2.6"/><path d="M11 18h2"/></svg>',
+ desktop:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2.2"/><path d="M8 20h8M12 16v4"/></svg>'};
+function SR(){return window.QGSessionReview||null}
+function nf(n){return Number(n).toLocaleString('fa-IR')}
+function rel(v){var t=v?new Date(v).getTime():NaN;if(isNaN(t))return '—';var m=Math.floor((Date.now()-t)/60000);if(m<1)return 'همین الان';if(m<60)return nf(m)+' دقیقه پیش';var h=Math.floor(m/60);if(h<24)return nf(h)+' ساعت پیش';var d=Math.floor(h/24);if(d<30)return nf(d)+' روز پیش';try{return new Date(v).toLocaleDateString('fa-IR')}catch(e){return '—'}}
+function abs(v){if(!v)return '—';try{return new Date(v).toLocaleString('fa-IR',{dateStyle:'medium',timeStyle:'short'})}catch(e){return String(v)}}
+function kind(s){var t=((s.device_type||'')+' '+(s.device_label||'')+' '+(s.operating_system||'')).toLowerCase();if(/tablet|ipad|تبلت/.test(t))return 'tablet';if(/mobile|phone|android|iphone|ios|موبایل/.test(t))return 'phone';return 'desktop'}
+function state(s){if(s.revoked_at)return 'off';var m=(Date.now()-new Date(s.last_seen_at||0).getTime())/60000;return m<=5?'on':m<=1440?'idle':'off'}
+function e(tag,cls,txt,html){var x=document.createElement(tag);if(cls)x.className=cls;if(txt!=null)x.textContent=txt;if(html)x.innerHTML=html;return x}
+function arm(btn,label,fn){btn.addEventListener('click',function(){if(btn.disabled)return;if(!btn.classList.contains('arm')){btn.classList.add('arm');btn.dataset.t=btn.textContent;btn.textContent='مطمئنی؟ دوباره بزن';clearTimeout(armT[btn.id||btn.dataset.k]);armT[btn.id||btn.dataset.k]=setTimeout(function(){btn.classList.remove('arm');btn.textContent=btn.dataset.t},3200);return}btn.classList.remove('arm');btn.textContent=btn.dataset.t;fn(btn)})}
+function setBody(n){body.textContent='';body.appendChild(n)}
+function msg(title,text,err,btn){var m=e('div','qgsp-msg'+(err?' err':''));m.appendChild(e('b','',title));m.appendChild(document.createTextNode(text));if(btn){var b=e('button','qgsp-act',btn[0]);b.type='button';b.onclick=btn[1];m.appendChild(document.createElement('br'));m.appendChild(b)}return m}
+function skeleton(){var f=document.createDocumentFragment();for(var i=0;i<2;i++)f.appendChild(e('div','qgsp-sk'));body.textContent='';body.appendChild(f);foot.hidden=true;cnt.hidden=true}
+function locked(){foot.hidden=true;cnt.hidden=true;setBody(msg('وارد حساب آنلاین نشده‌ای','برای دیدن نشست‌ها و دستگاه‌های ورودی، اول با Google وارد حساب آنلاین شو.',false,['ورود با Google',function(){var g=$('qgUnifiedGoogleBtn');if(g)g.click()}]))}
+function card(s,cur,i){
+  var st=state(s),c=e('article','qgsp-card'+(cur?' cur':'')+(s.revoked_at?' rev':''));c.style.setProperty('--i',i);
+  var ic=e('div','qgsp-ico',null,IC[kind(s)]);ic.appendChild(e('i',st));c.appendChild(ic);
+  var m=e('div','qgsp-main'),nm=e('div','qgsp-name');
+  nm.appendChild(e('span','',s.device_label||((s.browser||'مرورگر')+' • '+(s.operating_system||'دستگاه'))));
+  if(cur)nm.appendChild(e('span','qgsp-tag','این دستگاه'));else if(s.revoked_at)nm.appendChild(e('span','qgsp-tag rev','خارج‌شده'));
+  m.appendChild(nm);
+  var ch=e('div','qgsp-chips');[s.browser,s.operating_system].forEach(function(x){if(x)ch.appendChild(e('span','qgsp-chip',x))});
+  ch.appendChild(e('span','qgsp-chip',st==='on'?'فعال الان':st==='idle'?'اخیراً فعال':'غیرفعال'));m.appendChild(ch);
+  var mt=e('div','qgsp-meta');
+  mt.appendChild(e('span','',null,'آخرین فعالیت: <b></b>'));mt.firstChild.querySelector('b').textContent=rel(s.last_seen_at);
+  mt.appendChild(e('span','',null,'اولین ورود: <b></b>'));mt.lastChild.querySelector('b').textContent=abs(s.first_seen_at);
+  m.appendChild(mt);
+  if(!cur&&!s.revoked_at){var b=e('button','qgsp-exit','خروج از این دستگاه');b.type='button';b.dataset.k='x'+i;m.appendChild(b);
+    arm(b,'',async function(){if(busy)return;busy=true;b.disabled=true;b.textContent='در حال خروج…';try{await SR().call('revoke',{auth_session_id:s.auth_session_id});}catch(er){b.disabled=false;b.textContent='خروج از این دستگاه';busy=false;setBody(msg('خروج انجام نشد',er.message,true,['تلاش دوباره',function(){load(true)}]));return}busy=false;load(true)})}
+  c.appendChild(m);return c}
+function render(r){
+  var list=(r.sessions||[]).slice(),cur=r.current_session_id;
+  list.sort(function(a,b){var ca=a.auth_session_id===cur?1:0,cb=b.auth_session_id===cur?1:0;if(ca!==cb)return cb-ca;var ra=a.revoked_at?1:0,rb=b.revoked_at?1:0;if(ra!==rb)return ra-rb;return new Date(b.last_seen_at||0)-new Date(a.last_seen_at||0)});
+  var active=list.filter(function(s){return !s.revoked_at});
+  var frag=document.createDocumentFragment(),i=0,others=0;
+  if(!list.length){setBody(msg('هنوز دستگاهی ثبت نشده','بعد از ورود، همین دستگاه این‌جا نمایش داده می‌شود.',false,['بروزرسانی',function(){load(true)}]));foot.hidden=true;cnt.hidden=true;return}
+  list.forEach(function(s){var isCur=s.auth_session_id===cur;if(!isCur&&!s.revoked_at)others++;
+    if(i===1&&!isCur)frag.appendChild(e('div','qgsp-sec','دستگاه‌های دیگر'));
+    if(i===1&&isCur)0;
+    frag.appendChild(card(s,isCur,i++))});
+  if(list.length&&list[0].auth_session_id!==cur)frag.insertBefore(e('div','qgsp-sec','دستگاه‌های ثبت‌شده'),frag.firstChild);
+  body.textContent='';body.appendChild(frag);
+  cnt.textContent=nf(active.length);cnt.hidden=false;foot.hidden=others===0;oth.disabled=others===0;
+  $('qgSpSub').textContent=others?nf(active.length)+' دستگاه فعال به حساب متصل است':'فقط همین دستگاه وارد حساب شده است'}
+async function load(manual){
+  if(busy&&!manual)return;var S=SR();
+  if(!S){setBody(msg('ماژول نشست‌ها آماده نیست','صفحه را یک بار ببند و دوباره باز کن.',true));return}
+  var c=window.QGAMING_SUPABASE_AUTH,sess=null;try{sess=(await c.auth.getSession()).data.session}catch(x){}
+  if(!sess){autoReg=false;locked();return}
+  busy=true;ref.classList.add('spin');if(!body.children.length||body.querySelector('.qgsp-msg'))skeleton();
+  try{
+    var r=await S.call('list'),cur=r.current_session_id;
+    var ok=(r.sessions||[]).some(function(s){return s.auth_session_id===cur&&!s.revoked_at});
+    if(!ok&&!autoReg){autoReg=true;try{await S.register();r=await S.call('list')}catch(x){if(x.code==='DEVICE_COOLDOWN'||x.code==='SESSION_REVOKED')throw x}}
+    render(r);last=Date.now();
+  }catch(er){foot.hidden=true;cnt.hidden=true;setBody(msg('دریافت نشست‌ها ناموفق بود',er.message||'خطای ناشناخته',true,['تلاش دوباره',function(){load(true)}]))}
+  finally{busy=false;ref.classList.remove('spin')}}
+ref.addEventListener('click',function(){load(true)});
+arm(oth,'',async function(b){if(busy)return;busy=true;b.disabled=true;b.textContent='در حال خروج…';try{var r=await SR().call('revoke_others');$('qgSpSub').textContent=nf(r.revoked_count||0)+' نشست خارج شد'}catch(er){busy=false;b.disabled=false;b.textContent='خروج از همه‌ی دستگاه‌های دیگر';setBody(msg('خروج انجام نشد',er.message,true,['تلاش دوباره',function(){load(true)}]));return}busy=false;b.textContent='خروج از همه‌ی دستگاه‌های دیگر';load(true)});
+oth.dataset.k='others';
+/* load when the account page opens, after sign-in/out, and keep fresh while it is open */
+var view=$('accountView');
+function visible(){return view&&view.classList.contains('active')&&!document.hidden}
+if(view)new MutationObserver(function(){if(visible()&&Date.now()-last>15000)load()}).observe(view,{attributes:true,attributeFilter:['class']});
+document.addEventListener('visibilitychange',function(){if(visible()&&Date.now()-last>30000)load()});
+window.addEventListener('qteam-id-authenticated',function(){autoReg=false;setTimeout(function(){load(true)},900)});
+(function bind(n){var c=window.QGAMING_SUPABASE_AUTH;if(c&&c.auth&&c.auth.onAuthStateChange){c.auth.onAuthStateChange(function(ev){if(ev==='SIGNED_OUT'){autoReg=false;locked()}else if(ev==='SIGNED_IN')setTimeout(function(){load(true)},1200)});return}if(n<40)setTimeout(function(){bind(n+1)},400)})(0);
+timer=setInterval(function(){if(visible()&&Date.now()-last>45000)load()},15000);
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){load(true)},1200)},{once:true});else setTimeout(function(){load(true)},1200);
 })();
 </script>
 </body>
