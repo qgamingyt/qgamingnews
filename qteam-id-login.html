@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="no-referrer">
+<title>QTeam ID | ورود امن</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#080a0f;--panel:rgba(18,22,31,.88);--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.18);--text:#eef3fb;--mute:#8994a6;--cyan:#63dcff;--purple:#a98cff;--ok:#76e0ad;--err:#ff8d9d;box-sizing:border-box}
+*,*::before,*:after{box-sizing:inherit}
+html{min-height:100%;background:var(--bg)}
+body{margin:0;min-height:100svh;padding:24px 16px calc(24px + env(safe-area-inset-bottom));display:grid;place-items:center;overflow-x:hidden;background:radial-gradient(55rem 35rem at 10% 0%,rgba(84,95,190,.17),transparent 65%),radial-gradient(48rem 35rem at 100% 100%,rgba(50,191,224,.12),transparent 67%),var(--bg);color:var(--text);font-family:Vazirmatn,system-ui,sans-serif}
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.10;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E")}
+.orb{position:fixed;width:280px;height:280px;border-radius:50%;filter:blur(55px);opacity:.13;pointer-events:none;animation:float 11s ease-in-out infinite alternate}.orb.a{top:-130px;right:-70px;background:#8c6dff}.orb.b{bottom:-150px;left:-65px;background:#32d4f3;animation-delay:-4s}
+@keyframes float{to{transform:translate(35px,45px) scale(1.17)}}
+.card{position:relative;width:min(100%,470px);padding:clamp(22px,5vw,34px);border:1px solid var(--line);border-radius:30px;background:linear-gradient(155deg,rgba(28,33,47,.94),rgba(11,14,21,.96));box-shadow:0 35px 100px rgba(0,0,0,.55),inset 0 1px rgba(255,255,255,.06);overflow:hidden;animation:enter .7s cubic-bezier(.2,.8,.2,1) both}
+.card:before{content:"";position:absolute;inset:0 8% auto;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),var(--purple),transparent);opacity:.8}
+@keyframes enter{from{opacity:0;transform:translateY(18px) scale(.985);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+.brand{display:flex;align-items:center;justify-content:center;gap:13px;margin-bottom:8px}.logo{width:49px;height:49px;display:grid;place-items:center;border-radius:16px;color:#071018;font-size:25px;font-weight:900;background:linear-gradient(140deg,#a7f1ff,#7f8cff 72%);box-shadow:0 9px 30px rgba(92,207,255,.24),inset 0 1px #fff}h1{margin:0;font-size:25px;letter-spacing:.2px;direction:ltr}h1 span{color:var(--cyan)}
+.subtitle{text-align:center;color:var(--mute);font-size:12.5px;margin:0 0 24px}.eyebrow{text-align:center;color:#bac5d6;font-size:12px;letter-spacing:.8px;margin-bottom:7px}h2{text-align:center;font-size:21px;margin:0 0 7px;font-weight:800}.intro{text-align:center;color:var(--mute);font-size:13px;line-height:2;margin:0 auto 22px;max-width:355px}
+.email-card{padding:13px 15px;border:1px solid rgba(99,220,255,.17);border-radius:16px;background:rgba(99,220,255,.055);margin:0 0 18px}.email-label{color:var(--mute);font-size:11px;margin-bottom:4px}.email-value{direction:ltr;text-align:center;word-break:break-all;font-size:14px;font-weight:700;color:#dff8ff}
+.steps{display:grid;gap:9px;margin:0 0 19px}.step{display:flex;gap:10px;align-items:flex-start;color:#aeb9ca;font-size:12px;line-height:1.8}.num{flex:none;width:22px;height:22px;border-radius:8px;display:grid;place-items:center;background:rgba(169,140,255,.13);border:1px solid rgba(169,140,255,.22);color:#d8cbff;font-size:11px;font-weight:800}
+.btn{width:100%;min-height:52px;border:0;border-radius:16px;padding:12px 16px;font:inherit;font-size:14px;font-weight:800;cursor:pointer;transition:transform .18s,filter .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}.btn:active{transform:scale(.985)}.btn:disabled{opacity:.55;cursor:not-allowed}.primary{color:#061018;background:linear-gradient(115deg,#9deeff,#a99aff 85%);box-shadow:0 12px 32px rgba(99,220,255,.17),inset 0 1px rgba(255,255,255,.85)}.secondary{color:#dce5f2;border:1px solid var(--line2);background:rgba(255,255,255,.045)}.google-mark{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:8px;border-radius:7px;background:#fff;color:#4285f4;font:bold 16px Arial;vertical-align:middle}
+.form{display:grid;gap:11px;margin-top:15px}.field label{display:block;color:#c6d0df;font-size:12px;margin:0 3px 7px}.field input{width:100%;height:50px;border:1px solid var(--line2);border-radius:14px;background:rgba(3,7,13,.62);color:var(--text);font:inherit;font-size:14px;padding:0 14px;outline:none;transition:border-color .2s,box-shadow .2s}.field input:focus{border-color:rgba(99,220,255,.65);box-shadow:0 0 0 4px rgba(99,220,255,.09)}.field input[dir=ltr]{text-align:left}.help{font-size:11px;color:var(--mute);line-height:1.8;margin:0 2px}.row{display:flex;gap:9px}.row>*{flex:1}
+.notice{display:none;border:1px solid var(--line);border-radius:15px;padding:12px 14px;margin-top:15px;font-size:12px;line-height:1.9;color:#cbd5e3;background:rgba(255,255,255,.035);overflow-wrap:anywhere}.notice.show{display:block}.notice.ok{border-color:rgba(118,224,173,.28);color:#c5f5dc;background:rgba(70,190,130,.07)}.notice.err{border-color:rgba(255,141,157,.28);color:#ffd0d6;background:rgba(200,70,95,.07)}
+.status{display:none;text-align:center;margin:15px 0 0;color:var(--mute);font-size:11px;min-height:20px}.status.show{display:block}.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.18);border-top-color:var(--cyan);border-radius:50%;vertical-align:-3px;margin-left:7px;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none!important}.foot{text-align:center;color:#647085;font-size:10.5px;margin:21px 0 0;direction:ltr}.security{display:flex;justify-content:center;align-items:center;gap:6px;color:#768397;font-size:10.5px;margin-top:13px}.security svg{width:14px;height:14px;stroke:var(--ok);fill:none;stroke-width:1.8}
+@media(max-width:380px){body{padding-inline:11px}.card{border-radius:24px;padding:22px 17px}.brand{gap:10px}h1{font-size:23px}.row{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*,*::before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="grain"></div><div class="orb a"></div><div class="orb b"></div>
+<main class="card">
+  <header class="brand"><div class="logo">Q</div><h1>QTeam <span>ID</span></h1></header>
+  <p class="subtitle">یک هویت امن برای سرویس‌های QTeam</p>
+  <div id="introView">
+    <div class="eyebrow">SECURE TELEGRAM PANEL ACCESS</div>
+    <h2>ورود امن به پنل QGAMING</h2>
+    <p class="intro">ایمیلت را در بات وارد کرده‌ای. حالا با همان حساب Google تأییدش کن تا حساب QGAMING به تلگرام متصل شود و پنلت خودکار باز شود.</p>
+    <div class="email-card"><div class="email-label">ایمیل واردشده در بات</div><div class="email-value" id="emailValue">در حال بررسی…</div></div>
+    <div class="steps">
+      <div class="step"><span class="num">۱</span><span>روی دکمه ورود با Google بزن و همان ایمیلی را انتخاب کن که در بات وارد کرده‌ای.</span></div>
+      <div class="step"><span class="num">۲</span><span>اگر اولین بار است، یک رمز QTeam ID تعریف کن. اگر قبلاً رمز داشتی و یادت نیست، از همین صفحه رمز تازه ثبت کن.</span></div>
+      <div class="step"><span class="num">۳</span><span>پس از تأیید، اتصال ذخیره می‌شود و به گفت‌وگوی بات برمی‌گردی؛ پنل به‌صورت خودکار باز خواهد شد.</span></div>
+    </div>
+    <button class="btn primary" id="googleBtn" disabled><span class="google-mark">G</span> ورود و تأیید با Google</button>
+  </div>
+
+  <section id="accountView" class="hidden">
+    <div class="eyebrow">GOOGLE ACCOUNT VERIFIED</div>
+    <h2 id="accountHeading">حساب Google تأیید شد</h2>
+    <p class="intro" id="accountIntro">حساب شما تأیید شد.</p>
+    <div class="email-card"><div class="email-label">حساب متصل‌شده</div><div class="email-value" id="verifiedEmail">—</div></div>
+    <div id="newPasswordArea" class="hidden">
+      <p class="help" id="passwordReason">برای فعال‌کردن QTeam ID یک رمز تعریف کن. این رمز حداقل ۸ نویسه دارد.</p>
+      <form id="passwordForm" class="form" autocomplete="new-password">
+        <div class="field"><label for="password1">رمز جدید</label><input id="password1" type="password" dir="ltr" minlength="8" maxlength="128" autocomplete="new-password" placeholder="حداقل ۸ نویسه" required></div>
+        <div class="field"><label for="password2">تکرار رمز جدید</label><input id="password2" type="password" dir="ltr" minlength="8" maxlength="128" autocomplete="new-password" placeholder="رمز را دوباره وارد کن" required></div>
+        <button class="btn primary" id="savePasswordBtn" type="submit">ذخیره رمز و اتصال به بات</button>
+      </form>
+    </div>
+    <div id="readyArea" class="hidden">
+      <button class="btn primary" id="continueBtn">تأیید اتصال و بازگشت به بات</button>
+      <button class="btn secondary" id="changePasswordBtn" style="margin-top:10px">رمز را فراموش کرده‌ام / تغییر رمز</button>
+    </div>
+  </section>
+
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+  <div id="status" class="status"></div>
+  <div class="security"><svg viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg> اتصال رمزگذاری‌شده · لینک یک‌بارمصرف · اعتبار ۱۰ دقیقه</div>
+  <p class="foot">© 2026 QGAMING · QTEAM ID</p>
+</main>
+
+<script type="module">
+const DB1_URL = "https://yrlgrqibhegxhqgvtmfg.supabase.co";
+const DB1_KEY = "sb_publishable_AXyN2rXjENVAqashwR4Wwg_xmTIjFB0";
+const DB5_URL = "https://jagrhocnootguqgzhyol.supabase.co";
+const DB5_KEY = "sb_publishable_TbqgNrybqPaB0ruz4C6CNg_ROaOsDIW";
+const HANDOFF_KEY = "qteam_id_telegram_handoff_v1";
+const $ = (id) => document.getElementById(id);
+let supabase = null;
+let activeSession = null;
+let accountStatus = null;
+let busy = false;
+let completed = false;
+let prechecked = false;
+
+function notice(message, kind = "") {
+  const el = $("notice");
+  el.textContent = message;
+  el.className = "notice show" + (kind ? " " + kind : "");
+}
+function setStatus(message = "", loading = false) {
+  const el = $("status");
+  el.textContent = "";
+  if (!message) { el.classList.remove("show"); return; }
+  el.classList.add("show");
+  if (loading) {
+    const spin = document.createElement("span");
+    spin.className = "spinner";
+    el.appendChild(spin);
+  }
+  el.appendChild(document.createTextNode(message));
+}
+function showView(which) {
+  $("introView").classList.toggle("hidden", which !== "intro");
+  $("accountView").classList.toggle("hidden", which !== "account");
+}
+function getHandoff() {
+  const url = new URL(window.location.href);
+  const challenge = url.searchParams.get("challenge");
+  const email = (url.searchParams.get("email") || "").trim().toLowerCase();
+  if (challenge && email) {
+    const value = { challenge, email, createdAt: Date.now() };
+    try { sessionStorage.setItem(HANDOFF_KEY, JSON.stringify(value)); } catch {}
+    // Remove the bearer challenge from the visible URL/history before OAuth starts.
+    window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
+    return value;
+  }
+  try {
+    const value = JSON.parse(sessionStorage.getItem(HANDOFF_KEY) || "null");
+    if (value && typeof value.challenge === "string" && typeof value.email === "string" &&
+        Date.now() - Number(value.createdAt || 0) < 10 * 60 * 1000) return value;
+  } catch {}
+  return null;
+}
+const handoff = getHandoff();
+if (handoff) $("emailValue").textContent = handoff.email;
+else {
+  $("emailValue").textContent = "لینک معتبر از بات دریافت نشده";
+  $("googleBtn").disabled = true;
+  notice("برای ورود، ابتدا در گفت‌وگوی بات دستور /panel را بزن و لینک اختصاصی QTeam ID را باز کن.", "err");
+}
+
+async function loadSupabase() {
+  let createClient;
+  try {
+    ({ createClient } = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"));
+  } catch (e) {
+    ({ createClient } = await import("https://esm.sh/@supabase/supabase-js@2"));
+  }
+  supabase = createClient(DB1_URL, DB1_KEY, {
+    auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true, flowType: "pkce" }
+  });
+}
+function isGoogleSession(session) {
+  const user = session?.user;
+  const providers = Array.isArray(user?.app_metadata?.providers) ? user.app_metadata.providers : [];
+  const identities = Array.isArray(user?.identities) ? user.identities : [];
+  return user?.app_metadata?.provider === "google" || providers.includes("google") ||
+    identities.some((identity) => identity?.provider === "google");
+}
+async function precheckExistingAccount() {
+  if (!handoff) return;
+  $("googleBtn").disabled = true;
+  setStatus("در حال بررسی اینکه ایمیل متعلق به حساب موجود QGAMING باشد…", true);
+  try {
+    const response = await fetch(DB1_URL + "/functions/v1/qteam-email-precheck", {
+      method: "POST",
+      headers: { apikey: DB1_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ challenge: handoff.challenge, email: handoff.email })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || data.ok !== true || data.existingAccount !== true) {
+      throw new Error(data.error || "این ایمیل به حساب موجود QGAMING متصل نیست.");
+    }
+    prechecked = true;
+    $("googleBtn").disabled = false;
+    notice("حساب موجود پیدا شد. حالا با همان ایمیل، ورود Google را انجام بده.", "ok");
+    setStatus("");
+  } catch (error) {
+    prechecked = false;
+    $("googleBtn").disabled = true;
+    setStatus("");
+    notice(error?.message || "بررسی حساب انجام نشد. از بات لینک تازه بگیر.", "err");
+  }
+}
+
+async function callPasswordApi(session, payload) {
+  const response = await fetch(DB1_URL + "/functions/v1/qteam-password", {
+    method: "POST",
+    headers: {
+      apikey: DB1_KEY,
+      Authorization: "Bearer " + session.access_token,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.ok !== true) throw new Error(data.error || "بررسی رمز QTeam ID انجام نشد.");
+  return data;
+}
+async function callTelegramLink(session) {
+  const response = await fetch(DB5_URL + "/functions/v1/qteam-telegram-auth", {
+    method: "POST",
+    headers: {
+      apikey: DB5_KEY,
+      Authorization: "Bearer " + session.access_token,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      challenge: handoff.challenge,
+      refresh_token: session.refresh_token,
+      expires_in: session.expires_in || 3600
+    })
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.ok !== true || data.linked !== true) throw new Error(data.error || "اتصال حساب به بات انجام نشد.");
+  return data;
+}
+async function processSession(session) {
+  if (busy || completed || !prechecked || !session?.access_token || !handoff) return;
+  busy = true;
+  activeSession = session;
+  setStatus("در حال بررسی هویت و حساب QGAMING…", true);
+  try {
+    const userEmail = String(session.user?.email || "").toLowerCase();
+    if (!isGoogleSession(session)) throw new Error("ورود باید با حساب Google انجام شود.");
+    if (userEmail !== handoff.email) {
+      showView("intro");
+      setStatus("");
+      notice("ایمیل Google انتخاب‌شده با ایمیلی که در بات وارد کردی یکی نیست. با حساب درست وارد شو.", "err");
+      return;
+    }
+    const status = await callPasswordApi(session, { action: "status" });
+    if (String(status.email || "").toLowerCase() !== handoff.email) throw new Error("ایمیل تأییدشده با درخواست بات مطابقت ندارد.");
+    accountStatus = status;
+    $("verifiedEmail").textContent = status.email;
+    if (status.passwordConfigured) {
+      $("accountHeading").textContent = "حساب Google تأیید شد";
+      $("accountIntro").textContent = "رمز QTeam ID قبلاً تعریف شده است. برای ورود به بات می‌توانی ادامه بدهی یا در صورت فراموشی، رمز تازه ثبت کنی.";
+      $("readyArea").classList.remove("hidden");
+      $("newPasswordArea").classList.add("hidden");
+    } else {
+      $("accountHeading").textContent = "یک رمز برای QTeam ID تعریف کن";
+      $("accountIntro").textContent = "ایمیل Google و حساب QGAMING تأیید شد. برای فعال‌شدن ورود یکپارچه، رمز خودت را یک‌بار ثبت کن.";
+      $("passwordReason").textContent = "این اولین رمز QTeam ID است. حداقل ۸ نویسه انتخاب کن و آن را در جای امن نگه دار.";
+      $("newPasswordArea").classList.remove("hidden");
+      $("readyArea").classList.add("hidden");
+    }
+    showView("account");
+    notice("هویت Google با موفقیت تأیید شد.", "ok");
+    setStatus("");
+  } catch (error) {
+    showView("intro");
+    setStatus("");
+    notice(error?.message || "تأیید حساب انجام نشد.", "err");
+  } finally {
+    busy = false;
+  }
+}
+async function startGoogle() {
+  if (!handoff || !prechecked || busy) return;
+  busy = true;
+  $("googleBtn").disabled = true;
+  notice("در حال انتقال امن به Google…");
+  setStatus("پنجره تأیید Google باز می‌شود.", true);
+  try {
+    const redirectTo = window.location.origin + window.location.pathname;
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo, queryParams: { access_type: "offline", prompt: "select_account" } }
+    });
+    if (error) throw error;
+  } catch (error) {
+    notice(error?.message || "شروع ورود Google ناموفق بود.", "err");
+    setStatus("");
+    $("googleBtn").disabled = false;
+    busy = false;
+  }
+}
+async function savePassword(event) {
+  event.preventDefault();
+  if (!activeSession || busy) return;
+  const password = $("password1").value;
+  const confirmation = $("password2").value;
+  if (password.length < 8 || password.length > 128) {
+    notice("رمز باید حداقل ۸ و حداکثر ۱۲۸ نویسه باشد.", "err"); return;
+  }
+  if (password !== confirmation) { notice("تکرار رمز با رمز اصلی یکسان نیست.", "err"); return; }
+  busy = true;
+  $("savePasswordBtn").disabled = true;
+  let passwordSaved = false;
+  setStatus("در حال ذخیره امن رمز QTeam ID…", true);
+  try {
+    await callPasswordApi(activeSession, { action: "set", password });
+    passwordSaved = true;
+    accountStatus = { ...(accountStatus || {}), passwordConfigured: true };
+    $("password1").value = "";
+    $("password2").value = "";
+    await finishLink();
+  } catch (error) {
+    if (passwordSaved) {
+      $("newPasswordArea").classList.add("hidden");
+      $("readyArea").classList.remove("hidden");
+      $("accountHeading").textContent = "رمز ثبت شد؛ اتصال تلگرام باقی مانده";
+      $("accountIntro").textContent = "رمز QTeam ID ذخیره شده است. برای اتصال، می‌توانی یک‌بار دیگر ادامه بدهی؛ اگر لینک منقضی شده، در بات /panel را دوباره بزن و لینک تازه بگیر.";
+      notice(error?.message || "رمز ثبت شد، اما اتصال به تلگرام کامل نشد. از بات لینک تازه بگیر.", "err");
+    } else {
+      notice(error?.message || "ثبت رمز انجام نشد.", "err");
+    }
+    setStatus("");
+  } finally {
+    busy = false;
+    $("savePasswordBtn").disabled = false;
+  }
+}
+async function finishLink() {
+  if (!activeSession || !handoff) throw new Error("نشست Google یا لینک ورود معتبر نیست.");
+  setStatus("در حال تأیید لینک یک‌بارمصرف و ذخیره اتصال تلگرام…", true);
+  const result = await callTelegramLink(activeSession);
+  completed = true;
+  try { sessionStorage.removeItem(HANDOFF_KEY); } catch {}
+  notice("✅ حساب QGAMING به بات متصل شد. در حال بازگشت به تلگرام…", "ok");
+  setStatus("اگر تلگرام خودکار باز نشد، دکمه بازگشت را بزن.");
+  const url = result.telegram_url;
+  if (url) {
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "btn primary";
+    back.style.marginTop = "14px";
+    back.textContent = "باز کردن بات و نمایش پنل";
+    back.addEventListener("click", () => window.location.assign(url));
+    $("accountView").appendChild(back);
+    setTimeout(() => window.location.assign(url), 1300);
+  } else {
+    notice("اتصال انجام شد؛ اما آدرس برگشت تلگرام دریافت نشد. بات را باز کن و /panel را بفرست.", "ok");
+  }
+}
+async function continueToBot() {
+  if (!activeSession || busy) return;
+  busy = true;
+  $("continueBtn").disabled = true;
+  try { await finishLink(); }
+  catch (error) {
+    completed = false;
+    notice(error?.message || "اتصال تلگرام انجام نشد.", "err");
+    setStatus("");
+  } finally {
+    busy = false;
+    if (!completed) $("continueBtn").disabled = false;
+  }
+}
+function showResetForm() {
+  $("readyArea").classList.add("hidden");
+  $("newPasswordArea").classList.remove("hidden");
+  $("passwordReason").textContent = "پس از تأیید Google می‌توانی رمز جدید تعریف کنی؛ رمز قبلی جایگزین می‌شود.";
+  $("password1").value = "";
+  $("password2").value = "";
+  $("password1").focus();
+}
+
+$("googleBtn").addEventListener("click", startGoogle);
+$("passwordForm").addEventListener("submit", savePassword);
+$("continueBtn").addEventListener("click", continueToBot);
+$("changePasswordBtn").addEventListener("click", showResetForm);
+
+try {
+  await loadSupabase();
+  await precheckExistingAccount();
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session?.user) queueMicrotask(() => processSession(session));
+  });
+  const { data, error } = await supabase.auth.getSession();
+  if (error) throw error;
+  if (data?.session && handoff) await processSession(data.session);
+} catch (error) {
+  notice(error?.message || "راه‌اندازی اتصال امن ممکن نشد. صفحه را دوباره بارگذاری کن.", "err");
+  setStatus("");
+}
+</script>
+</body>
+</html>
