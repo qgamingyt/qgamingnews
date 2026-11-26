@@ -196,17 +196,14 @@ async function callPasswordApi(session, payload) {
   return data;
 }
 async function callTelegramLink(session) {
-  // Re-read the OAuth session; mobile browsers can retain a stale callback session.
+  // Only the verified access token crosses the browser boundary.
+  // DB5 obtains a fresh, rotating refresh token server-side after validating this Google session.
   let current = session;
-  const { data: currentData } = await supabase.auth.getSession();
+  const { data: currentData, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError) throw new Error("نشست Google قابل خواندن نیست؛ یک‌بار دیگر وارد شو.");
   if (currentData?.session?.access_token) current = currentData.session;
-  if (!current?.refresh_token) {
-    const { data: refreshed, error: refreshError } = await supabase.auth.refreshSession();
-    if (refreshError) throw new Error("نشست Google تازه‌سازی نشد. دوباره با Google وارد شو.");
-    if (refreshed?.session) current = refreshed.session;
-  }
-  if (!current?.access_token || !current?.refresh_token) {
-    throw new Error("نشست امن Google کامل نیست. از صفحه خارج شو و دوباره با Google وارد شو.");
+  if (!current?.access_token) {
+    throw new Error("نشست معتبر Google پیدا نشد. دوباره با Google وارد شو.");
   }
   activeSession = current;
   const response = await fetch(DB5_URL + "/functions/v1/qteam-telegram-auth", {
@@ -216,11 +213,7 @@ async function callTelegramLink(session) {
       Authorization: "Bearer " + current.access_token,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      challenge: handoff.challenge,
-      refresh_token: current.refresh_token,
-      expires_in: current.expires_in || 3600
-    })
+    body: JSON.stringify({ challenge: handoff.challenge })
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok || data.ok !== true || data.linked !== true) {
