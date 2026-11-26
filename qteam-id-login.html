@@ -196,21 +196,38 @@ async function callPasswordApi(session, payload) {
   return data;
 }
 async function callTelegramLink(session) {
+  // Re-read the OAuth session; mobile browsers can retain a stale callback session.
+  let current = session;
+  const { data: currentData } = await supabase.auth.getSession();
+  if (currentData?.session?.access_token) current = currentData.session;
+  if (!current?.refresh_token) {
+    const { data: refreshed, error: refreshError } = await supabase.auth.refreshSession();
+    if (refreshError) throw new Error("نشست Google تازه‌سازی نشد. دوباره با Google وارد شو.");
+    if (refreshed?.session) current = refreshed.session;
+  }
+  if (!current?.access_token || !current?.refresh_token) {
+    throw new Error("نشست امن Google کامل نیست. از صفحه خارج شو و دوباره با Google وارد شو.");
+  }
+  activeSession = current;
   const response = await fetch(DB5_URL + "/functions/v1/qteam-telegram-auth", {
     method: "POST",
     headers: {
       apikey: DB5_KEY,
-      Authorization: "Bearer " + session.access_token,
+      Authorization: "Bearer " + current.access_token,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
       challenge: handoff.challenge,
-      refresh_token: session.refresh_token,
-      expires_in: session.expires_in || 3600
+      refresh_token: current.refresh_token,
+      expires_in: current.expires_in || 3600
     })
   });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok || data.ok !== true || data.linked !== true) throw new Error(data.error || "اتصال حساب به بات انجام نشد.");
+  if (!response.ok || data.ok !== true || data.linked !== true) {
+    const error = new Error(data.error || "اتصال حساب به بات انجام نشد.");
+    error.code = data.code || "";
+    throw error;
+  }
   return data;
 }
 async function processSession(session) {
