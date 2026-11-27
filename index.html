@@ -2634,7 +2634,7 @@ setInterval(() =&gt; loadLatest(true), CONFIG.POLL_MS);
   </div>
   <div class="qg-about-v2-card">
     <div class="qg-about-v2-card-head"><span>03</span><h2>ارتباط با ما</h2></div>
-    <a class="qg-about-v2-contact" href="https://t.me/QGAMINGIR" data-qg-external="true" target="_blank" rel="noopener noreferrer"><span>🐛</span><div><b>گزارش باگ و مشکل</b><small>@QGAMINGIR</small></div><em>›</em></a>
+    <a class="qg-about-v2-contact" href="https://t.me/qgamingnews_bot" data-qg-external="true" target="_blank" rel="noopener noreferrer"><span>🐛</span><div><b>گزارش باگ و مشکل</b><small>@qgamingnews_bot</small></div><em>›</em></a>
     <a class="qg-about-v2-contact" href="https://t.me/onlyqgaming" data-qg-external="true" target="_blank" rel="noopener noreferrer"><span>🎬</span><div><b>ارتباط با سازنده</b><small>@onlyqgaming</small></div><em>›</em></a>
   </div>
   <div class="qg-about-v2-card qg-about-v2-legal">
@@ -9151,8 +9151,8 @@ window.QGSub={open:openSub,close:closeSub,refresh:load,state:function(){return S
     if(url){var im=document.createElement('img');im.src=url;im.alt='';im.referrerPolicy='no-referrer';im.loading='lazy';box.appendChild(im)}else box.textContent=fallback||'👤';
     return box;
   }
-  function currentName(user,profile){var m=user&&user.user_metadata||{};return String(m.display_name||m.full_name||m.name||(profile&&(profile.display_name||profile.full_name||profile.name))||(user&&user.email?user.email.split('@')[0]:'کاربر QGAMING')).trim()||'کاربر QGAMING'}
-  function currentAvatar(user,profile){var m=user&&user.user_metadata||{};return String(m.avatar_url||m.picture||(profile&&profile.avatar_url)||'')}
+  function currentName(user,profile){var m=user&&user.user_metadata||{};return String((profile&&(profile.display_name||profile.full_name||profile.name))||m.display_name||m.full_name||m.name||(user&&user.email?user.email.split('@')[0]:'کاربر QGAMING')).trim()||'کاربر QGAMING'}
+  function currentAvatar(user,profile){var m=user&&user.user_metadata||{};return String((profile&&profile.avatar_url)||m.avatar_url||m.picture||'')}
   async function getProfileRow(c,uid){try{var r=await c.from('profiles').select('*').eq('id',uid).maybeSingle();if(!r.error)return r.data||null}catch(e){}return null}
   function paintIdentity(user,profile){
     var name=currentName(user,profile),email=user&&user.email||'',url=currentAvatar(user,profile);
@@ -9179,7 +9179,14 @@ window.QGSub={open:openSub,close:closeSub,refresh:load,state:function(){return S
       state.user=u;state.profile=await getProfileRow(c,u.id);paintIdentity(u,state.profile);
       var r=await c.from('qhead_profiles').select('qhead_id,is_public,display_name,avatar_url').eq('user_id',u.id).maybeSingle();
       if(r.error)throw r.error;
-      var row=r.data||null;state.qheadRow=row;
+      var row=r.data||null;
+      var accountName=currentName(u,state.profile),accountAvatar=currentAvatar(u,state.profile);
+      var visibleProfile={display_name:accountName,full_name:accountName,name:accountName,avatar_url:accountAvatar||(row&&row.avatar_url)||''};
+      paintIdentity(u,visibleProfile);
+      if(row&&(row.display_name!==accountName||(accountAvatar&&row.avatar_url!==accountAvatar))){
+        try{var synced=await c.from('qhead_profiles').update({display_name:accountName,avatar_url:accountAvatar||row.avatar_url||null,updated_at:new Date().toISOString()}).eq('user_id',u.id).select('qhead_id,is_public,display_name,avatar_url').maybeSingle();if(!synced.error&&synced.data)row=synced.data}catch(syncError){console.warn('[QChat] profile mirror sync skipped:',syncError&&syncError.message)}
+      }
+      state.qheadRow=row;
       if($('qgQHeadInput')){$('qgQHeadInput').disabled=false;$('qgQHeadInput').value=row?(row.is_public?row.qhead_id:String(row.qhead_id||'').replace(/[0-9]{4}$/,'')):''}
       if($('qgQHeadPublicToggle')){$('qgQHeadPublicToggle').disabled=false;$('qgQHeadPublicToggle').checked=!!(row&&row.is_public)}
       if(save)save.disabled=false;
@@ -9254,6 +9261,7 @@ window.QGSub={open:openSub,close:closeSub,refresh:load,state:function(){return S
     $('qgQHeadSearchInput')&&$('qgQHeadSearchInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();searchUser()}});
     $('qgQHeadInput')&&$('qgQHeadInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();saveOwn()}});
     var c=client();if(c&&c.auth&&c.auth.onAuthStateChange)c.auth.onAuthStateChange(function(){if(!$('qgQHeadPane')||$('qgQHeadPane').hidden)return;refreshOwn()});
+    if(!window.__qgQHeadAccountProfileSync){window.__qgQHeadAccountProfileSync=true;window.addEventListener('qg-online-account-changed',function(){if(!$('qgQHeadPane')||$('qgQHeadPane').hidden)return;setTimeout(function(){refreshOwn()},220);setTimeout(function(){refreshOwn()},900)})}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
@@ -9848,7 +9856,7 @@ var CHAT_URL='https://vdvjozpptsmqendwkqkd.supabase.co';
 var CHAT_KEY='sb_publishable_qd6akYucVDZcUn0ei49RQQ_ZBTLmv5B';
 var FEATURE_URL='https://gsreskarqaotmcrnahcp.supabase.co/functions/v1/qchat-feature-actions';
 var $=function(id){return document.getElementById(id)};
-var currentTypingChannel=null,currentTypingTopic='',typingTimer=null,lastConversation='',mediaRecorder=null,recordChunks=[],recordStarted=0,recordStream=null;
+var currentTypingChannel=null,currentTypingTopic='',typingTimer=null,localTypingTimer=null,localTypingActive=false,lastConversation='',mediaRecorder=null,recordChunks=[],recordStarted=0,recordStream=null;
 function getClient(){return window.QGAMING_SUPABASE_AUTH||(window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.getClient&&window.QGAMINGOnlineAuth.getClient())||null}
 function getSession(){var c=getClient();if(!c)throw new Error('اتصال حساب QHub در دسترس نیست');return c.auth.getSession().then(function(r){var se=r&&r.data&&r.data.session;if(!se||!se.access_token)throw new Error('ابتدا وارد حساب QHub شو');return se})}
 async function feature(action,extra){var se=await getSession();var res=await fetch(FEATURE_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+se.access_token},body:JSON.stringify(Object.assign({action:action},extra||{}))});var d=await res.json().catch(function(){return {}});if(!res.ok||d.error)throw new Error(d.message||d.error||('خطای سرور '+res.status));return d}
@@ -9877,10 +9885,42 @@ async function toggleVoice(){var b=$('qglVoiceBtn');if(mediaRecorder&&mediaRecor
 function linkify(el){if(!el||el.dataset.qchatEnhanced==='1')return;var raw=el.textContent||'';var vm=raw.match(/^\[\[QCHAT_VOICE:([^|\]]+)\|(\d+)\|([^\]]+)\]\]$/);if(vm){el.dataset.qchatEnhanced='1';el.textContent='';var label=textNode('span','🎙 پیام صوتی · '+vm[2]+' ثانیه');label.style.display='block';label.style.marginBottom='6px';var audio=document.createElement('audio');audio.controls=true;audio.preload='none';audio.style.maxWidth='min(100%,320px)';el.appendChild(label);el.appendChild(audio);feature('voice_play_url',{conversation_id:conversationId(),object_path:vm[1]}).then(function(d){audio.src=d.signed_url}).catch(function(e){label.textContent='🎙 پیام صوتی (دریافت فایل ناموفق: '+e.message+')'});return}
 if(raw.indexOf('https://')<0)return;var re=/https:\/\/[^\s<>()]+/g,m,parts=[],last=0;while((m=re.exec(raw))){if(m.index>last)parts.push(document.createTextNode(raw.slice(last,m.index)));var href=m[0].replace(/[.,!?،؛]+$/,'');var a=document.createElement('a');a.href=href;a.textContent=href;a.target='_blank';a.rel='noopener noreferrer';a.style.color='#67e8f9';a.style.textDecoration='underline';parts.push(a);if(href.length<m[0].length)parts.push(document.createTextNode(m[0].slice(href.length)));last=m.index+m[0].length}if(last){if(last<raw.length)parts.push(document.createTextNode(raw.slice(last)));el.textContent='';parts.forEach(function(n){el.appendChild(n)});el.dataset.qchatEnhanced='1'}}
 function enhanceMessages(){var box=$('qglMessages');if(!box)return;box.querySelectorAll('.qgl-message-body').forEach(linkify);box.querySelectorAll('.qgl-message').forEach(function(row){if(row.dataset.qchatReportAdded==='1')return;row.dataset.qchatReportAdded='1';var id=row.dataset.messageId;var actions=row.querySelector('.qgl-message-actions');if(actions&&!row.classList.contains('deleted')){var b=document.createElement('button');b.type='button';b.className='qgl-report-message';b.textContent='گزارش';b.addEventListener('click',function(){askReport('message',id)});actions.appendChild(b)}})}
-async function switchTypingChannel(id){if(!id||id===currentTypingTopic)return;currentTypingTopic=id;if(currentTypingChannel&&window.QCHAT_SUPABASE_CLIENT){try{await window.QCHAT_SUPABASE_CLIENT.removeChannel(currentTypingChannel)}catch(e){}}currentTypingChannel=null;var c=window.QCHAT_SUPABASE_CLIENT;if(!c||!c.channel)return;var digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(String(id)));var topic='qchat-typing:'+Array.from(new Uint8Array(digest)).map(function(x){return x.toString(16).padStart(2,'0')}).join('').slice(0,32);var ch=c.channel(topic);currentTypingChannel=ch;ch.on('broadcast',{event:'typing'},function(payload){var d=payload&&payload.payload||{};var my=$('qglTypingStatus');if(!my)return;if(d.qhead_id&&String(d.qhead_id).toLowerCase()!==String(peerId()||'').replace(/^@/,'').toLowerCase()&&d.typing){return}if(d.typing){my.textContent='طرف مقابل در حال نوشتن…';if(typingTimer)clearTimeout(typingTimer);typingTimer=setTimeout(function(){if(my)my.textContent=''},2200)}else if(my)my.textContent=''}).subscribe();
+function stopLocalTyping(){
+ if(localTypingTimer){clearTimeout(localTypingTimer);localTypingTimer=null}
+ if(!localTypingActive)return;
+ localTypingActive=false;
+ try{var ch=currentTypingChannel;if(ch)ch.send({type:'broadcast',event:'typing',payload:{typing:false,at:Date.now()}})}catch(e){}
 }
-function sendTyping(){var id=conversationId(),c=window.QCHAT_SUPABASE_CLIENT;if(!id||!c||!currentTypingChannel)return;getSession().then(function(se){return getClient().from('qhead_profiles').select('qhead_id').eq('user_id',se.user.id).maybeSingle()}).then(function(r){var qid=r&&r.data&&r.data.qhead_id||'';currentTypingChannel.send({type:'broadcast',event:'typing',payload:{qhead_id:qid,typing:true,at:Date.now()}})}).catch(function(){});if(typingTimer)clearTimeout(typingTimer);typingTimer=setTimeout(function(){try{currentTypingChannel&&currentTypingChannel.send({type:'broadcast',event:'typing',payload:{typing:false,at:Date.now()}})}catch(e){}},1700)}
-function observer(){var root=$('chatView');if(!root)return;var mo=new MutationObserver(function(){addHomeEntries();ensureTools();enhanceMessages()});mo.observe(root,{subtree:true,childList:true});var inp=$('qglText');if(inp&&!inp.dataset.qchatTypingBound){inp.dataset.qchatTypingBound='1';inp.addEventListener('input',sendTyping)}addHomeEntries();ensureTools();enhanceMessages();setInterval(function(){var id=conversationId();if(id&&id!==lastConversation){lastConversation=id;switchTypingChannel(id)}else if(!id&&lastConversation){lastConversation='';currentTypingTopic='';if(currentTypingChannel&&window.QCHAT_SUPABASE_CLIENT)window.QCHAT_SUPABASE_CLIENT.removeChannel(currentTypingChannel).catch(function(){});currentTypingChannel=null}},700)}
+async function switchTypingChannel(id){
+ if(!id||id===currentTypingTopic)return;
+ stopLocalTyping();
+ if(typingTimer){clearTimeout(typingTimer);typingTimer=null}
+ var typingStatus=$('qglTypingStatus');if(typingStatus)typingStatus.textContent='';
+ currentTypingTopic=id;
+ if(currentTypingChannel&&window.QCHAT_SUPABASE_CLIENT){try{await window.QCHAT_SUPABASE_CLIENT.removeChannel(currentTypingChannel)}catch(e){}}
+ currentTypingChannel=null;
+ var c=window.QCHAT_SUPABASE_CLIENT;if(!c||!c.channel)return;
+ var digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(String(id)));
+ var topic='qchat-typing:'+Array.from(new Uint8Array(digest)).map(function(x){return x.toString(16).padStart(2,'0')}).join('').slice(0,32);
+ var ch=c.channel(topic);currentTypingChannel=ch;
+ ch.on('broadcast',{event:'typing'},function(payload){
+   var d=payload&&payload.payload||{},my=$('qglTypingStatus');if(!my)return;
+   if(d.qhead_id&&String(d.qhead_id).toLowerCase()!==String(peerId()||'').replace(/^@/,'').toLowerCase()&&d.typing)return;
+   if(d.typing){my.textContent='طرف مقابل در حال نوشتن…';if(typingTimer)clearTimeout(typingTimer);typingTimer=setTimeout(function(){if(my)my.textContent='';typingTimer=null},2200)}
+   else{if(typingTimer)clearTimeout(typingTimer);typingTimer=null;my.textContent=''}
+ }).subscribe();
+}
+function sendTyping(forceStop){
+ var input=$('qglText'),hasText=!!(input&&String(input.value||'').trim());
+ if(forceStop||!hasText){stopLocalTyping();return}
+ var id=conversationId(),c=window.QCHAT_SUPABASE_CLIENT,ch=currentTypingChannel;
+ if(!id||!c||!ch)return;
+ if(localTypingTimer)clearTimeout(localTypingTimer);
+ localTypingActive=true;
+ try{ch.send({type:'broadcast',event:'typing',payload:{typing:true,at:Date.now()}})}catch(e){}
+ localTypingTimer=setTimeout(stopLocalTyping,1800);
+}
+function observer(){var root=$('chatView');if(!root)return;var mo=new MutationObserver(function(){addHomeEntries();ensureTools();enhanceMessages()});mo.observe(root,{subtree:true,childList:true});var inp=$('qglText');if(inp&&!inp.dataset.qchatTypingBound){inp.dataset.qchatTypingBound='1';inp.addEventListener('input',function(){sendTyping(false)});inp.addEventListener('blur',function(){sendTyping(true)});var form=inp.closest('form');if(form)form.addEventListener('submit',function(){sendTyping(true)});}addHomeEntries();ensureTools();enhanceMessages();setInterval(function(){var id=conversationId();if(id&&id!==lastConversation){lastConversation=id;switchTypingChannel(id)}else if(!id&&lastConversation){stopLocalTyping();lastConversation='';currentTypingTopic='';if(typingTimer)clearTimeout(typingTimer);typingTimer=null;var st=$('qglTypingStatus');if(st)st.textContent='';if(currentTypingChannel&&window.QCHAT_SUPABASE_CLIENT)window.QCHAT_SUPABASE_CLIENT.removeChannel(currentTypingChannel).catch(function(){});currentTypingChannel=null}},700)}
 window.QGChatReport={ask:askReport};function boot(){if(!getClient())return;observer();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();setTimeout(boot,1800);
 })();
@@ -11373,7 +11413,7 @@ body:not(.qg-app-started) #qgDI{display:none!important}
    '<div class="qgdi-card c3"><div class="qgdi-clock">۰۰:۰۰:۰۰</div><div class="qgdi-date">—</div><div class="qgdi-tz">ساعت رسمی ایران · تهران (UTC+3:30)</div></div>'+
    '<div class="qgdi-card c4"><div class="qgdi-row"><div class="qgdi-av"><b>Q</b></div><div class="qgdi-ac"><div class="qgdi-an">مهمان QGAMING</div><div class="qgdi-ae">—</div><span class="qgdi-as g">ورود نکرده‌اید</span></div><button class="qgdi-ab" type="button" data-a="acc">حساب شما</button></div></div>'+
    '<div class="qgdi-card c5"><div class="qgdi-qt">تغییر سریع صفحه</div><div class="qgdi-qg">'+
-     '<button type="button" data-go="homeView"><em>🏠</em>خانه</button><button type="button" data-go="articlesView"><em>📰</em>اخبار</button><button type="button" data-go="world"><em>🎮</em>دنیای گیم</button>'+
+     '<button type="button" data-go="homeView"><em>🏠</em>خانه</button><button type="button" data-go="articlesView"><em>📰</em>اخبار</button><button type="button" data-go="gamingVideosView"><em>🎬</em>تریلر تیوب</button>'+
      '<button type="button" data-go="chatView"><em>💬</em>QChat</button><button type="button" data-go="accountView"><em>👤</em>حساب</button><button type="button" data-go="aboutView"><em>ℹ️</em>درباره</button></div></div>'+
    '<div class="qgdi-card c6"><div class="qgdi-at">فعالیت‌های اخیر</div>'+
      '<div class="qgdi-ar" data-k="like"><div class="qgdi-ai">❤️</div><div class="qgdi-ax"><div class="qgdi-al">آخرین لایک<em></em></div><div class="qgdi-av2 mute">—</div></div></div>'+
@@ -11390,6 +11430,7 @@ body:not(.qg-app-started) #qgDI{display:none!important}
  }
  function go(v){
   setS(0);var b;
+  if(v==='gamingVideosView'){var target=D.getElementById('gamingVideosView');if(target){try{if(typeof window.showView==='function'){window.showView('gamingVideosView')}else{D.querySelectorAll('main>.view').forEach(function(x){x.classList.toggle('active',x===target)})}}catch(e){D.querySelectorAll('main>.view').forEach(function(x){x.classList.toggle('active',x===target)})}return}}
   if(v==='world'){b=D.getElementById('worldGamingNav');if(b){b.click();return}}
   b=D.querySelector('#bottomNav [data-view="'+v+'"]');if(b){b.click();return}
   try{if(typeof window.showView==='function'){window.showView(v);return}}catch(e){}
@@ -12083,7 +12124,7 @@ body{background-color:#07111f}
    }
    if(!$('qgSeasonModal')){
      var m=document.createElement('div');m.id='qgSeasonModal';m.setAttribute('aria-hidden','true');
-     m.innerHTML='<section class="qg-season-panel" role="dialog" aria-modal="true" aria-labelledby="qgSeasonTitle"><button class="qg-season-close" type="button" aria-label="بستن">×</button><div class="qg-season-hero"><div class="qg-season-kicker">QGAMING • UPCOMING SEASON</div><div class="qg-season-title" id="qgSeasonTitle">❄ سیزن برفی</div><div class="qg-season-sub">ماجراجویی تازه، حال‌وهوای زمستانی و محتوای جدید</div></div><div class="qg-season-content"><div class="qg-season-date"><div><strong>تاریخ انتشار</strong><br><span>آغاز سیزن جدید</span></div><strong>۲۸ آذر ۱۴۰۵</strong></div><div class="qg-season-minis"><article class="qg-mini-card"><div class="qg-mini-head"><b>مینی‌سیزن ۱</b><small>روزهای ۱ تا ۱۵ ماه</small></div><div class="qg-mini-faces"><div class="qg-mini-face"><b>وجه اول</b><span>نیمهٔ آغازین ماه<br>روز ۱ تا ۱۵</span></div><div class="qg-mini-face"><b>وجه دوم</b><span>نیمهٔ پایانی ماه<br>روز ۱۶ تا پایان ماه</span></div></div></article><article class="qg-mini-card"><div class="qg-mini-head"><b>مینی‌سیزن ۲</b><small>دو وجه ماهانه</small></div><div class="qg-mini-faces"><div class="qg-mini-face"><b>وجه اول</b><span>۱۵ روز آغازین ماه</span></div><div class="qg-mini-face"><b>وجه دوم</b><span>۱۵ روز پایانی ماه</span></div></div></article><article class="qg-mini-card"><div class="qg-mini-head"><b>مینی‌سیزن ۳</b><small>دو وجه ماهانه</small></div><div class="qg-mini-faces"><div class="qg-mini-face"><b>وجه اول</b><span>۱۵ روز آغازین ماه</span></div><div class="qg-mini-face"><b>وجه دوم</b><span>۱۵ روز پایانی ماه</span></div></div></article></div><div class="qg-season-foot">هر آپدیت شامل ۳ مینی‌سیزن است و هر مینی‌سیزن ۲ وجه دارد. جزئیات محتوای هر وجه در زمان معرفی آن اعلام می‌شود.</div></div></section>';
+     m.innerHTML='<section class="qg-season-panel" role="dialog" aria-modal="true" aria-labelledby="qgSeasonTitle"><button class="qg-season-close" type="button" aria-label="بستن">×</button><div class="qg-season-hero"><div class="qg-season-kicker">QGAMING • UPCOMING SEASON</div><div class="qg-season-title" id="qgSeasonTitle">❄ سیزن برفی</div><div class="qg-season-sub">ماجراجویی تازه، حال‌وهوای زمستانی و محتوای جدید</div></div><div class="qg-season-content"><div class="qg-season-date"><div><strong>تاریخ انتشار</strong><br><span>آغاز سیزن جدید</span></div><strong>۲۸ دی ۱۴۰۵</strong></div><div class="qg-season-minis"><article class="qg-mini-card"><div class="qg-mini-head"><b>مینی‌سیزن ۱</b><small>روزهای ۱ تا ۱۵ ماه</small></div><div class="qg-mini-faces"><div class="qg-mini-face"><b>وجه اول</b><span>نیمهٔ آغازین ماه<br>روز ۱ تا ۱۵</span></div><div class="qg-mini-face"><b>وجه دوم</b><span>نیمهٔ پایانی ماه<br>روز ۱۶ تا پایان ماه</span></div></div></article><article class="qg-mini-card"><div class="qg-mini-head"><b>مینی‌سیزن ۲</b><small>دو وجه ماهانه</small></div><div class="qg-mini-faces"><div class="qg-mini-face"><b>وجه اول</b><span>۱۵ روز آغازین ماه</span></div><div class="qg-mini-face"><b>وجه دوم</b><span>۱۵ روز پایانی ماه</span></div></div></article><article class="qg-mini-card"><div class="qg-mini-head"><b>مینی‌سیزن ۳</b><small>دو وجه ماهانه</small></div><div class="qg-mini-faces"><div class="qg-mini-face"><b>وجه اول</b><span>۱۵ روز آغازین ماه</span></div><div class="qg-mini-face"><b>وجه دوم</b><span>۱۵ روز پایانی ماه</span></div></div></article></div><div class="qg-season-foot">هر آپدیت شامل ۳ مینی‌سیزن است و هر مینی‌سیزن ۲ وجه دارد. جزئیات محتوای هر وجه در زمان معرفی آن اعلام می‌شود.</div></div></section>';
      document.body.appendChild(m);m.addEventListener('click',function(e){if(e.target===m)closeModal()});m.querySelector('.qg-season-close').addEventListener('click',closeModal);
      document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open'))closeModal()});
    }
@@ -14317,5 +14358,124 @@ html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-gaming-vid
 @media(prefers-reduced-motion:reduce){html body #homeView *,html body #bottomNav *,html body .qg-home-hero,html body .qg-home-hero::after{animation:none!important;transition-duration:.01ms!important}}
 html[data-qg-anim=off] body #homeView *,html[data-qg-anim=off] body #bottomNav *{animation:none!important}
 </style>
+
+<style id="qg-qchat-fixed-composer-unified-customizer-v1">
+/* Keep the QChat viewport stable: history scrolls, composer and bottom tabs stay anchored. */
+html body #chatView.qg-qchat-root{position:fixed!important;inset:0!important;width:100%!important;height:100vh!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;overflow:hidden!important;overscroll-behavior:none!important}
+html body #chatView.qg-qchat-root .qg-chat-shell{position:relative!important;height:100vh!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}
+html body #chatView.qg-qchat-root #qgLiveConversation{position:absolute!important;inset:0!important;height:auto!important;min-height:0!important;max-height:none!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-head{flex:0 0 auto!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-messages{flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-compose{position:relative!important;inset:auto!important;bottom:0!important;z-index:12!important;flex:0 0 auto!important;flex-shrink:0!important;margin-top:auto!important;transform:none!important}
+html body #chatView.qg-qchat-root #qgQChatBottomNav{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;transform:translateX(-50%)!important;width:min(calc(100vw - 24px),460px)!important;max-width:460px!important;z-index:2147482000!important;animation:none!important}
+html body #chatView.qg-qchat-root #qgQChatBottomNav[hidden],html body #chatView.qg-qchat-root #qgQHeadPane[hidden],html body #chatView.qg-qchat-root #qgChatHome[hidden]{display:none!important}
+/* The old static customization card duplicated the newer QGS panel. */
+html body #chatView.qg-qchat-root #qdLookH,html body #chatView.qg-qchat-root #qdLookCard{display:none!important}
+/* Unified appearance controls */
+#qgsRoot .qgs-enhanced-ctl{display:grid;gap:8px;margin-top:13px;padding-top:12px;border-top:1px solid rgba(255,255,255,.055)}
+#qgsRoot .qgs-enhanced-ctl>span{font-size:11px;font-weight:800;color:#d9d4e5}
+#qgsRoot .qgs-extra-swatches{display:flex;flex-wrap:wrap;gap:9px;direction:ltr}
+#qgsRoot .qgs-extra-swatches .qgs-swatch{width:29px;height:29px;min-width:29px;border-radius:50%;border:2px solid rgba(255,255,255,.22);box-shadow:0 3px 12px rgba(0,0,0,.24);cursor:pointer;padding:0;position:relative}
+#qgsRoot .qgs-extra-swatches .qgs-swatch.on{outline:2px solid #fff;outline-offset:3px;transform:scale(1.05)}
+#qgsRoot .qgs-enhanced-ctl input[type=range]{width:100%;accent-color:var(--qgd-accent,#22d3ee);direction:ltr}
+#qgsRoot .qgs-enhanced-note{font-size:9px;color:#8f8aa2;line-height:1.75}
+#qgsRoot #qgsPrev .qgs-bub.bot{background:var(--qgd-peer,#111b27)!important;border:1px solid rgba(255,255,255,.07)!important}
+#qgsRoot #qgsPrev .qgs-msgs{gap:var(--qgd-gap,8px)!important}
+#qgsRoot #qgsPrev .qgs-bub{max-width:var(--qgd-width,78%)!important}
+#qgsRoot #qgsPrev .qgs-bub.me{background:var(--m,linear-gradient(135deg,#ffd9a8,#e58c45))!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-message:not(.mine) .qgl-message-inner{background:var(--qgd-peer,var(--qd-card))!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-message.own,html body #chatView.qg-qchat-root #qgLiveConversation .qgl-message.sent{background:transparent!important;border-color:transparent!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-message{max-width:var(--qgd-width,78%)!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-messages{gap:var(--qgd-gap,8px)!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-typing-status,html body #chatView.qg-qchat-root #qgLiveConversation #qglTypingStatus{color:var(--qgd-accent,#22d3ee)!important}
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-compose textarea:focus{border-color:var(--qgd-accent,#22d3ee)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--qgd-accent,#22d3ee) 16%,transparent)!important}
+@media(max-width:420px){html body #chatView.qg-qchat-root #qgQChatBottomNav{width:calc(100vw - 18px)!important;bottom:calc(6px + env(safe-area-inset-bottom,0px))!important}#qgsRoot .qgs-extra-swatches .qgs-swatch{width:27px;height:27px;min-width:27px}}
+</style>
+<script id="qg-qchat-unified-appearance-v1">
+(function(){
+ 'use strict';
+ var ROOT_ID='qgsRoot',KEY='qchat_look_unified_v1',OLD_QGS='qg_chat_design_v1',OLD_QD='qchat_look_v1';
+ var PEERS=['#111b27','#162a40','#173a35','#33213f','#3f2a22','#202b39'];
+ var ACCENTS=['#8b5cf6','#22d3ee','#3b82f6','#10b981','#f59e0b','#ec4899'];
+ var DEFAULTS={mine:'',wall:'',fs:14,r:16,peer:'#111b27',accent:'#8b5cf6',width:78,gap:8};
+ function read(k){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v&&typeof v==='object'?v:null}catch(e){return null}}
+ function write(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+ function migrate(){
+   var saved=read(KEY);if(saved)return Object.assign({},DEFAULTS,saved);
+   var qd=read(OLD_QD),qgs=read(OLD_QGS),local=read('qg_qchat_local_preferences_v1'),p=Object.assign({},DEFAULTS);
+   if(qd){p.mine=qd.m||'';p.wall=qd.w||'';p.fs=Number(qd.fs)||14;p.r=Number(qd.r)||16}
+   else if(qgs){p.mine=qgs.mine||'';p.wall=qgs.wall||'';p.fs=Number(qgs.fs)||14;p.r=Number(qgs.r)||16}
+   else if(local&&local.bubble){p.mine=local.bubble}
+   if(local&&local.accent)p.accent=local.accent;
+   return p;
+ }
+ var pref=migrate(),ready=false,root=null,chat=null;
+ function cleanValue(v){return String(v==null?'':v).trim()}
+ function apply(){
+   if(!chat)chat=document.getElementById('chatView');if(!chat)return;
+   var st=chat.style;
+   if(pref.mine){st.setProperty('--qd-m',pref.mine);st.setProperty('--qd-mc','#fff')}else{st.removeProperty('--qd-m');st.removeProperty('--qd-mc')}
+   if(pref.wall)st.setProperty('--qd-w',pref.wall);else st.removeProperty('--qd-w');
+   st.setProperty('--qd-fs',(Number(pref.fs)||14)+'px');st.setProperty('--qd-r',(Number(pref.r)||16)+'px');
+   st.setProperty('--qgd-peer',pref.peer||DEFAULTS.peer);st.setProperty('--qgd-accent',pref.accent||DEFAULTS.accent);
+   st.setProperty('--qgd-width',(Number(pref.width)||78)+'%');st.setProperty('--qgd-gap',(Number(pref.gap)||8)+'px');
+   if(root){var prev=root.querySelector('#qgsPrev');if(prev){prev.style.setProperty('--m',pref.mine||'linear-gradient(135deg,#ffd9a8,#e58c45)');prev.style.setProperty('--w',pref.wall||'#0e1621');prev.style.setProperty('--fs',(Number(pref.fs)||14)+'px');prev.style.setProperty('--r',(Number(pref.r)||16)+'px');prev.style.setProperty('--qgd-peer',pref.peer||DEFAULTS.peer);prev.style.setProperty('--qgd-width',(Number(pref.width)||78)+'%');prev.style.setProperty('--qgd-gap',(Number(pref.gap)||8)+'px')} }
+ }
+ function save(){
+   write(KEY,pref);
+   write(OLD_QD,{m:pref.mine,w:pref.wall,fs:pref.fs,r:pref.r});
+   write(OLD_QGS,{mine:pref.mine,wall:pref.wall,fs:pref.fs,r:pref.r});
+   write('qg_qchat_local_preferences_v1',{bubble:pref.mine||'rgba(139,156,251,.15)',accent:pref.accent});
+   apply();
+ }
+ function mark(container,attr,value){if(!container)return;Array.prototype.forEach.call(container.querySelectorAll('[data-'+attr+']'),function(b){b.classList.toggle('on',cleanValue(b.getAttribute('data-'+attr))===cleanValue(value))})}
+ function insertControls(){
+   root=document.getElementById(ROOT_ID);if(!root||root.dataset.qgUnifiedAppearance==='1')return !!root;
+   var saveBtn=root.querySelector('#qgsSaveDesign'),acts=saveBtn&&saveBtn.closest('.qgs-acts'),card=acts&&acts.parentElement;
+   if(!acts||!card)return false;
+   root.dataset.qgUnifiedAppearance='1';
+   var box=document.createElement('div');box.id='qgsUnifiedExtra';
+   box.innerHTML='<div class="qgs-enhanced-ctl"><span>رنگ پیام طرف مقابل</span><div class="qgs-extra-swatches" id="qgsPeerColors">'+PEERS.map(function(c){return '<button type="button" class="qgs-swatch" data-peer="'+c+'" style="background:'+c+'" aria-label="رنگ پیام طرف مقابل"></button>'}).join('')+'</div></div>'+
+   '<div class="qgs-enhanced-ctl"><span>رنگ تأکیدی چت و نوارها</span><div class="qgs-extra-swatches" id="qgsAccentColors">'+ACCENTS.map(function(c){return '<button type="button" class="qgs-swatch" data-accent="'+c+'" style="background:'+c+'" aria-label="رنگ تأکیدی"></button>'}).join('')+'</div></div>'+
+   '<div class="qgs-enhanced-ctl"><span>عرض حباب پیام · <b id="qgsWidthValue">78٪</b></span><input id="qgsWidth" type="range" min="60" max="95" step="1" value="78"><small class="qgs-enhanced-note">عرض حباب‌ها را نسبت به پهنای صفحه تنظیم کنید.</small></div>'+
+   '<div class="qgs-enhanced-ctl"><span>فاصله بین پیام‌ها · <b id="qgsGapValue">۸ پیکسل</b></span><input id="qgsGap" type="range" min="2" max="18" step="1" value="8"></div>';
+   card.insertBefore(box,acts);
+   var mineWrap=root.querySelector('#qgsCols');
+   if(mineWrap&&!mineWrap.querySelector('[data-c=""]')){var def=document.createElement('button');def.type='button';def.className='qgs-swatch';def.setAttribute('data-c','');def.setAttribute('aria-label','رنگ پیش‌فرض');def.style.background='linear-gradient(135deg,#ffd9a8,#e58c45)';mineWrap.insertBefore(def,mineWrap.firstChild)}
+   var wallWrap=root.querySelector('#qgsWalls');if(wallWrap&&!wallWrap.querySelector('[data-w=""]')){var wdef=document.createElement('button');wdef.type='button';wdef.className='qgs-swatch w';wdef.setAttribute('data-w','');wdef.setAttribute('aria-label','پس‌زمینه پیش‌فرض');wdef.style.background='linear-gradient(135deg,#0b1017,#182231)';wallWrap.insertBefore(wdef,wallWrap.firstChild)}
+   /* Restore legacy selections through the original panel's own handlers. */
+   var mine=Array.prototype.find.call(root.querySelectorAll('#qgsCols [data-c]'),function(b){return cleanValue(b.getAttribute('data-c'))===cleanValue(pref.mine)});
+   var wall=Array.prototype.find.call(root.querySelectorAll('#qgsWalls [data-w]'),function(b){return cleanValue(b.getAttribute('data-w'))===cleanValue(pref.wall)});
+   if(mine)mine.click();if(wall)wall.click();
+   var fs=root.querySelector('#qgsFs'),rad=root.querySelector('#qgsRad');if(fs){fs.value=String(pref.fs);fs.dispatchEvent(new Event('input',{bubbles:true}))}if(rad){rad.value=String(pref.r);rad.dispatchEvent(new Event('input',{bubbles:true}))}
+   var width=root.querySelector('#qgsWidth'),gap=root.querySelector('#qgsGap');if(width)width.value=String(pref.width);if(gap)gap.value=String(pref.gap);
+   mark(root.querySelector('#qgsPeerColors'),'peer',pref.peer);mark(root.querySelector('#qgsAccentColors'),'accent',pref.accent);
+   root.addEventListener('click',function(e){
+     var b=e.target.closest&&e.target.closest('[data-peer],[data-accent]');if(!b)return;
+     if(b.hasAttribute('data-peer'))pref.peer=b.getAttribute('data-peer');if(b.hasAttribute('data-accent'))pref.accent=b.getAttribute('data-accent');
+     mark(root.querySelector('#qgsPeerColors'),'peer',pref.peer);mark(root.querySelector('#qgsAccentColors'),'accent',pref.accent);apply();
+   });
+   root.addEventListener('input',function(e){
+     if(e.target.id==='qgsWidth'){pref.width=Number(e.target.value)||78;var el=root.querySelector('#qgsWidthValue');if(el)el.textContent=pref.width+'٪';apply()}
+     if(e.target.id==='qgsGap'){pref.gap=Number(e.target.value)||8;var el=root.querySelector('#qgsGapValue');if(el)el.textContent=pref.gap+' پیکسل';apply()}
+   });
+   root.addEventListener('click',function(e){
+     var target=e.target;
+     if(target.closest&&target.closest('#qgsSaveDesign')){
+       setTimeout(function(){var c=root.querySelector('#qgsCols .on'),w=root.querySelector('#qgsWalls .on');pref.mine=c?c.getAttribute('data-c')||'':'';pref.wall=w?w.getAttribute('data-w')||'':'';pref.fs=Number(fs&&fs.value)||14;pref.r=Number(rad&&rad.value)||16;pref.width=Number(width&&width.value)||78;pref.gap=Number(gap&&gap.value)||8;save()},0);
+     }
+     if(target.closest&&target.closest('#qgsReset')){
+       setTimeout(function(){pref=Object.assign({},DEFAULTS);var dm=root.querySelector('#qgsCols [data-c=""]'),dw=root.querySelector('#qgsWalls [data-w=""]');if(dm)dm.click();if(dw)dw.click();if(fs){fs.value='14';fs.dispatchEvent(new Event('input',{bubbles:true}))}if(rad){rad.value='16';rad.dispatchEvent(new Event('input',{bubbles:true}))}if(width)width.value='78';if(gap)gap.value='8';var wv=root.querySelector('#qgsWidthValue'),gv=root.querySelector('#qgsGapValue');if(wv)wv.textContent='78٪';if(gv)gv.textContent='۸ پیکسل';mark(root.querySelector('#qgsPeerColors'),'peer',pref.peer);mark(root.querySelector('#qgsAccentColors'),'accent',pref.accent);save()},0);
+     }
+   });
+   var wv=root.querySelector('#qgsWidthValue'),gv=root.querySelector('#qgsGapValue');if(wv)wv.textContent=pref.width+'٪';if(gv)gv.textContent=pref.gap+' پیکسل';
+   ready=true;apply();return true;
+ }
+ function boot(){if(insertControls())return;var content=document.getElementById('qgQHeadContent');if(content&&window.MutationObserver){var mo=new MutationObserver(function(){if(insertControls())mo.disconnect()});mo.observe(content,{childList:true,subtree:true});setTimeout(function(){try{mo.disconnect()}catch(e){}},12000)}setTimeout(insertControls,700);setTimeout(insertControls,1800);setTimeout(insertControls,4200)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+ window.addEventListener('qg-online-account-changed',function(){setTimeout(function(){if(root)apply()},300)});
+})();
+</script>
+
 </body>
 </html>
