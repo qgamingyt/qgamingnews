@@ -1910,7 +1910,7 @@ html,body{scroll-behavior:auto!important}
   <div class="qg-news-hero">
     <div class="qg-news-hero-top">
       <div>
-        <div class="qg-news-eyebrow"><span></span> QGAMING • QHUB EXPLORE 3</div>
+        <div class="qg-news-eyebrow"><span></span> QGAMING • QHUB EXPLORE 4</div>
         <h2>کیوهاب اکسپلور</h2>
         <p>خبرهای تازه از منابع معتبر، مستقیم از سرور QGAMING.</p>
       </div>
@@ -1921,6 +1921,11 @@ html,body{scroll-behavior:auto!important}
       <div><b id="qgNewsSource">IGN</b><small>منبع فعال</small></div>
       <div><b id="qgNewsState">زنده</b><small>وضعیت</small></div>
     </div>
+  </div>
+
+  <div class="qgx-tools">
+    <label class="qgx-srch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg><input id="qgxSearch" type="search" placeholder="جست‌وجو در خبرها…" autocomplete="off"></label>
+    <div class="qgx-chips" id="qgxChips"></div>
   </div>
 
   <section id="qgGta6Special" class="qg-gta6-special" aria-labelledby="qgGta6Title" dir="rtl">
@@ -1969,7 +1974,7 @@ html,body{scroll-behavior:auto!important}
 
   <div class="qg-news-footer">
     <span>منبع و لینک اصلی هر خبر در کارت مشخص است.</span>
-    <span>QGAMING • کیوهاب اکسپلور 3</span>
+    <span>QGAMING • کیوهاب اکسپلور 4</span>
   </div>
 </section>
 
@@ -14116,6 +14121,146 @@ window.addEventListener('qteam-id-authenticated',function(){autoReg=false;setTim
 (function bind(n){var c=window.QGAMING_SUPABASE_AUTH;if(c&&c.auth&&c.auth.onAuthStateChange){c.auth.onAuthStateChange(function(ev){if(ev==='SIGNED_OUT'){autoReg=false;locked()}else if(ev==='SIGNED_IN')setTimeout(function(){load(true)},1200)});return}if(n<40)setTimeout(function(){bind(n+1)},400)})(0);
 timer=setInterval(function(){if(visible()&&Date.now()-last>45000)load()},15000);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){load(true)},1200)},{once:true});else setTimeout(function(){load(true)},1200);
+})();
+</script>
+<style id="qg-explore-redesign-v4">
+/* ===== QHub Explore 4 : simple animated redesign (scoped to #articlesView) ===== */
+#articlesView{--x1:#8b5cf6;--x2:#22d3ee;--xg:rgba(139,92,246,.3);--xl:rgba(255,255,255,.085);--xm:#8e99b8;--xe:cubic-bezier(.22,1,.36,1);--xs:cubic-bezier(.34,1.56,.64,1)}
+@keyframes qgxRise{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes qgxRing{from{transform:scale(1);opacity:.7}to{transform:scale(2.4);opacity:0}}
+@keyframes qgxSpin{to{transform:rotate(360deg)}}
+@keyframes qgxShine{0%,55%{transform:translateX(-180%) skewX(18deg)}100%{transform:translateX(330%) skewX(18deg)}}
+@keyframes qgxZoom{from{transform:scale(1.18)}to{transform:scale(1)}}
+@keyframes qgxFloat{50%{transform:translateY(-4px)}}
+html body #articlesView>*{animation:qgxRise .65s var(--xe) both}
+html body #articlesView>*:nth-child(2){animation-delay:.08s}html body #articlesView>*:nth-child(3){animation-delay:.16s}html body #articlesView>*:nth-child(4){animation-delay:.24s}
+
+/* hero */
+html body #articlesView .qg-news-hero{position:relative;overflow:hidden;padding:18px!important;border-radius:28px!important;border:1px solid var(--xl)!important;background:radial-gradient(90% 130% at 100% 0,var(--xg),transparent 62%),linear-gradient(150deg,#161d3d,#0a0f22 70%)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 22px 40px -22px #000!important}
+html body #articlesView .qg-news-hero::before{content:"";position:absolute;top:0;left:30px;right:30px;height:2px;background:linear-gradient(90deg,transparent,var(--x2),var(--x1),transparent)}
+html body #articlesView .qg-news-hero-top{display:flex!important;align-items:flex-start;gap:12px}
+html body #articlesView .qg-news-hero-top>div{flex:1;min-width:0}
+html body #articlesView .qg-news-eyebrow{display:inline-flex!important;align-items:center;gap:7px;font-size:10px!important;font-weight:900;letter-spacing:1.6px;color:var(--x2)!important;direction:ltr}
+html body #articlesView .qg-news-eyebrow span{display:block;width:18px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--x1),var(--x2))!important;box-shadow:none!important}
+html body #articlesView .qg-news-hero h2{margin:8px 0 6px!important;font-size:27px!important;font-weight:900;letter-spacing:-.3px;background:linear-gradient(100deg,#fff,#c4b5fd 55%,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+html body #articlesView .qg-news-hero p{margin:0!important;font-size:12px!important;line-height:1.9;color:var(--xm)!important}
+html body #articlesView .qg-news-refresh{flex:0 0 44px;width:44px!important;height:44px!important;border-radius:15px!important;display:grid;place-items:center;font-size:23px!important;line-height:1;color:#fff!important;background:rgba(255,255,255,.07)!important;border:1px solid var(--xl)!important;transition:transform .3s var(--xs)}
+html body #articlesView .qg-news-refresh:active{transform:scale(.86) rotate(90deg)}
+html body #articlesView .qg-news-refresh.loading,html body #articlesView .qg-news-refresh.spin,html body #articlesView .qg-news-refresh[disabled]{animation:qgxSpin .9s linear infinite}
+html body #articlesView .qg-news-stats{display:grid!important;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px!important}
+html body #articlesView .qg-news-stats>div{padding:11px 8px!important;border-radius:17px!important;text-align:center;background:rgba(0,0,0,.28)!important;border:1px solid rgba(255,255,255,.07)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+html body #articlesView .qg-news-stats b{display:block;font-size:14px!important;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html body #articlesView .qg-news-stats small{display:block;margin-top:3px;font-size:10px!important;color:var(--xm)!important}
+html body #articlesView #qgNewsState::before{content:"";display:inline-block;width:7px;height:7px;margin-inline-end:6px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399;animation:qgxFloat 2s ease-in-out infinite}
+
+/* search + chips */
+.qgx-tools{margin-top:16px}
+.qgx-srch{display:flex;align-items:center;gap:9px;height:50px;padding:0 15px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid var(--xl);transition:border-color .25s,box-shadow .25s,transform .35s var(--xe)}
+.qgx-srch:focus-within{border-color:rgba(34,211,238,.5);box-shadow:0 0 0 4px rgba(34,211,238,.1);transform:scale(1.015)}
+.qgx-srch svg{flex:none;width:20px;height:20px;fill:none;stroke:var(--xm);stroke-width:1.9;stroke-linecap:round}
+.qgx-srch input{flex:1;min-width:0;height:100%;background:none;border:0;outline:0;color:#eef2ff;font:inherit;font-size:16px}
+.qgx-srch input::placeholder{color:#5b6788}
+.qgx-chips{display:flex;gap:8px;margin:12px -2px 0;padding:2px 2px 6px;overflow-x:auto;scrollbar-width:none}
+.qgx-chips::-webkit-scrollbar{display:none}
+.qgx-chip{flex:none;padding:9px 15px;border-radius:999px;font:inherit;font-size:12px;font-weight:800;color:var(--xm);background:rgba(255,255,255,.045);border:1px solid var(--xl);cursor:pointer;transition:transform .35s var(--xs),background .3s,color .3s;animation:qgxRise .5s var(--xe) both}
+.qgx-chip:active{transform:scale(.9)}
+.qgx-chip.on{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--x1),var(--x2));box-shadow:0 8px 22px -8px var(--xg)}
+.qgx-empty{padding:38px 16px;text-align:center;font-size:13px;line-height:2;color:var(--xm);border-radius:24px;border:1px dashed rgba(255,255,255,.14);animation:qgxRise .5s var(--xe) both}
+.qgx-empty b{display:block;font-size:30px;margin-bottom:6px}
+
+/* GTA VI special: horizontal snap carousel */
+html body #articlesView .qg-gta6-special{position:relative;overflow:hidden;margin-top:18px!important;padding:18px 0 16px!important;border-radius:28px!important;border:1px solid rgba(255,120,160,.3)!important;background:radial-gradient(80% 90% at 100% 0,rgba(255,79,163,.34),transparent 60%),radial-gradient(70% 80% at 0 100%,rgba(255,179,71,.24),transparent 62%),linear-gradient(160deg,#27102f,#120a1c 70%)!important}
+html body #articlesView .qg-gta6-head,html body #articlesView .qg-gta6-news-heading,html body #articlesView .qg-gta6-note{padding-inline:18px!important}
+html body #articlesView .qg-gta6-kicker{font-size:10px!important;font-weight:900;letter-spacing:1.4px;color:#ffb347!important;direction:ltr}
+html body #articlesView .qg-gta6-head h2{margin:9px 0 5px!important;font-size:23px!important;font-weight:900;background:linear-gradient(100deg,#fff,#ffd1e6 50%,#ffb347);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+html body #articlesView .qg-gta6-head p{margin:0!important;font-size:11.5px!important;line-height:1.9;color:#c9a7be!important}
+html body #articlesView .qg-gta6-news-heading{display:flex!important;align-items:center;justify-content:space-between;margin:16px 0 10px!important}
+html body #articlesView .qg-gta6-news-heading h3{margin:0;font-size:12px!important;font-weight:900}
+html body #articlesView .qg-gta6-news-heading span{font-size:9.5px;letter-spacing:1.4px;color:#ff9ec6;direction:ltr}
+html body #articlesView .qg-gta6-news-grid{display:flex!important;gap:12px!important;padding:2px 18px 6px!important;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+html body #articlesView .qg-gta6-news-grid::-webkit-scrollbar{display:none}
+html body #articlesView .qg-gta6-news-card{position:relative;overflow:hidden;flex:0 0 82%!important;scroll-snap-align:center;padding:15px!important;border-radius:21px!important;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(10,5,18,.82))!important;border:1px solid rgba(255,255,255,.1)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 14px 26px -14px #000!important;transition:transform .4s var(--xe)}
+html body #articlesView .qg-gta6-news-card:active{transform:scale(.97)}
+html body #articlesView .qg-gta6-news-card::after{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);transform:translateX(-180%) skewX(18deg);animation:qgxShine 7s ease-in-out infinite}
+html body #articlesView .qg-gta6-date{display:inline-block;padding:4px 10px;border-radius:999px;font-size:10px!important;font-weight:900;color:#ffd1e6!important;background:rgba(255,79,163,.18)!important;border:1px solid rgba(255,79,163,.4)!important}
+html body #articlesView .qg-gta6-news-card h4{margin:10px 0 6px!important;font-size:14px!important;font-weight:900;line-height:1.7}
+html body #articlesView .qg-gta6-news-card p{margin:0 0 12px!important;font-size:11.5px!important;line-height:1.9;color:#c9b7c8!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+html body #articlesView .qg-gta6-news-card a{font-size:11.5px!important;font-weight:800;color:#ffb347!important}
+html body #articlesView .qg-gta6-news-card a::after{content:" ↗"}
+.qgx-dots{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.qgx-dots i{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.25);transition:width .35s var(--xe),background .3s}
+.qgx-dots i.on{width:20px;background:linear-gradient(90deg,#ffb347,#ff4fa3)}
+html body #articlesView .qg-gta6-note{margin-top:10px!important;font-size:10px!important;line-height:1.9;color:#a98fa4!important}
+
+/* toolbar */
+html body #articlesView .qg-news-toolbar{display:flex!important;align-items:center;justify-content:space-between;margin:20px 4px 12px!important}
+html body #articlesView .qg-news-status{display:flex;align-items:center;gap:8px;font-size:13px!important;font-weight:900}
+html body #articlesView .qg-news-updated{font-size:11px!important;color:var(--xm)!important}
+
+/* news cards: compact, first one featured */
+html body #articlesView #qgNewsList .qg-news-card{position:relative;overflow:hidden;display:flex!important;align-items:stretch;margin-bottom:10px!important;border-radius:20px!important;background:linear-gradient(165deg,#141b3a,#0c1128 75%)!important;border:1px solid var(--xl)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 14px 24px -16px #000!important;transition:transform .35s var(--xs),border-color .3s;animation:qgxRise .65s var(--xe) both!important}
+html body #articlesView #qgNewsList .qg-news-card::after{display:none!important}
+html body #articlesView #qgNewsList .qg-news-card:active{transform:scale(.975)}
+html body #articlesView #qgNewsList .qg-news-media{flex:0 0 96px!important;height:auto!important;min-height:108px;width:auto!important}
+html body #articlesView #qgNewsList .qg-news-media img{width:100%;height:100%;object-fit:cover;animation:qgxZoom 1s var(--xe) both}
+html body #articlesView #qgNewsList .qg-news-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:12px 14px!important}
+html body #articlesView #qgNewsList .qg-news-title{margin:0!important;font-size:13px!important;font-weight:900;line-height:1.85;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+html body #articlesView #qgNewsList .qg-news-tags,html body #articlesView #qgNewsList .qg-news-desc{display:none!important}
+html body #articlesView #qgNewsList .qg-news-meta{display:flex!important;gap:8px;margin-top:8px!important;font-size:10.5px!important;color:#6f7ba0!important}
+html body #articlesView #qgNewsList .qg-news-link{align-self:flex-start;margin-top:8px!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;font-size:11.5px!important;font-weight:800;color:var(--x2)!important;transition:transform .35s var(--xe)}
+html body #articlesView #qgNewsList .qg-news-card:active .qg-news-link{transform:translateX(-4px)}
+html body #articlesView #qgNewsList:not([data-f]) .qg-news-card:first-child{flex-direction:column;border-color:rgba(167,139,250,.35)!important}
+html body #articlesView #qgNewsList:not([data-f]) .qg-news-card:first-child .qg-news-media{flex:none!important;height:200px!important;width:100%!important}
+html body #articlesView #qgNewsList:not([data-f]) .qg-news-card:first-child .qg-news-title{font-size:16.5px!important;-webkit-line-clamp:4}
+html body #articlesView #qgNewsList:not([data-f]) .qg-news-card:first-child .qg-news-desc{display:-webkit-box!important;margin:8px 0 0!important;font-size:12px!important;line-height:1.95;color:var(--xm)!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html body #articlesView #qgNewsList:not([data-f]) .qg-news-card:first-child .qg-news-tags{display:flex!important;gap:6px;margin-bottom:8px}
+html body #articlesView #qgNewsList:not([data-f]) .qg-news-card:first-child::before{content:"";position:absolute;z-index:3;top:0;bottom:0;left:0;width:45%;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent);transform:translateX(-180%) skewX(18deg);animation:qgxShine 5s ease-in-out 1.5s infinite}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(1){animation-delay:0ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(2){animation-delay:55ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(3){animation-delay:110ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(4){animation-delay:165ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(5){animation-delay:220ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(6){animation-delay:275ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(7){animation-delay:330ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(8){animation-delay:385ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(9){animation-delay:440ms!important}
+html body #articlesView #qgNewsList .qg-news-card:nth-child(10){animation-delay:495ms!important}
+/* no likes / comments / saved in Explore 4 */
+html body #articlesView .qg-server-like-row,html body #articlesView [class*="qg-server-like"],html body #articlesView [class*="comment"],html body #articlesView [class*="bookmark"],html body #articlesView [class*="qg-news-save"]{display:none!important}
+html body #articlesView .qg-news-footer{display:flex!important;flex-direction:column;align-items:center;gap:6px;margin-top:24px!important;font-size:10.5px!important;color:#66719a!important;text-align:center}
+html body #articlesView .qg-news-footer span:last-child{font-size:11px;font-weight:800;letter-spacing:1.1px;color:var(--xm);direction:ltr}
+@media(prefers-reduced-motion:reduce){html body #articlesView *{animation:none!important;transition-duration:.01ms!important}}
+html[data-qg-anim=off] body #articlesView *{animation:none!important}
+</style>
+<script id="qg-explore-tools-v4">
+(function(){'use strict';
+var D=document,$=function(i){return D.getElementById(i)};
+var list=$('qgNewsList'),input=$('qgxSearch'),chips=$('qgxChips');if(!list||!input||!chips)return;
+var src='all',q='',empty=null;
+function cards(){return Array.prototype.slice.call(list.querySelectorAll('.qg-news-card'))}
+function srcOf(c){var t=c.querySelector('.qg-news-tag.source');return t?t.textContent.trim():''}
+function buildChips(){
+  var set=[];cards().forEach(function(c){var s=srcOf(c);if(s&&set.indexOf(s)<0)set.push(s)});
+  if(src!=='all'&&set.indexOf(src)<0)src='all';
+  chips.textContent='';
+  [['all','همه']].concat(set.map(function(s){return [s,s]})).forEach(function(p,i){
+    var b=D.createElement('button');b.type='button';b.className='qgx-chip'+(p[0]===src?' on':'');b.dataset.s=p[0];b.textContent=p[1];b.style.animationDelay=(i*40)+'ms';chips.appendChild(b)});
+}
+function apply(){
+  var n=0,f=src!=='all'||q;
+  cards().forEach(function(c){var ok=(src==='all'||srcOf(c)===src)&&(!q||c.textContent.toLowerCase().indexOf(q)>-1);c.style.display=ok?'':'none';if(ok)n++});
+  if(f)list.setAttribute('data-f','1');else list.removeAttribute('data-f');
+  if(empty){empty.remove();empty=null}
+  if(f&&!n&&cards().length){empty=D.createElement('div');empty.className='qgx-empty';empty.innerHTML='<b>🔍</b>خبری پیدا نشد.<br>عبارت دیگری امتحان کن یا فیلتر را روی «همه» بگذار.';list.appendChild(empty)}
+}
+chips.addEventListener('click',function(e){var b=e.target.closest('.qgx-chip');if(!b)return;src=b.dataset.s;buildChips();apply()});
+input.addEventListener('input',function(){q=input.value.trim().toLowerCase();apply()});
+var t=0;new MutationObserver(function(m){if(m.every(function(x){return x.target===list&&[].every.call(x.addedNodes,function(n){return n.className==='qgx-empty'})&&[].every.call(x.removedNodes,function(n){return n.className==='qgx-empty'})}))return;clearTimeout(t);t=setTimeout(function(){buildChips();apply()},120)}).observe(list,{childList:true});
+buildChips();
+/* GTA VI carousel dots */
+var g=D.querySelector('#qgGta6Special .qg-gta6-news-grid');
+if(g&&g.children.length>1){var d=D.createElement('div');d.className='qgx-dots';for(var i=0;i<g.children.length;i++)d.appendChild(D.createElement('i'));g.insertAdjacentElement('afterend',d);d.firstChild.className='on';
+  g.addEventListener('scroll',function(){var w=g.firstElementChild.offsetWidth+12,k=Math.min(g.children.length-1,Math.round(Math.abs(g.scrollLeft)/w));[].forEach.call(d.children,function(x,j){x.className=j===k?'on':''})},{passive:true})}
 })();
 </script>
 </body>
