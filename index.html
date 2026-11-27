@@ -5660,7 +5660,7 @@ async function openSystemChat(){
   qglSetMode('system');
   var title=$('qglPeerName');if(title){title.innerHTML='';title.appendChild(document.createTextNode('QGAMING System'));title.insertAdjacentHTML('beforeend',qglTickHTML('blue'))}
   $('qglPeerHandle').textContent='ربات رسمی · پیام‌های امنیتی QGAMING';setPeerAvatar('Q','');setPeerStatus('حساب رسمی سیستم','online');
-  activePeer='QGAMING System';pane.dataset.systemChat='1';
+  activePeer='QGAMING System';pane.dataset.systemChat='1';pane.dataset.typing='0';try{var _ts=$('qglTypingStatus');if(_ts)_ts.textContent='';if(typeof stopLocalTyping==='function')stopLocalTyping()}catch(e){}
   var box=$('qglMessages');if(!box)return;box.textContent='';box.dataset.qgRenderSignature='';status('در حال دریافت پیام‌های رسمی…');
   try{
     if(typeof window.QChatLoadSystemInbox!=='function')throw new Error('اتصال صندوق پیام‌های سیستم آماده نیست');
@@ -9905,7 +9905,7 @@ async function switchTypingChannel(id){
  var topic='qchat-typing:'+Array.from(new Uint8Array(digest)).map(function(x){return x.toString(16).padStart(2,'0')}).join('').slice(0,32);
  var ch=c.channel(topic);currentTypingChannel=ch;
  ch.on('broadcast',{event:'typing'},function(payload){
-   var d=payload&&payload.payload||{},my=$('qglTypingStatus');if(!my)return;if(d.conversation_id&&String(d.conversation_id)!==String(conversationId()))return;
+   var d=payload&&payload.payload||{},my=$('qglTypingStatus');if(!my)return;var _p=$('qgLiveConversation');if(_p&&(_p.dataset.mode==='system'||_p.dataset.systemChat==='1'))return;if(d.at&&Date.now()-d.at>6000)return;if(d.conversation_id&&String(d.conversation_id)!==String(conversationId()))return;
    if(d.qhead_id&&String(d.qhead_id).toLowerCase()!==String(peerId()||'').replace(/^@/,'').toLowerCase()&&d.typing)return;
    if(d.typing){my.textContent='طرف مقابل در حال نوشتن…';if(typingTimer)clearTimeout(typingTimer);typingTimer=setTimeout(function(){if(my)my.textContent='';typingTimer=null},2200)}
    else{if(typingTimer)clearTimeout(typingTimer);typingTimer=null;my.textContent=''}
@@ -10669,7 +10669,7 @@ function build(){var pane=$('qgLiveConversation'),form=$('qglCompose');if(!pane|
  built=true}
 function sync(){raf=0;var pane=$('qgLiveConversation');if(!pane)return;build();
  var st=$('qglPeerStatus');pane.dataset.peerState=st?(st.dataset.state||'unknown'):'unknown';
- var ts=$('qglTypingStatus');pane.dataset.typing=(ts&&ts.textContent.trim())?'1':'0';
+ var ts=$('qglTypingStatus');var _sys=(pane.dataset.mode==='system'||pane.dataset.systemChat==='1');if(_sys&&ts&&ts.textContent)ts.textContent='';pane.dataset.typing=(!_sys&&ts&&ts.textContent.trim())?'1':'0';
  var vb=$('qglVoiceBtn'),rec=!!(vb&&/⏹/.test(vb.textContent||''));if(plus)plus.classList.toggle('rec',rec);
  if(menu){var v=menu.querySelector('[data-k="voice"] em');if(v)v.textContent=rec?'توقف و ارسال ویس':'ارسال ویس'}
  var se=$('qglStatus');if(se){var t=(se.textContent||'').trim();if(t!==lastSt){lastSt=t;clearTimeout(stT);
