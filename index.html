@@ -14263,5 +14263,59 @@ if(g&&g.children.length>1){var d=D.createElement('div');d.className='qgx-dots';f
   g.addEventListener('scroll',function(){var w=g.firstElementChild.offsetWidth+12,k=Math.min(g.children.length-1,Math.round(Math.abs(g.scrollLeft)/w));[].forEach.call(d.children,function(x,j){x.className=j===k?'on':''})},{passive:true})}
 })();
 </script>
+<style id="qg-design5-v1">
+/* ===== QGAMING Design 5 — Neon Aurora : login gate, QChat re-tint, home, bottom nav ===== */
+@keyframes qg5Up{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes qg5Card{from{opacity:0;transform:translateY(40px) scale(.94);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes qg5Spin{to{transform:rotate(360deg)}}
+@keyframes qg5Ring{from{transform:scale(1);opacity:.7}to{transform:scale(2.3);opacity:0}}
+@keyframes qg5Shine{0%,55%{transform:translateX(-180%) skewX(18deg)}100%{transform:translateX(330%) skewX(18deg)}}
+@keyframes qg5Float{50%{transform:translateY(-5px)}}
+@keyframes qg5Pulse{50%{opacity:.55}}
+@keyframes qg5Pop{0%{transform:scale(.7)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+
+/* ---------- HOME + BOTTOM NAV (default themes; GTA / White keep their own look) ---------- */
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-home-hero{position:relative;overflow:hidden;border-radius:28px!important;border:1px solid rgba(255,255,255,.1)!important;padding:20px!important;
+  background:radial-gradient(90% 130% at 100% 0,rgba(139,92,246,.34),transparent 62%),radial-gradient(70% 90% at 0 100%,rgba(34,211,238,.16),transparent 65%),linear-gradient(150deg,#161d3d,#0a0f22 70%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 22px 40px -22px #000!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;animation:qg5Up .7s cubic-bezier(.22,1,.36,1) both}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-home-hero::before{content:"";position:absolute;top:0;left:30px;right:30px;height:2px;background:linear-gradient(90deg,transparent,#22d3ee,#8b5cf6,transparent)}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-home-hero::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);transform:translateX(-180%) skewX(18deg);animation:qg5Shine 6s ease-in-out 1.5s infinite;pointer-events:none}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-home-kicker{font-size:10px!important;font-weight:900;letter-spacing:1.6px;color:#22d3ee!important}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-home-hero h2{margin:8px 0 6px!important;font-size:28px!important;font-weight:900;background:linear-gradient(100deg,#fff,#c4b5fd 55%,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-home-hero p{color:#8e99c0!important;line-height:1.9}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-home-meta span{padding:5px 12px!important;border-radius:999px!important;font-size:10.5px!important;font-weight:800;color:#c4cbea!important;background:rgba(0,0,0,.3)!important;border:1px solid rgba(255,255,255,.1)!important}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card{position:relative;overflow:hidden;border-radius:24px!important;border:1px solid rgba(255,255,255,.09)!important;
+  background:linear-gradient(165deg,#141b3a,#0b1027 75%)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.4),0 16px 26px -16px #000!important;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .3s;animation:qg5Up .65s cubic-bezier(.22,1,.36,1) both;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card:nth-child(1){animation-delay:.08s}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card:nth-child(2){animation-delay:.16s}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card:nth-child(3){animation-delay:.24s}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card:nth-child(4){animation-delay:.32s}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card:active{transform:scale(.96)}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);transform:translateX(-180%) skewX(18deg);animation:qg5Shine 8s ease-in-out infinite;pointer-events:none}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card:nth-child(2)::after{animation-delay:2s}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card:nth-child(3)::after{animation-delay:4s}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card:nth-child(4)::after{animation-delay:6s}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card .icon{border-radius:18px!important;background:linear-gradient(135deg,rgba(139,92,246,.4),rgba(34,211,238,.2))!important;border:1px solid rgba(255,255,255,.18)!important;color:#fff!important;box-shadow:0 10px 24px -10px rgba(139,92,246,.8);animation:qg5Float 4.5s ease-in-out infinite}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card h3{color:#fff!important;font-weight:900}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card p{color:#8e99c0!important}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #homeView .card .badge{border-radius:999px!important;font-weight:900;color:#a7f3ff!important;background:rgba(34,211,238,.12)!important;border:1px solid rgba(34,211,238,.35)!important}
+
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #bottomNav.bottom-nav{border-radius:26px!important;border:1px solid rgba(139,92,246,.35)!important;background:linear-gradient(180deg,rgba(20,23,52,.97),rgba(9,11,28,.98))!important;box-shadow:0 18px 40px -12px #000,0 0 30px -12px rgba(139,92,246,.6),inset 0 1px 0 rgba(255,255,255,.12)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #bottomNav .nav-btn{border-radius:20px!important;color:#7f8ab3!important;transition:transform .3s cubic-bezier(.34,1.56,.64,1),color .3s,background .3s!important}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #bottomNav .nav-btn:active{transform:scale(.9)}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #bottomNav .nav-btn.active{color:#fff!important;background:linear-gradient(145deg,rgba(139,92,246,.4),rgba(34,211,238,.16))!important;box-shadow:0 10px 24px -10px rgba(139,92,246,.9),inset 0 1px 0 rgba(255,255,255,.2)}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #bottomNav .nav-btn.active .nav-glyph{color:#67e8f9!important;background:rgba(34,211,238,.12)!important;border-color:rgba(34,211,238,.45)!important;animation:qg5Pop .5s cubic-bezier(.34,1.56,.64,1)}
+
+/* ---------- generic section headers / back buttons ---------- */
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #top100View .title-row h2,html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #arcadeView .title-row h2{background:linear-gradient(100deg,#fff,#c4b5fd 60%,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent!important;font-weight:900}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #top100View .back,html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body #arcadeView .back{border-radius:14px!important;background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.14)!important;color:#fff!important;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-gaming-videos-head,html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-gaming-videos-wrap{--g5:1}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-gaming-videos-head h2{background:linear-gradient(100deg,#fff,#c4b5fd 60%,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent!important;font-weight:900}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-gaming-videos-eyebrow{color:#22d3ee!important;font-weight:900;letter-spacing:1.4px}
+html:not([data-qg-theme="gta"]):not([data-qg-theme="white"]) body .qg-gaming-videos-beta{border-radius:999px!important;color:#a7f3ff!important;background:rgba(34,211,238,.12)!important;border:1px solid rgba(34,211,238,.35)!important}
+@media(prefers-reduced-motion:reduce){html body #homeView *,html body #bottomNav *,html body .qg-home-hero,html body .qg-home-hero::after{animation:none!important;transition-duration:.01ms!important}}
+html[data-qg-anim=off] body #homeView *,html[data-qg-anim=off] body #bottomNav *{animation:none!important}
+</style>
 </body>
 </html>
