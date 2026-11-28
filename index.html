@@ -14535,5 +14535,131 @@ html body #chatView.qg-qchat-root #qgLiveConversation .qgl-compose textarea:focu
 html body #chatView.qg-qchat-root #qgLiveConversation .qgl-ident small.qgl-head-typing{display:none!important}
 html body #chatView.qg-qchat-root #qgLiveConversation[data-typing="1"]:not([data-peer-state="offline"]):not([data-mode="system"]):not([data-mode="saved"]) .qgl-ident small.qgl-head-typing{display:inline-flex!important;color:#4ade80!important}
 </style>
+<style id="qgx-peer-profile-css">
+html body #chatView.qg-qchat-root #qgLiveConversation[data-mode="peer"] #qglPeerAvatar,
+html body #chatView.qg-qchat-root #qgLiveConversation[data-mode="peer"] .qgl-ident{cursor:pointer;-webkit-tap-highlight-color:transparent}
+#qgxProfile{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;background:#0b0f16;color:#e8eef7;direction:rtl;overflow-y:auto;overscroll-behavior:contain;animation:qgxPfIn .32s cubic-bezier(.2,.9,.3,1) both}
+#qgxProfile.out{animation:qgxPfOut .22s ease both}
+@keyframes qgxPfIn{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+@keyframes qgxPfOut{to{opacity:0;transform:translateX(-28px)}}
+#qgxProfile .pf-top{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 6px;position:sticky;top:0;background:rgba(11,15,22,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);z-index:2}
+#qgxProfile .pf-back{width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#fff;font-size:22px;cursor:pointer;display:grid;place-items:center}
+#qgxProfile .pf-title{font-weight:800;font-size:15px}
+#qgxProfile .pf-hero{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 16px 14px;text-align:center}
+#qgxProfile .pf-av{width:112px;height:112px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:linear-gradient(135deg,#7c5cf0,#3b2a8f);color:#fff;font-size:46px;font-weight:800;cursor:pointer;box-shadow:0 0 0 3px #0b0f16,0 0 0 5px var(--qgd-accent,#8b5cf6),0 12px 34px rgba(0,0,0,.5)}
+#qgxProfile .pf-av img{width:100%;height:100%;object-fit:cover;display:block}
+#qgxProfile .pf-name{font-size:21px;font-weight:800;margin-top:10px;word-break:break-word}
+#qgxProfile .pf-st{font-size:13px;color:#8d9bb0;display:flex;align-items:center;gap:6px}
+#qgxProfile .pf-st i{width:8px;height:8px;border-radius:50%;background:#6b7686}
+#qgxProfile .pf-st[data-s="online"]{color:#4ade80}#qgxProfile .pf-st[data-s="online"] i{background:#4ade80;box-shadow:0 0 8px #4ade80}
+#qgxProfile .pf-card{margin:10px 14px;border-radius:18px;background:#111b27;border:1px solid rgba(255,255,255,.06);overflow:hidden}
+#qgxProfile .pf-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
+#qgxProfile .pf-row:last-child{border-bottom:0}
+#qgxProfile .pf-ic{font-size:19px;width:26px;text-align:center;flex:none}
+#qgxProfile .pf-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+#qgxProfile .pf-tx small{font-size:11.5px;color:#8d9bb0}
+#qgxProfile .pf-tx b{font-size:15px;font-weight:700;word-break:break-all}
+#qgxProfile .pf-btn{border:0;border-radius:10px;padding:7px 12px;background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:12.5px;cursor:pointer}
+#qgxProfile .pf-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:13px;font-weight:800;width:max-content}
+#qgxProfile .pf-badge.old{background:linear-gradient(135deg,#f59e0b,#d97706);color:#2a1405;box-shadow:0 0 16px rgba(245,158,11,.35)}
+#qgxProfile .pf-badge.new{background:rgba(96,165,250,.16);color:#93c5fd}
+#qgxProfile .pf-badge.unk{background:rgba(148,163,184,.16);color:#cbd5e1}
+#qgxProfile .pf-note{font-size:11.5px;color:#8d9bb0;line-height:1.7;margin-top:4px}
+#qgxProfile .pf-danger{color:#ff8f8f}
+#qgxProfile .pf-skel{display:inline-block;width:90px;height:12px;border-radius:6px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.16),rgba(255,255,255,.06));background-size:200% 100%;animation:qgxPfSk 1.2s linear infinite}
+@keyframes qgxPfSk{from{background-position:200% 0}to{background-position:-20% 0}}
+#qgxPfZoom{position:fixed;inset:0;z-index:1000001;display:grid;place-items:center;background:rgba(5,8,14,.92);animation:qgxPfIn .2s ease both}
+#qgxPfZoom img,#qgxPfZoom div{width:min(88vw,420px);height:min(88vw,420px);border-radius:50%;object-fit:cover;display:grid;place-items:center;background:linear-gradient(135deg,#7c5cf0,#3b2a8f);color:#fff;font-size:120px;font-weight:800}
+</style>
+<script id="qgx-peer-profile-v1">
+(function(){'use strict';
+if(window.__qgxPeerProfileV1)return;window.__qgxPeerProfileV1=true;
+/* "Old user" window: accounts created between 17 Mehr and 26 Mehr (Persian calendar). Edit here if needed. */
+var OLD={year:1405,month:7,dayFrom:17,dayTo:26};
+var D=document,cache={};
+function $(id){return D.getElementById(id)}
+function client(){try{return window.QGAMING_SUPABASE_AUTH||(window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.getClient&&window.QGAMINGOnlineAuth.getClient())||null}catch(e){return null}}
+function persianParts(d){try{var o={};new Intl.DateTimeFormat('en-US-u-ca-persian-nu-latn',{timeZone:'Asia/Tehran',year:'numeric',month:'numeric',day:'numeric'}).formatToParts(d).forEach(function(p){o[p.type]=p.value});return{y:+o.year,m:+o.month,d:+o.day}}catch(e){return null}}
+function isOld(d){var p=persianParts(d);return !!p&&p.y===OLD.year&&p.m===OLD.month&&p.d>=OLD.dayFrom&&p.d<=OLD.dayTo}
+function faDate(d){try{return d.toLocaleDateString('fa-IR',{timeZone:'Asia/Tehran',year:'numeric',month:'long',day:'numeric'})}catch(e){return d.toLocaleDateString('fa-IR')}}
+function faNum(n){try{return Number(n).toLocaleString('fa-IR')}catch(e){return String(n)}}
+function ago(d){var days=Math.floor((Date.now()-d.getTime())/86400000);if(days<=0)return 'امروز';if(days<30)return faNum(days)+' روز پیش';var mo=Math.floor(days/30);if(mo<12)return 'حدود '+faNum(mo)+' ماه پیش';return 'حدود '+faNum(Math.floor(days/365))+' سال پیش'}
+function pickDate(row){if(!row)return null;var k=['joined_at','created_at','account_created_at','user_created_at','member_since','registered_at'];for(var i=0;i<k.length;i++){var v=row[k[i]];if(v){var d=new Date(v);if(!isNaN(d.getTime()))return d}}return null}
+async function fetchJoined(handle){
+  var key=String(handle||'').toLowerCase();if(!key)return{date:null};
+  if(cache[key]&&Date.now()-cache[key].t<300000)return cache[key].v;
+  var c=client(),res={date:null};
+  if(c&&typeof c.rpc==='function'){
+    var names=['qhead_profile_card','qhead_search_profile'];
+    for(var i=0;i<names.length&&!res.date;i++){
+      try{var r=await c.rpc(names[i],names[i]==='qhead_profile_card'?{p_qhead_id:key}:{p_qhead_id:key});
+        if(!r.error){var row=Array.isArray(r.data)?r.data[0]:r.data;var d=pickDate(row);if(d){res={date:d,name:row&&row.display_name,avatar:row&&row.avatar_url}}}
+      }catch(e){}
+    }
+  }
+  cache[key]={t:Date.now(),v:res};return res;
+}
+function el(tag,cls,txt){var e=D.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function row(icon,label,valueNode,actionNode){var r=el('div','pf-row');r.appendChild(el('span','pf-ic',icon));var t=el('div','pf-tx');t.appendChild(el('small','',label));if(typeof valueNode==='string')t.appendChild(el('b','',valueNode));else t.appendChild(valueNode);r.appendChild(t);if(actionNode)r.appendChild(actionNode);return r}
+function toast(msg){try{if(window.qgToast)return window.qgToast(msg)}catch(e){}var t=el('div','',msg);t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:1000002;background:#1f2a3a;color:#fff;padding:9px 16px;border-radius:12px;font-size:13px;direction:rtl';D.body.appendChild(t);setTimeout(function(){t.remove()},1600)}
+function copy(text){try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){toast('کپی شد ✓')},function(){fallback()});return}}catch(e){}fallback();function fallback(){var ta=D.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';D.body.appendChild(ta);ta.select();try{D.execCommand('copy');toast('کپی شد ✓')}catch(e){}ta.remove()}}
+function zoom(img,initial){var z=el('div');z.id='qgxPfZoom';var n;if(img){n=new Image();n.src=img;n.alt='';n.referrerPolicy='no-referrer'}else{n=el('div','',initial)}z.appendChild(n);z.addEventListener('click',function(){z.remove()});D.body.appendChild(z)}
+var openFor='',statusObs=null;
+function close(){var p=$('qgxProfile');if(!p)return;if(statusObs){try{statusObs.disconnect()}catch(e){}statusObs=null}openFor='';p.classList.add('out');setTimeout(function(){p.remove()},220)}
+function open(){
+  var pane=$('qgLiveConversation');if(!pane||pane.dataset.mode!=='peer'||$('qgxProfile'))return;
+  var name=(($('qglPeerName')||{}).textContent||'').trim()||'کاربر QChat';
+  var handleTxt=(($('qglPeerHandle')||{}).textContent||'').trim(),handle=handleTxt.replace(/^@/,'').trim();
+  var avImg=pane.querySelector('#qglPeerAvatar img'),avSrc=avImg?avImg.src:'';
+  var initial=name.charAt(0).toUpperCase()||'👤';
+  openFor=handle.toLowerCase();
+  var p=el('div');p.id='qgxProfile';p.setAttribute('role','dialog');p.setAttribute('aria-label','پروفایل کاربر');
+  var top=el('div','pf-top');var back=el('button','pf-back','›');back.type='button';back.setAttribute('aria-label','بازگشت');back.addEventListener('click',close);top.appendChild(back);top.appendChild(el('span','pf-title','اطلاعات کاربر'));p.appendChild(top);
+  var hero=el('div','pf-hero');var av=el('div','pf-av');if(avSrc){var im=new Image();im.src=avSrc;im.alt='';im.referrerPolicy='no-referrer';im.onerror=function(){av.textContent=initial};av.appendChild(im)}else av.textContent=initial;av.addEventListener('click',function(){zoom(avSrc,initial)});
+  hero.appendChild(av);hero.appendChild(el('div','pf-name',name));
+  var st=el('div','pf-st');st.appendChild(el('i'));var stt=el('span');st.appendChild(stt);hero.appendChild(st);p.appendChild(hero);
+  function syncStatus(){var s=$('qglPeerStatus'),t=$('qglPeerStatusText');var state=s?(s.dataset.state||'unknown'):'unknown';st.dataset.s=state;stt.textContent=(t&&t.textContent)||'وضعیت نامشخص'}
+  syncStatus();var so=$('qglPeerStatus');if(so&&window.MutationObserver){statusObs=new MutationObserver(syncStatus);statusObs.observe(so,{attributes:true,childList:true,subtree:true,characterData:true})}
+  var card=el('div','pf-card');
+  var cp=el('button','pf-btn','کپی');cp.type='button';cp.addEventListener('click',function(){copy('@'+handle)});
+  card.appendChild(row('🆔','شناسه (آیدی)',handle?('@'+handle):'نامشخص',handle?cp:null));
+  var joinedB=el('b');joinedB.appendChild(el('span','pf-skel'));
+  var joinedRow=row('📅','تاریخ عضویت',joinedB);card.appendChild(joinedRow);
+  var badgeWrap=el('div');badgeWrap.appendChild(el('span','pf-skel'));
+  var badgeRow=row('🏅','وضعیت کاربر',badgeWrap);card.appendChild(badgeRow);
+  p.appendChild(card);
+  var card2=el('div','pf-card');
+  var msg=row('💬','ارسال پیام',el('b','','بازگشت به گفت‌وگو'));msg.style.cursor='pointer';msg.addEventListener('click',close);card2.appendChild(msg);
+  var rep=$('qglReportPeerBtn');
+  if(rep){var rr=row('🚩','گزارش کاربر',el('b','pf-danger','ثبت گزارش برای تیم QGAMING'));rr.style.cursor='pointer';rr.addEventListener('click',function(){close();setTimeout(function(){try{rep.click()}catch(e){}},260)});card2.appendChild(rr)}
+  p.appendChild(card2);
+  pane.appendChild(p);
+  fetchJoined(handle).then(function(r){
+    if(openFor!==handle.toLowerCase()||!$('qgxProfile'))return;
+    joinedB.textContent='';badgeWrap.textContent='';
+    if(r&&r.date){
+      joinedB.textContent=faDate(r.date)+' · '+ago(r.date);
+      var old=isOld(r.date);
+      var b=el('span','pf-badge '+(old?'old':'new'),old?'👑 کاربر قدیمی':'✨ کاربر جدید');badgeWrap.appendChild(b);
+      badgeWrap.appendChild(el('div','pf-note',old?'حسابش بین ۱۷ تا ۲۶ مهر ساخته شده؛ از اولین کاربران QGAMING است.':'حسابش بعد از ۲۶ مهر ساخته شده (کاربر قدیمی نیست).'));
+    }else{
+      joinedB.textContent='در دسترس نیست';
+      badgeWrap.appendChild(el('span','pf-badge unk','❔ نامشخص'));
+      badgeWrap.appendChild(el('div','pf-note','تاریخ عضویت این کاربر از سرور دریافت نشد.'));
+    }
+  });
+}
+D.addEventListener('click',function(e){
+  var t=e.target;if(!t||!t.closest)return;
+  var pane=$('qgLiveConversation');if(!pane||pane.dataset.mode!=='peer')return;
+  if(t.closest('#qgxProfile'))return;
+  var hit=t.closest('#qglPeerAvatar,.qgl-ident');if(!hit||!pane.contains(hit))return;
+  e.preventDefault();open();
+},true);
+D.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+/* leaving the chat / switching conversation closes the page */
+setInterval(function(){var p=$('qgxProfile');if(!p)return;var pane=$('qgLiveConversation');var h=((($('qglPeerHandle')||{}).textContent)||'').replace(/^@/,'').trim().toLowerCase();if(!pane||pane.hidden||pane.dataset.mode!=='peer'||h!==openFor){if(statusObs){try{statusObs.disconnect()}catch(e){}statusObs=null}openFor='';p.remove()}},700);
+})();
+</script>
 </body>
 </html>
