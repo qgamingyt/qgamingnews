@@ -9958,14 +9958,16 @@ function sendTyping(forceStop){
  var input=$('qglText'),id=conversationId();
  if(!input||!id)return;
  id=String(id);
+ // An empty/whitespace-only composer is never evidence that the user is typing.
+ if(!String(input.value||'').trim()){stopLocalTyping();return}
  if(localTypingActive&&localTypingConversation&&localTypingConversation!==id)stopLocalTyping();
  localTypingActive=true;localTypingConversation=id;
  var now=Date.now();
- if(now-lastTypingSentAt>=1500){lastTypingSentAt=now;queueTypingAction('start',id).catch(function(){})}
+ if(now-lastTypingSentAt>=1500){lastTypingSentAt=now;queueTypingAction('start',id).catch(function(){stopLocalTyping()})}
  if(localTypingTimer)clearTimeout(localTypingTimer);
  localTypingTimer=setTimeout(stopLocalTyping,2400);
 }
-function observer(){var root=$('chatView');if(!root)return;var mo=new MutationObserver(function(){addHomeEntries();ensureTools();enhanceMessages()});mo.observe(root,{subtree:true,childList:true});var inp=$('qglText');if(inp&&!inp.dataset.qchatTypingBound){inp.dataset.qchatTypingBound='1';inp.addEventListener('input',function(){sendTyping(false)});inp.addEventListener('blur',function(){sendTyping(true)});var form=inp.closest('form');if(form)form.addEventListener('submit',function(){sendTyping(true)});}addHomeEntries();ensureTools();enhanceMessages();setInterval(function(){var id=conversationId();if(id&&id!==lastConversation){lastConversation=id;switchTypingChannel(id)}else if(!id&&lastConversation){stopLocalTyping();stopTypingPolling();lastConversation='';currentTypingTopic='';var st=$('qglTypingStatus');if(st)st.textContent=''}},700)}
+function observer(){var root=$('chatView');if(!root)return;var mo=new MutationObserver(function(){addHomeEntries();ensureTools();enhanceMessages()});mo.observe(root,{subtree:true,childList:true});var inp=$('qglText');if(inp&&!inp.dataset.qchatTypingBound){inp.dataset.qchatTypingBound='1';inp.addEventListener('input',function(){sendTyping(false)});inp.addEventListener('change',function(){if(!String(inp.value||'').trim())sendTyping(true)});inp.addEventListener('blur',function(){sendTyping(true)});var form=inp.closest('form');if(form)form.addEventListener('submit',function(){sendTyping(true)});}addHomeEntries();ensureTools();enhanceMessages();setInterval(function(){var id=conversationId();if(id&&id!==lastConversation){lastConversation=id;switchTypingChannel(id)}else if(!id&&lastConversation){stopLocalTyping();stopTypingPolling();lastConversation='';currentTypingTopic='';var st=$('qglTypingStatus');if(st)st.textContent=''}},700)}
 window.QGChatReport={ask:askReport};document.addEventListener('visibilitychange',function(){if(document.hidden)stopLocalTyping()});window.addEventListener('pagehide',function(){stopLocalTyping()});function boot(){if(!getClient())return;observer();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();setTimeout(boot,1800);
 })();
