@@ -1987,9 +1987,9 @@ html,body{scroll-behavior:auto!important}
     </header>
     <div class="qg-chat-list-home pane" id="qgChatHome">
       <div class="qg-qhead-search-card">
-          <div class="qg-qhead-section-title"><b>پیدا کردن کاربران</b><small>با نام کاربری عمومی</small></div>
-          <div class="qg-qhead-search-row search"><span>@</span><input id="qgQHeadSearchInput" type="search" maxlength="30" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="آیدی کاربر را وارد کن"><button type="button" id="qgQHeadSearchBtn" aria-label="جست‌وجو">⌕</button></div>
-          <div class="qg-qhead-status" id="qgQHeadSearchStatus" role="status" aria-live="polite">فقط پروفایل‌هایی که عمومی شده‌اند نمایش داده می‌شوند.</div>
+          <div class="qg-qhead-section-title"><b>پیدا کردن کاربر یا کانال</b><small>آیدی‌های عمومی QChat</small></div>
+          <div class="qg-qhead-search-row search"><span>@</span><input id="qgQHeadSearchInput" type="search" maxlength="30" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="آیدی کاربر یا کانال را وارد کن"><button type="button" id="qgQHeadSearchBtn" aria-label="جست‌وجو">⌕</button></div>
+          <div class="qg-qhead-status" id="qgQHeadSearchStatus" role="status" aria-live="polite">پروفایل‌ها و کانال‌های عمومی با آیدی قابل جست‌وجو هستند.</div>
           <div id="qgQHeadResult" class="qg-qhead-result" hidden></div>
         </div>
 
@@ -5430,7 +5430,7 @@ function init(){
  if(!card)return;
  // Reuse the original QHead/RPC-powered search node and its event handlers; do not create a second search backend.
  var overlay=document.createElement('section');overlay.id='qgIdSearchOverlay';overlay.hidden=true;overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','جستجوی آیدی‌های عمومی');overlay.setAttribute('tabindex','-1');
- overlay.innerHTML='<header class="qgis-head"><button class="qgis-back" type="button" aria-label="بازگشت به فهرست گفتگوها">‹</button><div><div class="qgis-title">جستجوی آیدی</div><small class="qgis-subtitle">پیدا کردن کاربران عمومی QChat</small></div></header><div class="qgis-body"><p class="qgis-intro">آیدی عمومی کاربر را وارد کن تا حساب‌های قابل جستجو را پیدا کنی و مستقیم گفتگو را شروع کنی.</p><div class="qgis-card-host"></div></div>';
+ overlay.innerHTML='<header class="qgis-head"><button class="qgis-back" type="button" aria-label="بازگشت به فهرست گفتگوها">‹</button><div><div class="qgis-title">جستجوی آیدی</div><small class="qgis-subtitle">پیدا کردن کاربران و کانال‌های عمومی QChat</small></div></header><div class="qgis-body"><p class="qgis-intro">آیدی عمومی کاربر یا کانال را وارد کن تا نتیجه را پیدا کنی و وارد گفت‌وگو یا کانال شوی.</p><div class="qgis-card-host"></div></div>';
  var host=overlay.querySelector('.qgis-card-host');host.appendChild(card);root.appendChild(overlay);
  var input=card.querySelector('#qgQHeadSearchInput'),searchButton=card.querySelector('#qgQHeadSearchBtn'),status=card.querySelector('#qgQHeadSearchStatus'),result=card.querySelector('#qgQHeadResult');
  // The old card is physically moved out of the chat list, so there is no duplicate "find users" section.
@@ -5439,7 +5439,7 @@ function init(){
  function resetSearch(){
   if(input)input.value='';
   if(result){result.hidden=true;result.textContent='';result.className='qg-qhead-result'}
-  if(status){status.textContent='فقط پروفایل‌های عمومی نمایش داده می‌شوند. آیدی را وارد کن و دکمه جستجو را بزن.';status.className='qg-qhead-status'}
+  if(status){status.textContent='پروفایل‌ها و کانال‌های عمومی نمایش داده می‌شوند. آیدی را وارد کن و جست‌وجو را بزن.';status.className='qg-qhead-status'}
   if(searchButton){searchButton.disabled=false;searchButton.textContent='⌕'}
  }
  function open(){
@@ -5621,7 +5621,7 @@ async function qgRenderChats(){
   finally{qgInboxLoading=false}
 }
 async function initQGChatHistory(){qgRenderChats();bindPresenceAuth();ensureOwnPresence().catch(function(){});if(qgInboxRefreshTimer)clearInterval(qgInboxRefreshTimer);qgInboxRefreshTimer=setInterval(function(){if(!document.hidden)qgRenderChats()},15000)}
-async function openConversation(username,displayName,existingConversationId,peerAvatarUrl){var pane=makePane();if(!pane)return;var home=$('qgChatHome'),account=$('qgQHeadPane'),saved=$('qgSavedPane'),updates=$('qgQUpdatePane'),nav=$('qgQChatBottomNav'),shell=document.querySelector('#chatView .qg-chat-shell');[home,account,saved,updates].forEach(function(x){if(x)x.hidden=true});if(nav)nav.hidden=true;pane.hidden=false;if(shell)shell.classList.add('qg-pane-chat-open');delete pane.dataset.systemChat;qglSetMode('peer');status(existingConversationId?'در حال بازکردن گفت‌وگوی قبلی…':'در حال ایجاد گفت‌وگوی خصوصی…');try{var conversationId=existingConversationId;if(!conversationId){var r=await edge('start_conversation',{qhead_id:username});conversationId=r.conversation_id}if(!conversationId)throw new Error('شناسهٔ گفت‌وگو از سرور دریافت نشد');activeId=conversationId;activePeer=username;activePeerAvatar=peerAvatarUrl||null;lastRows=[];qgQChatFetchReady=false;$('qglMessages').textContent='';$('qglPeerName').textContent=displayName||('@'+username);$('qglPeerHandle').textContent='@'+username;setPeerAvatar(displayName||username,peerAvatarUrl||'');watchPeerPresence(username);await fetchMessages();if(pollTimer)clearInterval(pollTimer);pollTimer=setInterval(fetchMessages,5000);setTimeout(function(){$('qglText')&&$('qglText').focus()},100)}catch(e){status('بازکردن گفت‌وگو ناموفق بود: '+(e.message||'خطای اتصال'))}}
+async function openConversation(username,displayName,existingConversationId,peerAvatarUrl){var pane=makePane();if(!pane)return;var home=$('qgChatHome'),account=$('qgQHeadPane'),saved=$('qgSavedPane'),updates=$('qgQUpdatePane'),nav=$('qgQChatBottomNav'),shell=document.querySelector('#chatView .qg-chat-shell');[home,account,saved,updates].forEach(function(x){if(x)x.hidden=true});if(nav)nav.hidden=true;pane.hidden=false;if(shell)shell.classList.add('qg-pane-chat-open');delete pane.dataset.systemChat;delete pane.dataset.channelChat;var _qps=$('qglPeerStatus');if(_qps)_qps.hidden=false;qglSetMode('peer');status(existingConversationId?'در حال بازکردن گفت‌وگوی قبلی…':'در حال ایجاد گفت‌وگوی خصوصی…');try{var conversationId=existingConversationId;if(!conversationId){var r=await edge('start_conversation',{qhead_id:username});conversationId=r.conversation_id}if(!conversationId)throw new Error('شناسهٔ گفت‌وگو از سرور دریافت نشد');activeId=conversationId;activePeer=username;activePeerAvatar=peerAvatarUrl||null;lastRows=[];qgQChatFetchReady=false;$('qglMessages').textContent='';$('qglPeerName').textContent=displayName||('@'+username);$('qglPeerHandle').textContent='@'+username;setPeerAvatar(displayName||username,peerAvatarUrl||'');watchPeerPresence(username);await fetchMessages();if(pollTimer)clearInterval(pollTimer);pollTimer=setInterval(fetchMessages,5000);setTimeout(function(){$('qglText')&&$('qglText').focus()},100)}catch(e){status('بازکردن گفت‌وگو ناموفق بود: '+(e.message||'خطای اتصال'))}}
 var qglSavedUrls=[];
 function qglRevokeUrls(){for(var i=0;i<qglSavedUrls.length;i++){try{URL.revokeObjectURL(qglSavedUrls[i])}catch(e){}}qglSavedUrls=[]}
 function qglSetMode(mode){
@@ -5636,7 +5636,7 @@ function qglSetMode(mode){
 }
 function qglTickHTML(kind){var id=kind==='green'?'qgtSealGreen':'qgoSealDev';return '<qg-tick class="qgv-t qgv-m'+(kind==='green'?' qgt-green':' qgo-dev')+'" role="img" aria-label="'+(kind==='green'?'مورد اعتماد برنامه':'حساب رسمی تأییدشده')+'"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#'+id+'" xlink:href="#'+id+'"></use></svg></qg-tick>'}
 function qglOpenShell(){
-  var pane=makePane();if(!pane)return null;
+  var pane=makePane();if(!pane)return null;var _peerStatus=$('qglPeerStatus');if(_peerStatus)_peerStatus.hidden=false;delete pane.dataset.channelChat;
   var home=$('qgChatHome'),account=$('qgQHeadPane'),saved=$('qgSavedPane'),updates=$('qgQUpdatePane'),nav=$('qgQChatBottomNav'),shell=document.querySelector('#chatView .qg-chat-shell');
   [home,account,saved,updates].forEach(function(x){if(x)x.hidden=true});if(nav)nav.hidden=true;pane.hidden=false;if(shell)shell.classList.add('qg-pane-chat-open');
   if(pollTimer){clearInterval(pollTimer);pollTimer=null}stopPeerPresence();activeId=null;lastRows=[];clearReply();qglRevokeUrls();
@@ -5732,7 +5732,34 @@ async function syncQChatInbox(conversationId){
 }
 async function sendMessage(e){e.preventDefault();var qPane=$('qgLiveConversation');if(qPane&&qPane.dataset.mode==='system')return;if(qPane&&qPane.dataset.mode==='saved'){savedSend();return}var input=$('qglText'),btn=$('qglSend'),body=input&&input.value.trim();if(!body||!activeId)return;var reply=replyTarget,conversationId=activeId;btn.disabled=true;btn.classList.add('sending');btn.querySelector('span').textContent='در حال ارسال';try{var payload={conversation_id:conversationId,body:body};if(reply)payload.reply_to_id=reply.id;await edge('send_message',payload);input.value='';clearReply();await fetchMessages();await syncQChatInbox(conversationId)}catch(e){status('ارسال پیام ناموفق بود: '+(e.message||'خطای اتصال'))}finally{btn.disabled=false;btn.classList.remove('sending');btn.querySelector('span').textContent='ارسال';input&&input.focus()}}
 document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('.qg-start-direct-chat');if(!b)return;var result=b.closest('.qg-qhead-result'),avatar=result&&result.querySelector('.qg-qhead-result-card img');openConversation(b.dataset.username,result&&result.querySelector('.qg-qhead-result-main b')?.textContent||b.dataset.username,null,avatar&&avatar.src||'')});
-window.QGChatMessaging={open:openConversation,openSystemChat:openSystemChat,openSavedChat:openSavedChat,close:closePane,refresh:fetchMessages,reply:setReply,deleteForEveryone:deleteMessage,request:edge,getConversationId:function(){return activeId},getPeer:function(){return activePeer}};document.addEventListener('click',function(ev){var r=ev.target&&ev.target.closest&&ev.target.closest('#qgSystemRow');if(r){ev.preventDefault();openSystemChat()}});document.addEventListener('visibilitychange',function(){if(!document.hidden){ensureOwnPresence().catch(function(){});if(activePeer)watchPeerPresence(activePeer)}});window.addEventListener('online',function(){ensureOwnPresence().catch(function(){});if(activePeer)watchPeerPresence(activePeer)});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initQGChatHistory,{once:true});else initQGChatHistory();
+async function openChannel(channel){
+  channel=channel||{};
+  var pane=makePane();if(!pane)return;
+  var home=$('qgChatHome'),account=$('qgQHeadPane'),saved=$('qgSavedPane'),updates=$('qgQUpdatePane'),nav=$('qgQChatBottomNav'),shell=document.querySelector('#chatView .qg-chat-shell');
+  [home,account,saved,updates].forEach(function(x){if(x)x.hidden=true});if(nav)nav.hidden=true;pane.hidden=false;if(shell)shell.classList.add('qg-pane-chat-open');
+  delete pane.dataset.systemChat;pane.dataset.channelChat='1';qglSetMode('channel');pane.dataset.typing='0';pane.dataset.peerState='unknown';
+  var peerStatus=$('qglPeerStatus');if(peerStatus)peerStatus.hidden=true;
+  if(pollTimer){clearInterval(pollTimer);pollTimer=null}stopPeerPresence();
+  activeId=null;activePeer=null;activePeerAvatar=null;lastRows=[];qgQChatFetchReady=false;clearReply();
+  var box=$('qglMessages');if(box){box.textContent='';box.dataset.qgRenderSignature=''}
+  var handle=String(channel.channel_handle||channel.handle||'').replace(/^@/,'').toLowerCase();
+  var title=String(channel.title||('کانال '+(handle?'@'+handle:'')));
+  $('qglPeerName').textContent=title;$('qglPeerHandle').textContent=(handle?'@'+handle+' · ':'')+'کانال عمومی';
+  setPeerAvatar(title,channel.avatar_url||'');setPeerStatus('کانال عمومی','unknown');
+  status('در حال ورود به کانال…');
+  try{
+    var joined=await edge('join_channel',{channel_id:channel.id||channel.conversation_id||'',channel_handle:handle});
+    var conversationId=joined.conversation_id||((joined.channel||{}).id)||channel.id;
+    if(!conversationId)throw new Error('شناسه کانال از سرور دریافت نشد');
+    activeId=conversationId;
+    await fetchMessages();
+    if(pollTimer)clearInterval(pollTimer);pollTimer=setInterval(fetchMessages,5000);
+    status('کانال آماده است؛ می‌توانی پیام بفرستی.');
+    setTimeout(function(){$('qglText')&&$('qglText').focus()},100);
+    window.dispatchEvent(new CustomEvent('qg-channel-list-refresh'));
+  }catch(e){status('بازکردن کانال ناموفق بود: '+(e.message||'خطای اتصال'))}
+}
+window.QGChatMessaging={open:openConversation,openChannel:openChannel,openSystemChat:openSystemChat,openSavedChat:openSavedChat,close:closePane,refresh:fetchMessages,reply:setReply,deleteForEveryone:deleteMessage,request:edge,getConversationId:function(){return activeId},getPeer:function(){return activePeer}};document.addEventListener('click',function(ev){var r=ev.target&&ev.target.closest&&ev.target.closest('#qgSystemRow');if(r){ev.preventDefault();openSystemChat()}});document.addEventListener('visibilitychange',function(){if(!document.hidden){ensureOwnPresence().catch(function(){});if(activePeer)watchPeerPresence(activePeer)}});window.addEventListener('online',function(){ensureOwnPresence().catch(function(){});if(activePeer)watchPeerPresence(activePeer)});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initQGChatHistory,{once:true});else initQGChatHistory();
 })();
 </script>
 
@@ -14661,5 +14688,119 @@ D.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
 setInterval(function(){var p=$('qgxProfile');if(!p)return;var pane=$('qgLiveConversation');var h=((($('qglPeerHandle')||{}).textContent)||'').replace(/^@/,'').trim().toLowerCase();if(!pane||pane.hidden||pane.dataset.mode!=='peer'||h!==openFor){if(statusObs){try{statusObs.disconnect()}catch(e){}statusObs=null}openFor='';p.remove()}},700);
 })();
 </script>
+<style id="qg-channel-support-style">
+#chatView.qg-qchat-root #qgLiveConversation[data-channel-chat="1"] .qgl-ident small.qgl-head-typing{display:none!important}
+#chatView.qg-qchat-root .qg-channel-verified{display:inline-grid;place-items:center;flex:none;width:15px;height:15px;border-radius:50%;font-size:10px;font-weight:900;color:#06131b;background:#45d7e8}
+</style>
+<script id="qg-channel-support-v1">
+(function(){
+  'use strict';
+  if(window.__qgChannelSupportV1)return;window.__qgChannelSupportV1=true;
+  var $=function(id){return document.getElementById(id)};
+  var busy=false,timer=null;
+  function api(){return window.QGChatMessaging&&typeof window.QGChatMessaging.request==='function'?window.QGChatMessaging.request:null}
+  function ensureSection(){
+    var home=$('qgChatHome');if(!home)return null;
+    var section=$('qgChannelChats');if(section)return section;
+    section=document.createElement('section');section.id='qgChannelChats';section.className='qg-saved-direct-chats';
+    var title=document.createElement('div');title.className='qg-saved-direct-title';
+    var b=document.createElement('b');b.textContent='کانال‌های شما';var small=document.createElement('small');small.textContent='کانال‌هایی که عضو آن‌ها هستید';title.appendChild(b);title.appendChild(small);
+    var list=document.createElement('div');list.id='qgChannelChatList';list.className='qg-saved-direct-list';section.appendChild(title);section.appendChild(list);
+    var direct=$('qgSavedDirectChats'),pinned=home.querySelector('#qgPinnedChats');
+    if(direct&&direct.parentNode===home)home.insertBefore(section,direct.nextSibling);
+    else if(pinned&&pinned.parentNode===home)home.insertBefore(section,pinned.nextSibling);
+    else home.insertBefore(section,home.firstChild);
+    return section;
+  }
+  function textNode(tag,className,value){var e=document.createElement(tag);if(className)e.className=className;e.textContent=value||'';return e}
+  function renderRow(channel){
+    var b=document.createElement('button');b.type='button';b.className='qg-saved-direct-row qg-channel-row';
+    b.setAttribute('aria-label','بازکردن کانال '+String(channel.title||channel.channel_handle||''));
+    var avatar=document.createElement('span');avatar.className='qg-saved-direct-avatar';
+    if(channel.avatar_url){var im=document.createElement('img');im.src=channel.avatar_url;im.alt='';im.loading='lazy';im.referrerPolicy='no-referrer';im.className='qg-saved-direct-avatar';avatar.replaceWith(im);avatar=im;}
+    else avatar.textContent='📣';
+    var meta=document.createElement('span');meta.className='qg-saved-direct-meta';
+    var name=document.createElement('b');name.textContent=channel.title||'کانال QChat';
+    if(channel.is_verified){var tick=textNode('span','qg-channel-verified','✓');tick.setAttribute('aria-label','کانال تأییدشده');name.appendChild(tick)}
+    var sub=textNode('small','',((channel.is_public?'کانال عمومی':'کانال خصوصی')+' · @'+String(channel.channel_handle||'')));
+    var count=textNode('small','',String(Number(channel.member_count)||0).replace(/\d/g,function(x){return '۰۱۲۳۴۵۶۷۸۹'[Number(x)]})+' عضو');
+    count.style.direction='rtl';count.style.textAlign='left';meta.appendChild(name);meta.appendChild(sub);meta.appendChild(count);b.appendChild(avatar);b.appendChild(meta);
+    b.addEventListener('click',function(){var open=window.QGChatMessaging&&window.QGChatMessaging.openChannel;if(typeof open==='function')open(channel);});
+    return b;
+  }
+  async function refresh(){
+    var section=ensureSection(),list=$('qgChannelChatList'),request=api();if(!section||!list||busy||!request)return;
+    busy=true;
+    try{
+      var result=await request('list_channels'),channels=Array.isArray(result.channels)?result.channels:[];
+      list.textContent='';
+      if(!channels.length){list.appendChild(textNode('div','qg-saved-direct-empty','هنوز عضو کانالی نیستی. آیدی یک کانال عمومی را از جست‌وجو پیدا کن.'));return}
+      channels.forEach(function(channel){list.appendChild(renderRow(channel))});
+    }catch(error){
+      list.textContent='';list.appendChild(textNode('div','qg-saved-direct-empty','دریافت کانال‌ها ناموفق بود؛ اتصال را بررسی کن.'));
+      console.warn('[QChat Channels] list failed:',error&&error.message||error);
+    }finally{busy=false}
+  }
+  function init(){refresh();if(timer)clearInterval(timer);timer=setInterval(function(){if(!document.hidden)refresh()},15000);window.addEventListener('qg-channel-list-refresh',refresh);}
+  window.QGChatChannels={refresh:refresh};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<script id="qg-channel-search-support-v1">
+(function(){
+  'use strict';
+  if(window.__qgChannelSearchSupportV1)return;window.__qgChannelSearchSupportV1=true;
+  var $=function(id){return document.getElementById(id)};
+  function setStatus(message,type){var el=$('qgQHeadSearchStatus');if(!el)return;el.textContent=message||'';el.classList.remove('error','success');if(type)el.classList.add(type)}
+  function addAvatar(container,url,fallback){
+    var a=document.createElement('span');a.className='qg-qhead-result-avatar';
+    if(url){var img=document.createElement('img');img.src=url;img.alt='';img.loading='lazy';img.referrerPolicy='no-referrer';a.appendChild(img)}else a.textContent=fallback||'📣';
+    container.appendChild(a);
+  }
+  function appendChannel(box,result){
+    var channel=result.channel,card=document.createElement('div');card.className='qg-qhead-result-card';addAvatar(card,channel.avatar_url,'📣');
+    var main=document.createElement('div');main.className='qg-qhead-result-main';var name=document.createElement('b');name.textContent=channel.title||'کانال QChat';if(channel.is_verified){var tick=document.createElement('span');tick.className='qg-channel-verified';tick.textContent='✓';name.appendChild(tick)}
+    var handle=document.createElement('small');handle.textContent='@'+channel.channel_handle;main.appendChild(name);main.appendChild(handle);card.appendChild(main);box.appendChild(card);
+    var pub=document.createElement('span');pub.className='qg-qhead-result-public';pub.textContent='● کانال عمومی'+(channel.is_verified?' · تأییدشده':'');box.appendChild(pub);
+    var meta=document.createElement('div');meta.className='qg-qhead-status';meta.textContent=(Number(result.member_count)||0).toLocaleString('fa-IR')+' عضو'+(result.joined?' · عضو کانال هستی':' · برای ورود، عضویت انجام می‌شود');box.appendChild(meta);
+    var button=document.createElement('button');button.type='button';button.className='qg-qhead-primary qg-open-channel';button.textContent=result.joined?'ورود به کانال':'عضویت و ورود به کانال';
+    button.addEventListener('click',async function(){var open=window.QGChatMessaging&&window.QGChatMessaging.openChannel;if(typeof open!=='function'){setStatus('بخش کانال هنوز بارگذاری نشده است.','error');return}button.disabled=true;button.textContent='در حال ورود…';try{await open(channel)}finally{button.disabled=false;button.textContent='ورود به کانال'}});
+    box.appendChild(button);
+  }
+  function appendUser(box,p){
+    var card=document.createElement('div');card.className='qg-qhead-result-card';addAvatar(card,p.avatar_url,'👤');
+    var main=document.createElement('div');main.className='qg-qhead-result-main';var name=document.createElement('b');name.textContent=p.display_name||'کاربر QGAMING';var handle=document.createElement('small');handle.textContent='@'+p.qhead_id;main.appendChild(name);main.appendChild(handle);card.appendChild(main);box.appendChild(card);
+    var pub=document.createElement('span');pub.className='qg-qhead-result-public';pub.textContent='● پروفایل عمومی';box.appendChild(pub);
+    var start=document.createElement('button');start.type='button';start.className='qg-qhead-primary qg-start-direct-chat';start.textContent='شروع گفت‌وگو';start.dataset.username=p.qhead_id;box.appendChild(start);
+  }
+  async function search(){
+    var input=$('qgQHeadSearchInput'),button=$('qgQHeadSearchBtn'),box=$('qgQHeadResult');if(!input||!box)return;
+    var id=String(input.value||'').trim().replace(/^@+/,'');box.hidden=true;box.textContent='';
+    if(!/^[A-Za-z0-9_]{3,30}$/.test(id)){setStatus('یک آیدی معتبر وارد کن (۳ تا ۳۰ نویسه؛ حروف انگلیسی، عدد یا زیرخط).','error');return}
+    if(button){button.disabled=true;button.textContent='…'}setStatus('در حال جست‌وجوی کاربر و کانال…','');
+    try{
+      var client=window.QGAMING_SUPABASE_AUTH||(window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.getClient&&window.QGAMINGOnlineAuth.getClient());
+      if(!client)throw new Error('اتصال حساب QHead در دسترس نیست.');
+      var auth=await client.auth.getUser();if(!auth||!auth.data||!auth.data.user)throw new Error('برای جست‌وجو ابتدا وارد حساب آنلاین شو.');
+      var request=window.QGChatMessaging&&window.QGChatMessaging.request;if(typeof request!=='function')throw new Error('اتصال دیتاسنتر QChat آماده نیست.');
+      var results=await Promise.allSettled([client.rpc('qhead_search_profile',{p_qhead_id:id}),request('search_channel',{channel_handle:id})]);
+      var user=null,channelResult=null,userError=null,channelError=null;
+      if(results[0].status==='fulfilled'){var ur=results[0].value;if(ur&&ur.error)userError=ur.error;else user=Array.isArray(ur&&ur.data)?(ur.data[0]||null):(ur&&ur.data)}else userError=results[0].reason;
+      if(results[1].status==='fulfilled'){channelResult=results[1].value&&results[1].value.channel?results[1].value:null}else channelError=results[1].reason;
+      if(userError&&channelError&&!user&&!channelResult)throw new Error('جست‌وجوی کاربر و کانال ناموفق بود. '+(channelError.message||channelError));
+      if(!user&&!channelResult){box.hidden=false;box.className='qg-qhead-result';box.textContent='';var msg=document.createElement('div');msg.className='qg-saved-direct-empty';msg.textContent='کاربر یا کانال عمومی‌ای با آیدی @'+id+' پیدا نشد.';box.appendChild(msg);setStatus('نتیجه‌ای برای این آیدی پیدا نشد.','');return}
+      box.hidden=false;box.className='qg-qhead-result';box.textContent='';
+      if(channelResult)appendChannel(box,channelResult);
+      if(user)appendUser(box,user);
+      setStatus(channelResult&&user?'کانال و پروفایل کاربر پیدا شدند.':(channelResult?'کانال عمومی پیدا شد.':'پروفایل عمومی پیدا شد.'),'success');
+    }catch(error){
+      box.hidden=false;box.className='qg-qhead-result';box.textContent='';var msg=document.createElement('div');msg.className='qg-saved-direct-empty';msg.textContent=error&&error.message||'جست‌وجو ناموفق بود.';box.appendChild(msg);setStatus(msg.textContent,'error');
+    }finally{if(button){button.disabled=false;button.textContent='⌕'}}
+  }
+  document.addEventListener('click',function(event){var button=event.target&&event.target.closest&&event.target.closest('#qgQHeadSearchBtn');if(!button)return;event.preventDefault();event.stopImmediatePropagation();search()},true);
+  document.addEventListener('keydown',function(event){if(event.target&&event.target.id==='qgQHeadSearchInput'&&event.key==='Enter'){event.preventDefault();event.stopImmediatePropagation();search()}},true);
+})();
+</script>
+
 </body>
 </html>
