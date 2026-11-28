@@ -9907,23 +9907,40 @@ function stopLocalTyping(){
  localTypingActive=false;localTypingConversation='';lastTypingSentAt=0;
  if(id)queueTypingAction('stop',id).catch(function(){});
 }
+var typingIndicatorExpiryTimer=null;
+function setHeaderTyping(active){
+ var pane=$('qgLiveConversation'),st=$('qglTypingStatus');
+ active=!!active;
+ if(typingIndicatorExpiryTimer){clearTimeout(typingIndicatorExpiryTimer);typingIndicatorExpiryTimer=null}
+ if(st){st.dataset.typingActive=active?'1':'0';st.textContent=active?'طرف مقابل در حال نوشتن…':''}
+ if(pane)pane.dataset.typing=active?'1':'0';
+ if(active){
+   // Fail-safe: never leave the animation stuck if polling/network stops.
+   typingIndicatorExpiryTimer=setTimeout(function(){
+     typingIndicatorExpiryTimer=null;
+     if(st)st.dataset.typingActive='0';
+     if(pane)pane.dataset.typing='0';
+     if(st)st.textContent='';
+   },4500);
+ }
+}
 function stopTypingPolling(){
  if(typingPollTimer){clearInterval(typingPollTimer);typingPollTimer=null}
  typingPollGeneration++;
- var st=$('qglTypingStatus');if(st)st.textContent='';
+ setHeaderTyping(false);
 }
 function pollTypingStatus(id,generation){
  if(!id||generation!==typingPollGeneration||typingPollPendingGeneration===generation)return;
  var pane=$('qgLiveConversation');
- if(pane&&(pane.dataset.mode==='system'||pane.dataset.systemChat==='1'))return;
+ if(pane&&(pane.dataset.mode==='system'||pane.dataset.systemChat==='1')){setHeaderTyping(false);return}
  typingPollPendingGeneration=generation;
  typingRequest('status',id).then(function(d){
    if(generation!==typingPollGeneration||String(currentTypingTopic)!==String(id))return;
    var currentPane=$('qgLiveConversation');
-   if(currentPane&&(currentPane.dataset.mode==='system'||currentPane.dataset.systemChat==='1'))return;
-   var st=$('qglTypingStatus');if(st)st.textContent=d&&d.typing?'طرف مقابل در حال نوشتن…':'';
+   if(currentPane&&(currentPane.dataset.mode==='system'||currentPane.dataset.systemChat==='1')){setHeaderTyping(false);return}
+   setHeaderTyping(!!(d&&d.typing===true));
  }).catch(function(){
-   if(generation===typingPollGeneration){var st=$('qglTypingStatus');if(st)st.textContent=''}
+   if(generation===typingPollGeneration)setHeaderTyping(false);
  }).finally(function(){if(typingPollPendingGeneration===generation)typingPollPendingGeneration=0});
 }
 function switchTypingChannel(id){
@@ -10696,7 +10713,7 @@ function build(){var pane=$('qgLiveConversation'),form=$('qglCompose');if(!pane|
  built=true}
 function sync(){raf=0;var pane=$('qgLiveConversation');if(!pane)return;build();
  var st=$('qglPeerStatus');pane.dataset.peerState=st?(st.dataset.state||'unknown'):'unknown';
- var ts=$('qglTypingStatus');var _sys=(pane.dataset.mode==='system'||pane.dataset.systemChat==='1');if(_sys&&ts&&ts.textContent)ts.textContent='';pane.dataset.typing=(!_sys&&ts&&ts.textContent.trim())?'1':'0';
+ var ts=$('qglTypingStatus');var _sys=(pane.dataset.mode==='system'||pane.dataset.systemChat==='1');if(_sys){setHeaderTyping(false)}else{pane.dataset.typing=(ts&&ts.dataset.typingActive==='1')?'1':'0'}
  var vb=$('qglVoiceBtn'),rec=!!(vb&&/⏹/.test(vb.textContent||''));if(plus)plus.classList.toggle('rec',rec);
  if(menu){var v=menu.querySelector('[data-k="voice"] em');if(v)v.textContent=rec?'توقف و ارسال ویس':'ارسال ویس'}
  var se=$('qglStatus');if(se){var t=(se.textContent||'').trim();if(t!==lastSt){lastSt=t;clearTimeout(stT);
