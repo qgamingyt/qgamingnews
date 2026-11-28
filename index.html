@@ -9856,8 +9856,9 @@ if(window.__qchatServerFeaturesV1)return;window.__qchatServerFeaturesV1=true;
 var CHAT_URL='https://vdvjozpptsmqendwkqkd.supabase.co';
 var CHAT_KEY='sb_publishable_qd6akYucVDZcUn0ei49RQQ_ZBTLmv5B';
 var FEATURE_URL='https://gsreskarqaotmcrnahcp.supabase.co/functions/v1/qchat-feature-actions';
+var TYPING_URL='https://vdvjozpptsmqendwkqkd.supabase.co/functions/v1/qchat-typing-state';
 var $=function(id){return document.getElementById(id)};
-var currentTypingChannel=null,currentTypingTopic='',typingTimer=null,localTypingTimer=null,localTypingActive=false,lastConversation='',mediaRecorder=null,recordChunks=[],recordStarted=0,recordStream=null;
+var currentTypingTopic='',localTypingTimer=null,localTypingActive=false,localTypingConversation='',lastTypingSentAt=0,typingPollTimer=null,typingPollPendingGeneration=0,typingPollGeneration=0,localTypingQueue=Promise.resolve(),lastConversation='',mediaRecorder=null,recordChunks=[],recordStarted=0,recordStream=null;
 function getClient(){return window.QGAMING_SUPABASE_AUTH||(window.QGAMINGOnlineAuth&&window.QGAMINGOnlineAuth.getClient&&window.QGAMINGOnlineAuth.getClient())||null}
 function getSession(){var c=getClient();if(!c)throw new Error('اتصال حساب QHub در دسترس نیست');return c.auth.getSession().then(function(r){var se=r&&r.data&&r.data.session;if(!se||!se.access_token)throw new Error('ابتدا وارد حساب QHub شو');return se})}
 async function feature(action,extra){var se=await getSession();var res=await fetch(FEATURE_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+se.access_token},body:JSON.stringify(Object.assign({action:action},extra||{}))});var d=await res.json().catch(function(){return {}});if(!res.ok||d.error)throw new Error(d.message||d.error||('خطای سرور '+res.status));return d}
@@ -9886,43 +9887,69 @@ async function toggleVoice(){var b=$('qglVoiceBtn');if(mediaRecorder&&mediaRecor
 function linkify(el){if(!el||el.dataset.qchatEnhanced==='1')return;var raw=el.textContent||'';var vm=raw.match(/^\[\[QCHAT_VOICE:([^|\]]+)\|(\d+)\|([^\]]+)\]\]$/);if(vm){el.dataset.qchatEnhanced='1';el.textContent='';var label=textNode('span','🎙 پیام صوتی · '+vm[2]+' ثانیه');label.style.display='block';label.style.marginBottom='6px';var audio=document.createElement('audio');audio.controls=true;audio.preload='none';audio.style.maxWidth='min(100%,320px)';el.appendChild(label);el.appendChild(audio);feature('voice_play_url',{conversation_id:conversationId(),object_path:vm[1]}).then(function(d){audio.src=d.signed_url}).catch(function(e){label.textContent='🎙 پیام صوتی (دریافت فایل ناموفق: '+e.message+')'});return}
 if(raw.indexOf('https://')<0)return;var re=/https:\/\/[^\s<>()]+/g,m,parts=[],last=0;while((m=re.exec(raw))){if(m.index>last)parts.push(document.createTextNode(raw.slice(last,m.index)));var href=m[0].replace(/[.,!?،؛]+$/,'');var a=document.createElement('a');a.href=href;a.textContent=href;a.target='_blank';a.rel='noopener noreferrer';a.style.color='#67e8f9';a.style.textDecoration='underline';parts.push(a);if(href.length<m[0].length)parts.push(document.createTextNode(m[0].slice(href.length)));last=m.index+m[0].length}if(last){if(last<raw.length)parts.push(document.createTextNode(raw.slice(last)));el.textContent='';parts.forEach(function(n){el.appendChild(n)});el.dataset.qchatEnhanced='1'}}
 function enhanceMessages(){var box=$('qglMessages');if(!box)return;box.querySelectorAll('.qgl-message-body').forEach(linkify);box.querySelectorAll('.qgl-message').forEach(function(row){if(row.dataset.qchatReportAdded==='1')return;row.dataset.qchatReportAdded='1';var id=row.dataset.messageId;var actions=row.querySelector('.qgl-message-actions');if(actions&&!row.classList.contains('deleted')){var b=document.createElement('button');b.type='button';b.className='qgl-report-message';b.textContent='گزارش';b.addEventListener('click',function(){askReport('message',id)});actions.appendChild(b)}})}
+async function typingRequest(action,id){
+ if(!id)throw new Error('CONVERSATION_REQUIRED');
+ var se=await getSession();
+ var controller=typeof AbortController!=='undefined'?new AbortController():null;var requestTimer=controller?setTimeout(function(){controller.abort()},8000):null;
+ var res;try{res=await fetch(TYPING_URL,{method:'POST',cache:'no-store',credentials:'omit',signal:controller?controller.signal:undefined,headers:{'Content-Type':'application/json','apikey':CHAT_KEY,'Authorization':'Bearer '+se.access_token},body:JSON.stringify({action:action,conversation_id:String(id)})})}finally{if(requestTimer)clearTimeout(requestTimer)}
+ var d=await res.json().catch(function(){return {}});
+ if(!res.ok||d.error)throw new Error(d.error||('خطای وضعیت تایپ '+res.status));
+ return d;
+}
+function queueTypingAction(action,id){
+ localTypingQueue=localTypingQueue.catch(function(){return null}).then(function(){return typingRequest(action,id)});
+ return localTypingQueue;
+}
 function stopLocalTyping(){
  if(localTypingTimer){clearTimeout(localTypingTimer);localTypingTimer=null}
  if(!localTypingActive)return;
- localTypingActive=false;
- try{var ch=currentTypingChannel;if(ch)ch.send({type:'broadcast',event:'typing',payload:{typing:false,at:Date.now()}})}catch(e){}
+ var id=localTypingConversation||currentTypingTopic;
+ localTypingActive=false;localTypingConversation='';lastTypingSentAt=0;
+ if(id)queueTypingAction('stop',id).catch(function(){});
 }
-async function switchTypingChannel(id){
- if(!id||id===currentTypingTopic)return;
- stopLocalTyping();
- if(typingTimer){clearTimeout(typingTimer);typingTimer=null}
- var typingStatus=$('qglTypingStatus');if(typingStatus)typingStatus.textContent='';
- currentTypingTopic=id;
- if(currentTypingChannel&&window.QCHAT_SUPABASE_CLIENT){try{await window.QCHAT_SUPABASE_CLIENT.removeChannel(currentTypingChannel)}catch(e){}}
- currentTypingChannel=null;
- var c=window.QCHAT_SUPABASE_CLIENT;if(!c||!c.channel)return;
- var digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(String(id)));
- var topic='qchat-typing:'+Array.from(new Uint8Array(digest)).map(function(x){return x.toString(16).padStart(2,'0')}).join('').slice(0,32);
- var ch=c.channel(topic);currentTypingChannel=ch;
- ch.on('broadcast',{event:'typing'},function(payload){
-   var d=payload&&payload.payload||{},my=$('qglTypingStatus');if(!my)return;var _p=$('qgLiveConversation');if(_p&&(_p.dataset.mode==='system'||_p.dataset.systemChat==='1'))return;if(d.at&&Date.now()-d.at>6000)return;if(d.conversation_id&&String(d.conversation_id)!==String(conversationId()))return;
-   if(d.qhead_id&&String(d.qhead_id).toLowerCase()!==String(peerId()||'').replace(/^@/,'').toLowerCase()&&d.typing)return;
-   if(d.typing){my.textContent='طرف مقابل در حال نوشتن…';if(typingTimer)clearTimeout(typingTimer);typingTimer=setTimeout(function(){if(my)my.textContent='';typingTimer=null},2200)}
-   else{if(typingTimer)clearTimeout(typingTimer);typingTimer=null;my.textContent=''}
- }).subscribe();
+function stopTypingPolling(){
+ if(typingPollTimer){clearInterval(typingPollTimer);typingPollTimer=null}
+ typingPollGeneration++;
+ var st=$('qglTypingStatus');if(st)st.textContent='';
+}
+function pollTypingStatus(id,generation){
+ if(!id||generation!==typingPollGeneration||typingPollPendingGeneration===generation)return;
+ var pane=$('qgLiveConversation');
+ if(pane&&(pane.dataset.mode==='system'||pane.dataset.systemChat==='1'))return;
+ typingPollPendingGeneration=generation;
+ typingRequest('status',id).then(function(d){
+   if(generation!==typingPollGeneration||String(currentTypingTopic)!==String(id))return;
+   var currentPane=$('qgLiveConversation');
+   if(currentPane&&(currentPane.dataset.mode==='system'||currentPane.dataset.systemChat==='1'))return;
+   var st=$('qglTypingStatus');if(st)st.textContent=d&&d.typing?'طرف مقابل در حال نوشتن…':'';
+ }).catch(function(){
+   if(generation===typingPollGeneration){var st=$('qglTypingStatus');if(st)st.textContent=''}
+ }).finally(function(){if(typingPollPendingGeneration===generation)typingPollPendingGeneration=0});
+}
+function switchTypingChannel(id){
+ var next=String(id||'').trim();
+ if(!next){stopLocalTyping();stopTypingPolling();currentTypingTopic='';return}
+ if(next===currentTypingTopic)return;
+ if(localTypingActive&&localTypingConversation!==next)stopLocalTyping();stopTypingPolling();currentTypingTopic=next;
+ var st=$('qglTypingStatus');if(st)st.textContent='';
+ var generation=typingPollGeneration;
+ pollTypingStatus(next,generation);
+ typingPollTimer=setInterval(function(){pollTypingStatus(next,generation)},2300);
 }
 function sendTyping(forceStop){
- var input=$('qglText'),hasText=!!(input&&String(input.value||'').trim());
- if(forceStop||!hasText){stopLocalTyping();return}
- var id=conversationId(),c=window.QCHAT_SUPABASE_CLIENT,ch=currentTypingChannel;
- if(!id||!c||!ch)return;
+ if(forceStop){stopLocalTyping();return}
+ var input=$('qglText'),id=conversationId();
+ if(!input||!id)return;
+ id=String(id);
+ if(localTypingActive&&localTypingConversation&&localTypingConversation!==id)stopLocalTyping();
+ localTypingActive=true;localTypingConversation=id;
+ var now=Date.now();
+ if(now-lastTypingSentAt>=1500){lastTypingSentAt=now;queueTypingAction('start',id).catch(function(){})}
  if(localTypingTimer)clearTimeout(localTypingTimer);
- localTypingActive=true;
- try{ch.send({type:'broadcast',event:'typing',payload:{typing:true,at:Date.now(),conversation_id:String(id)}})}catch(e){}
- localTypingTimer=setTimeout(stopLocalTyping,1800);
+ localTypingTimer=setTimeout(stopLocalTyping,2400);
 }
-function observer(){var root=$('chatView');if(!root)return;var mo=new MutationObserver(function(){addHomeEntries();ensureTools();enhanceMessages()});mo.observe(root,{subtree:true,childList:true});var inp=$('qglText');if(inp&&!inp.dataset.qchatTypingBound){inp.dataset.qchatTypingBound='1';inp.addEventListener('input',function(){sendTyping(false)});inp.addEventListener('blur',function(){sendTyping(true)});var form=inp.closest('form');if(form)form.addEventListener('submit',function(){sendTyping(true)});}addHomeEntries();ensureTools();enhanceMessages();setInterval(function(){var id=conversationId();if(id&&id!==lastConversation){lastConversation=id;switchTypingChannel(id)}else if(!id&&lastConversation){stopLocalTyping();lastConversation='';currentTypingTopic='';if(typingTimer)clearTimeout(typingTimer);typingTimer=null;var st=$('qglTypingStatus');if(st)st.textContent='';if(currentTypingChannel&&window.QCHAT_SUPABASE_CLIENT)window.QCHAT_SUPABASE_CLIENT.removeChannel(currentTypingChannel).catch(function(){});currentTypingChannel=null}},700)}
-window.QGChatReport={ask:askReport};function boot(){if(!getClient())return;observer();}
+function observer(){var root=$('chatView');if(!root)return;var mo=new MutationObserver(function(){addHomeEntries();ensureTools();enhanceMessages()});mo.observe(root,{subtree:true,childList:true});var inp=$('qglText');if(inp&&!inp.dataset.qchatTypingBound){inp.dataset.qchatTypingBound='1';inp.addEventListener('input',function(){sendTyping(false)});inp.addEventListener('blur',function(){sendTyping(true)});var form=inp.closest('form');if(form)form.addEventListener('submit',function(){sendTyping(true)});}addHomeEntries();ensureTools();enhanceMessages();setInterval(function(){var id=conversationId();if(id&&id!==lastConversation){lastConversation=id;switchTypingChannel(id)}else if(!id&&lastConversation){stopLocalTyping();stopTypingPolling();lastConversation='';currentTypingTopic='';var st=$('qglTypingStatus');if(st)st.textContent=''}},700)}
+window.QGChatReport={ask:askReport};document.addEventListener('visibilitychange',function(){if(document.hidden)stopLocalTyping()});window.addEventListener('pagehide',function(){stopLocalTyping()});function boot(){if(!getClient())return;observer();}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();setTimeout(boot,1800);
 })();
 </script>
