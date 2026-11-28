@@ -14529,5 +14529,11 @@ html body #chatView.qg-qchat-root #qgLiveConversation .qgl-compose textarea:focu
 })();
 </script>
 
+<style id="qgx-typing-hard-fix">
+/* ROOT CAUSE FIX: ".qgl-ident small{display:block}" out-ranked ".qgl-head-typing{display:none}",
+   so the typing line was ALWAYS visible. Hidden by default; shown only when really typing. */
+html body #chatView.qg-qchat-root #qgLiveConversation .qgl-ident small.qgl-head-typing{display:none!important}
+html body #chatView.qg-qchat-root #qgLiveConversation[data-typing="1"]:not([data-peer-state="offline"]):not([data-mode="system"]):not([data-mode="saved"]) .qgl-ident small.qgl-head-typing{display:inline-flex!important;color:#4ade80!important}
+</style>
 </body>
 </html>
